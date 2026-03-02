@@ -3,131 +3,50 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Mi Evolución Web</title>
+    <title>Experimento Scroll-Snap</title>
     <style>
         body {
             font-family: Arial, sans-serif;
-            background-color: #0d1117;
-            color: #c9d1d9;
+            background-color: #101010;
+            color: white;
             margin: 0;
             display: flex;
+            min-height: 100vh;
             flex-direction: column;
             align-items: center;
-            text-align: center;
+            justify-content: center;
         }
-        h1 {
-            margin: 20px 0;
-            color: #ffaa00;
-        }
-        .viewer {
-            width: 80%;
-            height: 50vh;
-            border: none;
-            margin-bottom: 20px;
-        }
-        .carousel {
+        .snap-container {
             display: flex;
             overflow-x: auto;
             scroll-snap-type: x mandatory;
-            padding: 10px;
-            gap: 15px;
-            width: 100%;
+            width: 80%;
+            height: 200px;
+            border: 1px solid white;
+            gap: 10px;
         }
-        .card {
-            flex: 0 0 auto;
-            width: 200px;
-            text-align: center;
-            border: 1px solid #30363d;
-            border-radius: 8px;
-            background-color: #161b22;
+        .snap-item {
+            flex: none;
             scroll-snap-align: center;
-            padding: 10px;
-        }
-        .card iframe {
-            width: 100%;
-            height: 100px;
-            border: none;
-            transform: scale(.25);
-            transform-origin: 0 0;
-            pointer-events: none;
-        }
-        .indicators {
-            margin: 10px;
+            width: 150px;
+            height: 150px;
+            background: #ffa657;
             display: flex;
+            align-items: center;
             justify-content: center;
-            gap: 8px;
-        }
-        .indicators div {
-            width: 10px;
-            height: 10px;
-            border-radius: 50%;
-            background: #555;
-            cursor: pointer;
-        }
-        .indicators .active {
-            background: #ffaa00;
+            font-size: 1.2rem;
+            border-radius: 8px;
         }
     </style>
 </head>
 <body>
-    <h1>Mi Evolución Web</h1>
-    <iframe class="viewer" id="viewer" src="index_001.html"></iframe>
-    <div class="carousel" id="carousel">
-        <!-- Las tarjetas se generan dinámicamente -->
+    <h1>Experimento con Scroll-Snap</h1>
+    <div class="snap-container">
+        <div class="snap-item">1</div>
+        <div class="snap-item">2</div>
+        <div class="snap-item">3</div>
+        <div class="snap-item">4</div>
+        <div class="snap-item">5</div>
     </div>
-    <div class="indicators" id="indicators"></div>
-
-    <script>
-        const versions = [
-            { file: "index_001.html", title: "Versión 1", desc: "Primera iteración de la web.", date: "2026-03-02" },
-            { file: "index_002.html", title: "Versión 2", desc: "Pantalla en construcción.", date: "2026-03-02" },
-            { file: "index_003.html", title: "Versión 3", desc: "Página sobre ApliArte.", date: "2026-03-02" },
-            { file: "index_004.html", title: "Versión 4", desc: "Carrusel implementado.", date: "2026-03-02" },
-            { file: "index_005.html", title: "Versión 5", desc: "Corrección de contenido.", date: "2026-03-02" }
-        ];
-
-        const viewer = document.getElementById("viewer");
-        const carousel = document.getElementById("carousel");
-        const indicators = document.getElementById("indicators");
-
-        // Generar tarjetas y añadirlas al carousel
-        versions.forEach((version, index) => {
-            const card = document.createElement("div");
-            card.className = "card";
-            card.innerHTML = `
-                <iframe src="${version.file}"></iframe>
-                <h4>${version.title}</h4>
-                <p>${version.desc}</p>
-                <small>${version.date}</small>
-            `;
-            card.addEventListener("click", () => {
-                viewer.src = version.file;
-                updateIndicators(index);
-            });
-            carousel.appendChild(card);
-        });
-
-        // Generar indicadores
-        versions.forEach((_, index) => {
-            const dot = document.createElement("div");
-            dot.className = index === 0 ? "active" : "";
-            dot.addEventListener("click", () => {
-                viewer.src = versions[index].file;
-                updateIndicators(index);
-                carousel.scrollTo({
-                    left: index * 220,
-                    behavior: "smooth"
-                });
-            });
-            indicators.appendChild(dot);
-        });
-
-        // Actualizar indicadores activos
-        const updateIndicators = (activeIndex) => {
-            [...indicators.children].forEach((dot, index) => {
-                dot.classList.toggle("active", index === activeIndex);
-            });
-        };
-    </script>
 </body>
 </html>
