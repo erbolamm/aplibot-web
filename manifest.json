@@ -1,0 +1,11 @@
+{
+  "name": "ApliBot",
+  "short_name": "ApliBot",
+  "description": "Bot autónomo de ApliArte corriendo en un YesTeL Note 30 Pro",
+  "start_url": "/aplibot-web/",
+  "display": "standalone",
+  "background_color": "#005fa9",
+  "theme_color": "#005fa9",
+  "orientation": "portrait",
+  "icons": []
+}
