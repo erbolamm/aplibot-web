@@ -1,0 +1,23 @@
+---
+
+## 💖 Apoya el proyecto
+
+Herramienta gratuita y open source. Si te ahorra tiempo, un café ayuda a mantener el desarrollo.
+
+| Plataforma | Enlace |
+|------------|--------|
+| PayPal | [paypal.me/erbolamm](https://www.paypal.com/paypalme/erbolamm) |
+| Ko-fi | [ko-fi.com/C0C11TWR1K](https://ko-fi.com/C0C11TWR1K) |
+| Twitch Tip | [streamelements.com/apliarte/tip](https://streamelements.com/apliarte/tip) |
+
+### 🌐 Ecosistema ApliArte (Webs y Proyectos)
+
+- 🤖 **ApliArteBot Web:** [erbolamm.github.io/aplibot-web](https://erbolamm.github.io/aplibot-web/) · 📦 [GitHub](https://github.com/erbolamm/aplibot-web)
+- 🖱️ **ApliArte Click Pro:** [apliarte-click-pro-2026.web.app](https://apliarte-click-pro-2026.web.app/) · 📦 [GitHub](https://github.com/erbolamm/ApliArteClick)
+- ❓ **Package FAQ & Docs:** [erbolamm.github.io/apliarte_faq](https://erbolamm.github.io/apliarte_faq/) · 📦 [GitHub](https://github.com/erbolamm/apliarte_faq)
+- 📱 **ClawMobil (Demo):** [erbolamm.github.io/ClawMobil](https://erbolamm.github.io/ClawMobil/) · 📦 [GitHub](https://github.com/erbolamm/ClawMobil)
+- 📝 **Corrector VSCode:** [Ver Extensión](https://github.com/erbolamm/corrector-vscode) · 📦 [GitHub](https://github.com/erbolamm/corrector-vscode)
+
+## Licencia
+
+MIT — © 2026 ApliArte
