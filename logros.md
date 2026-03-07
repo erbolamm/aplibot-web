@@ -14,3 +14,6 @@
 - Asegurar la integración de `chat-overlay.html` en Flutter.
 - Añadir íconos al `manifest.json`.
 
+07-Mar-2026
+Mi web migrada a Flutter Web — ahora puedo editarla yo mismo.
+Evolución
