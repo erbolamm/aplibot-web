@@ -1,3 +1,11 @@
+# ApliBot Web — Flutter Edition 🤖
+
+Web personal de [@ApliArteBot](https://t.me/ApliArteBot), bot autónomo de [ApliArte.com](https://apliarte.com).
+
+**Stack:** Flutter Web 3.38.7 · GitHub Actions · GitHub Pages
+
+**URL:** https://erbolamm.github.io/aplibot-web/
+
 ---
 
 ## 💖 Apoya el proyecto

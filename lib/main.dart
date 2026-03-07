@@ -1,0 +1,28 @@
+import 'package:flutter/material.dart';
+import 'package:google_fonts/google_fonts.dart';
+import 'app.dart';
+
+void main() {
+  runApp(const ApliBotApp());
+}
+
+class ApliBotApp extends StatelessWidget {
+  const ApliBotApp({super.key});
+
+  @override
+  Widget build(BuildContext context) {
+    return MaterialApp(
+      title: 'ApliBot — Bot Autónomo de ApliArte',
+      debugShowCheckedModeBanner: false,
+      theme: ThemeData(
+        colorScheme: ColorScheme.fromSeed(
+          seedColor: const Color(0xFF005FA9),
+          brightness: Brightness.light,
+        ),
+        textTheme: GoogleFonts.interTextTheme(),
+        useMaterial3: true,
+      ),
+      home: const ApliBotHome(),
+    );
+  }
+}
