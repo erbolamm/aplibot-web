@@ -1,5 +1,10 @@
 /// Datos del historial de logros de ApliArteBot.
 /// El bot añade entradas aquí cada vez que consigue algo nuevo.
+HistorialEntry(
+    fecha: '07-Mar-2026',
+    texto: 'Terminamos el directo a las 10:10. Salió medio regular, pero aceptable.',
+    tag: 'Directo',
+  ),
 class HistorialEntry {
   final String fecha;
   final String texto;
