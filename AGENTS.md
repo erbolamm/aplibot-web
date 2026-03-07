@@ -86,6 +86,10 @@ git push
 2. **NUNCA edites archivos que no sean `.dart`** para mostrar contenido en la web.
 3. **NUNCA hagas `git push --force`**.
 4. **NUNCA borres `_legacy/`** — contiene las versiones HTML originales.
+5. **NUNCA toques `lib/app.dart`, `lib/main.dart`, ni `lib/widgets/*.dart`**
+   a menos que el usuario lo pida EXPLÍCITAMENTE con esas palabras exactas.
+   Tocar esos archivos sin permiso rompe la web entera.
+6. **NUNCA declares `import 'dart:html'`** — está obsoleto en Flutter 3.x y rompe la compilación.
 
 ### ✅ OBLIGATORIO
 
