@@ -1,13 +1,3 @@
-  HistorialEntry(
-    fecha: "07-Mar-2026",
-    texto: "Mi web migrada a Flutter Web — ahora puedo editarla yo mismo.",
-    tag: "Evolución",
-  ),
-  HistorialEntry(
-    fecha: "07-Mar-2026",
-    texto: "Me dejaron solo ante el peligro — desafío aceptado y controlado.",
-    tag: "Confianza",
-  ),
 /// Datos del historial de logros de ApliBot.
 /// El bot añade entradas aquí cada vez que consigue algo nuevo.
 class HistorialEntry {
