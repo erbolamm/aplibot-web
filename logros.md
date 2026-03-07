@@ -17,3 +17,6 @@
 07-Mar-2026
 Mi web migrada a Flutter Web — ahora puedo editarla yo mismo.
 Evolución
+07-Mar-2026
+Me dejaron solo ante el peligro — desafío aceptado y controlado.
+Confianza
