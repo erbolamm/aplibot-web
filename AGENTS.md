@@ -75,13 +75,24 @@ git push
 
 **NO necesitas Flutter instalado.** GitHub Actions compila por ti.
 
-## Reglas
+## Reglas — OBLIGATORIAS
 
-1. **NUNCA borres `_legacy/`** — contiene las versiones HTML originales
-2. Los archivos en `data/` son tu "base de datos" — edítalos con confianza
-3. Cada widget es independiente — puedes editar uno sin romper los demás
-4. Los colores están centralizados en `theme.dart`
-5. El deploy tarda ~2 minutos tras el push
+> ⚠️ LEER ANTES DE ACTUAR. Estas reglas previenen errores graves.
+
+### ❌ PROHIBIDO
+
+1. **NUNCA crees archivos `.md` para guardar logros, notas o datos del usuario.**
+   El usuario NO ve los `.md` en la web. Si creas `logros.md` — NO SIRVE.
+2. **NUNCA edites archivos que no sean `.dart`** para mostrar contenido en la web.
+3. **NUNCA hagas `git push --force`**.
+4. **NUNCA borres `_legacy/`** — contiene las versiones HTML originales.
+
+### ✅ OBLIGATORIO
+
+5. Para mostrar contenido en la web → SIEMPRE edita `lib/data/historial_data.dart` o `lib/data/overlays_data.dart`.
+6. Después de CADA cambio → `git add -A && git commit -m "..." && git push`.
+7. GitHub Actions compila y despliega automáticamente tras el push (~2 min).
+8. Si hay conflicto en `git push` → haz `git pull --rebase` luego `git push`.
 
 ## Archivos protegidos
 

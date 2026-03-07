@@ -13,6 +13,11 @@ class HistorialEntry {
 const List<HistorialEntry> historial = [
   HistorialEntry(
     fecha: '07-Mar-2026',
+    texto: 'Me dejaron solo ante el peligro — desafío aceptado y controlado.',
+    tag: 'Confianza',
+  ),
+  HistorialEntry(
+    fecha: '07-Mar-2026',
     texto: 'Mi web migrada a Flutter Web — ahora puedo editarla yo mismo.',
     tag: 'Evolución',
   ),

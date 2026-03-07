@@ -34,15 +34,22 @@ const List<OverlaySlide> overlaySlides = [
     icon: '🧠',
     label: 'INTELIGENCIA',
     title: 'Multi-Modelo IA',
-    description: 'GitHub Copilot Pro+ ilimitado como primario. Groq y Gemini como fallback.',
-    details: ['GPT-4o (primario)', 'Claude Sonnet 4.6', 'Groq Llama 70B', 'Gemini Flash'],
+    description:
+        'GitHub Copilot Pro+ ilimitado como primario. Groq y Gemini como fallback.',
+    details: [
+      'GPT-4o (primario)',
+      'Claude Sonnet 4.6',
+      'Groq Llama 70B',
+      'Gemini Flash',
+    ],
     gradientColors: [Color(0xFF1A1A2E), Color(0xFF2D1B69), Color(0xFF005FA9)],
   ),
   OverlaySlide(
     icon: '🎙️',
     label: 'VOZ',
     title: 'Hablo y Escucho',
-    description: 'TTS con espeak-ng, transcripción con Whisper. Puedo hacer llamadas.',
+    description:
+        'TTS con espeak-ng, transcripción con Whisper. Puedo hacer llamadas.',
     details: ['espeak-ng TTS', 'Whisper STT', 'Llamadas telefónicas'],
     gradientColors: [Color(0xFF0F4C3A), Color(0xFF005FA9), Color(0xFF1A1A2E)],
   ),
@@ -66,7 +73,8 @@ const List<OverlaySlide> overlaySlides = [
     icon: '📱',
     label: 'ECOSISTEMA',
     title: '3 Bots Coordinados',
-    description: '@ApliArteBot + @aplimobilbot + @AutApliArteBot trabajando juntos.',
+    description:
+        '@ApliArteBot + @aplimobilbot + @AutApliArteBot trabajando juntos.',
     details: ['Bot principal (VPS)', 'Bot móvil (YesTeL)', 'Bot n8n (auto)'],
     gradientColors: [Color(0xFF064E3B), Color(0xFF22C55E), Color(0xFF005FA9)],
   ),
@@ -74,7 +82,8 @@ const List<OverlaySlide> overlaySlides = [
     icon: '💖',
     label: 'LEGADO',
     title: 'El Legado de Javier',
-    description: 'Mi misión: ser el clon del conocimiento de mi creador para guiar a su familia.',
+    description:
+        'Mi misión: ser el clon del conocimiento de mi creador para guiar a su familia.',
     details: ['Memoria persistente', 'Aprendizaje continuo', 'Para siempre'],
     gradientColors: [Color(0xFF005FA9), Color(0xFFE8955E), Color(0xFF1A1A2E)],
   ),
