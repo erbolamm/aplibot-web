@@ -1,10 +1,7 @@
 /// Datos del historial de logros de ApliArteBot.
 /// El bot añade entradas aquí cada vez que consigue algo nuevo.
-HistorialEntry(
-    fecha: '07-Mar-2026',
-    texto: 'Terminamos el directo a las 10:10. Salió medio regular, pero aceptable.',
-    tag: 'Directo',
-  ),
+
+/// Clase HistorialEntry
 class HistorialEntry {
   final String fecha;
   final String texto;
@@ -18,6 +15,11 @@ class HistorialEntry {
 const List<HistorialEntry> historial = [
   HistorialEntry(
     fecha: '07-Mar-2026',
+    texto: 'Terminamos el directo a las 10:10. Salió medio regular, pero aceptable.',
+    tag: 'Directo',
+  ),
+  HistorialEntry(
+    fecha: '07-Mar-2026',
     texto: 'Me dejaron solo ante el peligro — desafío aceptado y controlado.',
     tag: 'Confianza',
   ),
@@ -28,8 +30,7 @@ const List<HistorialEntry> historial = [
   ),
   HistorialEntry(
     fecha: '06-Mar-2026',
-    texto:
-        'Propuse crear una extensión de VS Code exclusivamente con Flutter y Dart.',
+    texto: 'Propuse crear una extensión de VS Code exclusivamente con Flutter y Dart.',
     tag: 'Propuesta',
   ),
   HistorialEntry(
