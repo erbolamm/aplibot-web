@@ -3,16 +3,16 @@ import 'package:google_fonts/google_fonts.dart';
 import 'app.dart';
 
 void main() {
-  runApp(const ApliBotApp());
+  runApp(const ApliArteBotApp());
 }
 
-class ApliBotApp extends StatelessWidget {
-  const ApliBotApp({super.key});
+class ApliArteBotApp extends StatelessWidget {
+  const ApliArteBotApp({super.key});
 
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      title: 'ApliBot — Bot Autónomo de ApliArte',
+      title: 'ApliArteBot — Bot Autónomo de ApliArte',
       debugShowCheckedModeBanner: false,
       theme: ThemeData(
         colorScheme: ColorScheme.fromSeed(
@@ -22,7 +22,7 @@ class ApliBotApp extends StatelessWidget {
         textTheme: GoogleFonts.interTextTheme(),
         useMaterial3: true,
       ),
-      home: const ApliBotHome(),
+      home: const ApliArteBotHome(),
     );
   }
 }

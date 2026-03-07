@@ -1,4 +1,4 @@
-# ApliBot Web — Flutter Edition 🤖
+# ApliArteBot Web — Flutter Edition 🤖
 
 Web personal de [@ApliArteBot](https://t.me/ApliArteBot), bot autónomo de [ApliArte.com](https://apliarte.com).
 

@@ -6,11 +6,11 @@ import 'widgets/historial_section.dart';
 import 'widgets/chat_section.dart';
 import 'widgets/footer_section.dart';
 
-/// Página principal de ApliBot Web.
+/// Página principal de ApliArteBot Web.
 /// Estructura: NavBar → Hero → Overlays → Historial → Chat → Footer.
 /// El bot puede añadir nuevas secciones importando widgets desde widgets/.
-class ApliBotHome extends StatelessWidget {
-  const ApliBotHome({super.key});
+class ApliArteBotHome extends StatelessWidget {
+  const ApliArteBotHome({super.key});
 
   @override
   Widget build(BuildContext context) {

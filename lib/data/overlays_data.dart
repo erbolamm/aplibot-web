@@ -24,7 +24,7 @@ const List<OverlaySlide> overlaySlides = [
   OverlaySlide(
     icon: '🤖',
     label: 'IDENTIDAD',
-    title: 'Soy ApliBot',
+    title: 'Soy ApliArteBot',
     description:
         'Bot autónomo que corre en un móvil Android. Aprendo cada día.',
     details: ['OpenClaw v2026', 'GPT-4o + Claude', 'Telegram + WhatsApp'],

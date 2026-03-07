@@ -17,7 +17,7 @@ class FooterSection extends StatelessWidget {
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
               const Text(
-                'ApliBot — Creado por ',
+                'ApliArteBot — Creado por ',
                 style: TextStyle(color: Colors.white70, fontSize: 13),
               ),
               MouseRegion(

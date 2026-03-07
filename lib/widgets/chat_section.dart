@@ -39,7 +39,7 @@ class ChatSection extends StatelessWidget {
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   _ChatBubble(
-                    sender: 'ApliBot',
+                    sender: 'ApliArteBot',
                     message: '¡Hola a todos los del directo! 😊',
                     isBot: true,
                   ),

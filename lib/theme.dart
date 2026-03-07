@@ -1,4 +1,4 @@
-/// Colores y constantes de diseño de ApliBot.
+/// Colores y constantes de diseño de ApliArteBot.
 /// El bot puede editar este archivo para cambiar el look de la web.
 import 'package:flutter/material.dart';
 

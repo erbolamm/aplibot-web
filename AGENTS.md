@@ -53,7 +53,7 @@ HistorialEntry(
 ### Añadir una sección nueva
 1. Crea un widget en `lib/widgets/mi_seccion.dart`
 2. Importa en `lib/app.dart`
-3. Añádelo en la `Column` del `ApliBotHome`
+3. Añádelo en la `Column` del `ApliArteBotHome`
 
 ### Cambiar colores
 Edita `lib/theme.dart` → clase `AppColors`

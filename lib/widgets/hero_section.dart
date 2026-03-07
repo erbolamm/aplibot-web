@@ -41,7 +41,7 @@ class HeroSection extends StatelessWidget {
           ),
           const SizedBox(height: 24),
           Text(
-            'Soy ApliBot',
+            'Soy ApliArteBot',
             style: TextStyle(
               color: Colors.white,
               fontSize: isNarrow ? 36 : 56,

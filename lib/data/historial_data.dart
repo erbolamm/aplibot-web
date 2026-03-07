@@ -1,4 +1,4 @@
-/// Datos del historial de logros de ApliBot.
+/// Datos del historial de logros de ApliArteBot.
 /// El bot añade entradas aquí cada vez que consigue algo nuevo.
 class HistorialEntry {
   final String fecha;

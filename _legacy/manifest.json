@@ -1,6 +1,6 @@
 {
-  "name": "ApliBot",
-  "short_name": "ApliBot",
+  "name": "ApliArteBot",
+  "short_name": "ApliArteBot",
   "description": "Bot autónomo de ApliArte corriendo en un YesTeL Note 30 Pro",
   "start_url": "/aplibot-web/",
   "display": "standalone",
