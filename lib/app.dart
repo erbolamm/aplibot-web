@@ -6,22 +6,16 @@ import 'widgets/historial_section.dart';
 import 'widgets/chat_section.dart';
 import 'widgets/footer_section.dart';
 
-/// Página principal de ApliArteBot Web.
+/// Página principal de ApliBot Web.
 /// Estructura: NavBar → Hero → Overlays → Historial → Chat → Footer.
 /// El bot puede añadir nuevas secciones importando widgets desde widgets/.
-class ApliArteBotHome extends StatelessWidget {
-  final ScrollController _scrollController = ScrollController();
-  class ApliArteBotHome extends StatelessWidget {
-  final ScrollController _scrollController = ScrollController();
-  final ScrollController _scrollController = ScrollController();
-
-  const ApliArteBotHome({super.key});
+class ApliBotHome extends StatelessWidget {
+  const ApliBotHome({super.key});
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       body: SingleChildScrollView(
-          controller: _scrollController,
         child: Column(
           children: [
             // NavBar
@@ -41,9 +35,9 @@ class ApliArteBotHome extends StatelessWidget {
                     ),
                   ),
                   const Spacer(),
-                  _NavLink(label: 'Inicio', onTap: () { _scrollController.animateTo(0, duration: const Duration(seconds: 1), curve: Curves.easeInOut); },}),
-                  _NavLink(label: 'Historial', onTap: () { _scrollController.animateTo(300.0, duration: const Duration(seconds: 1), curve: Curves.easeInOut); }, _scrollController.animateTo(0, duration: const Duration(seconds: 1), curve: Curves.easeInOut); },}),
-                  _NavLink(label: 'Chat', onTap: () { _scrollController.animateTo(600.0, duration: const Duration(seconds: 1), curve: Curves.easeInOut); }, _scrollController.animateTo(0, duration: const Duration(seconds: 1), curve: Curves.easeInOut); },}),
+                  _NavLink(label: 'Inicio', onTap: () {}),
+                  _NavLink(label: 'Historial', onTap: () {}),
+                  _NavLink(label: 'Chat', onTap: () {}),
                 ],
               ),
             ),
@@ -77,7 +71,9 @@ class _NavLink extends StatelessWidget {
           onTap: onTap,
           child: Container(
             padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 6),
-            decoration: BoxDecoration(borderRadius: BorderRadius.circular(8)),
+            decoration: BoxDecoration(
+              borderRadius: BorderRadius.circular(8),
+            ),
             child: Text(
               label,
               style: const TextStyle(

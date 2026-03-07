@@ -22,7 +22,7 @@ class ApliArteBotApp extends StatelessWidget {
         textTheme: GoogleFonts.interTextTheme(),
         useMaterial3: true,
       ),
-      home: const ApliArteBotHome(),
+      home: const ApliBotHome(),
     );
   }
 }
