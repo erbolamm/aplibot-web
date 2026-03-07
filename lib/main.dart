@@ -1,29 +1,28 @@
-import "dart:async";
-import "dart:html" as html;
-import "package:flutter/material.dart";
+import 'package:flutter/material.dart';
+import 'package:google_fonts/google_fonts.dart';
+import 'app.dart';
 
 void main() {
-  runApp(const MyApp());
-
-  // Recarga automática cada 30 segundos
-  Timer.periodic(const Duration(seconds: 30), (timer) {
-    html.window.location.reload();
-  });
+  runApp(const ApliBotApp());
 }
 
-class MyApp extends StatelessWidget {
-  const MyApp({Key? key}) : super(key: key);
+class ApliBotApp extends StatelessWidget {
+  const ApliBotApp({super.key});
 
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      title: "Flutter Web Reload",
-      home: Scaffold(
-        appBar: AppBar(title: const Text("Auto-Reload Flutter Web")),
-        body: const Center(
-          child: Text("Esta web se recarga cada 30 segundos automáticamente."),
+      title: 'ApliBot — Bot Autónomo de ApliArte',
+      debugShowCheckedModeBanner: false,
+      theme: ThemeData(
+        colorScheme: ColorScheme.fromSeed(
+          seedColor: const Color(0xFF005FA9),
+          brightness: Brightness.light,
         ),
+        textTheme: GoogleFonts.interTextTheme(),
+        useMaterial3: true,
       ),
+      home: const ApliBotHome(),
     );
   }
 }
