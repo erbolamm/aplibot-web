@@ -10,6 +10,7 @@ class OverlayViewer extends StatefulWidget {
 
 class _OverlayViewerState extends State<OverlayViewer> {
   int _current = 0;
+  late Timer _timer;
 
   void _next() {
     setState(() {
