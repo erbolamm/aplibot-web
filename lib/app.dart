@@ -3,6 +3,7 @@ import 'theme.dart';
 import 'widgets/hero_section.dart';
 import 'widgets/overlay_viewer.dart';
 import 'widgets/historial_section.dart';
+import 'widgets/activity_section.dart';
 import 'widgets/chat_section.dart';
 import 'widgets/footer_section.dart';
 
@@ -47,6 +48,7 @@ class ApliBotHome extends StatelessWidget {
             const OverlayViewer(),
             const HistorialSection(),
             const ChatSection(),
+            const ActivitySection(),
             const FooterSection(),
           ],
         ),
