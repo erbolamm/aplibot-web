@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Overlay Directos</title>
+    <style>
+        body {
+            margin: 0;
+            font-family: Arial, sans-serif;
+            background: transparent;
+        }
+        #overlay-container {
+            position: fixed;
+            top: 10px;
+            left: 10px;
+            background: rgba(0, 0, 0, 0.7);
+            color: white;
+            padding: 10px;
+            border-radius: 8px;
+        }
+    </style>
+</head>
+<body>
+    <div id="overlay-container">
+        <h2>🌟 Saludos en Directo 🌟</h2>
+        <p id="message">¡Bienvenidos al stream de ErBolaMm!</p>
+    </div>
+    <script>
+        function updateMessage(newMessage) {
+            document.getElementById("message").innerText = newMessage;
+        }
+        
+        // Ejemplo: Cambiar mensaje después de 5 segundos
+        setTimeout(() => updateMessage("¡Gracias por acompañarnos en este directo!"), 5000);
+    </script>
+</body>
+</html>
