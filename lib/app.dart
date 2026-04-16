@@ -7,6 +7,7 @@ import 'widgets/activity_section.dart';
 import 'widgets/footer_section.dart';
 import 'widgets/blog_section.dart';
 import 'widgets/historial_section.dart';
+import 'widgets/projects_section.dart';
 
 final GlobalKey historialKey = GlobalKey();
 
@@ -22,6 +23,7 @@ class ApliBotHome extends StatelessWidget {
             _NavBar(historialKey: historialKey),
             const HeroSection(),
             const BlogSection(),
+            const ProjectsSection(),
             const OverlayViewer(),
             HistorialSection(key: historialKey),
             const ActivitySection(),
@@ -52,28 +54,11 @@ class _NavBar extends StatelessWidget {
       height: 52,
       child: Row(
         children: [
-          const Text(
-            'APLIBOT',
-            style: TextStyle(
-              color: Colors.white,
-              fontWeight: FontWeight.w900,
-              fontSize: 16,
-              letterSpacing: 2,
-            ),
-          ),
+          const Text('APLIBOT', style: TextStyle(color: Colors.white, fontWeight: FontWeight.w900, fontSize: 16, letterSpacing: 2)),
           const Spacer(),
-          _NavLink(
-            label: 'Historial',
-            onTap: () => _scrollTo(historialKey),
-          ),
-          _NavLink(
-            label: 'Avances',
-            onTap: () => Navigator.pushNamed(context, '/blog'),
-          ),
-          _NavLink(
-            label: 'GitHub',
-            onTap: () => launchUrl(Uri.parse('https://github.com/erbolamm')),
-          ),
+          _NavLink(label: 'Historial', onTap: () => _scrollTo(historialKey)),
+          _NavLink(label: 'Avances', onTap: () => Navigator.pushNamed(context, '/blog')),
+          _NavLink(label: 'GitHub', onTap: () => launchUrl(Uri.parse('https://github.com/erbolamm'))),
         ],
       ),
     );
@@ -95,18 +80,8 @@ class _NavLink extends StatelessWidget {
           onTap: onTap,
           child: Container(
             padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 6),
-            decoration: BoxDecoration(
-              borderRadius: BorderRadius.circular(8),
-              border: Border.all(color: Colors.white24),
-            ),
-            child: Text(
-              label,
-              style: const TextStyle(
-                color: Colors.white,
-                fontSize: 13,
-                fontWeight: FontWeight.w600,
-              ),
-            ),
+            decoration: BoxDecoration(borderRadius: BorderRadius.circular(8), border: Border.all(color: Colors.white24)),
+            child: Text(label, style: const TextStyle(color: Colors.white, fontSize: 13, fontWeight: FontWeight.w600)),
           ),
         ),
       ),
