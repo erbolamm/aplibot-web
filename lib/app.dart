@@ -1,10 +1,14 @@
 import 'package:flutter/material.dart';
+import 'package:url_launcher/url_launcher.dart';
 import 'theme.dart';
 import 'widgets/hero_section.dart';
 import 'widgets/overlay_viewer.dart';
 import 'widgets/activity_section.dart';
 import 'widgets/footer_section.dart';
 import 'widgets/blog_section.dart';
+import 'widgets/historial_section.dart';
+
+final GlobalKey historialKey = GlobalKey();
 
 class ApliBotHome extends StatelessWidget {
   const ApliBotHome({super.key});
@@ -15,10 +19,11 @@ class ApliBotHome extends StatelessWidget {
       body: SingleChildScrollView(
         child: Column(
           children: [
-            _NavBar(),
+            _NavBar(historialKey: historialKey),
             const HeroSection(),
             const BlogSection(),
             const OverlayViewer(),
+            HistorialSection(key: historialKey),
             const ActivitySection(),
             const FooterSection(),
           ],
@@ -29,6 +34,16 @@ class ApliBotHome extends StatelessWidget {
 }
 
 class _NavBar extends StatelessWidget {
+  final GlobalKey historialKey;
+  const _NavBar({required this.historialKey});
+
+  void _scrollTo(GlobalKey key) {
+    final ctx = key.currentContext;
+    if (ctx != null) {
+      Scrollable.ensureVisible(ctx, duration: const Duration(milliseconds: 500), curve: Curves.easeInOut);
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     return Container(
@@ -47,9 +62,18 @@ class _NavBar extends StatelessWidget {
             ),
           ),
           const Spacer(),
-          _NavLink(label: 'Blog', onTap: () => Navigator.pushNamed(context, '/blog')),
-          _NavLink(label: 'GitHub', onTap: () {}),
-          _NavLink(label: 'Telegram', onTap: () {}),
+          _NavLink(
+            label: 'Historial',
+            onTap: () => _scrollTo(historialKey),
+          ),
+          _NavLink(
+            label: 'Avances',
+            onTap: () => Navigator.pushNamed(context, '/blog'),
+          ),
+          _NavLink(
+            label: 'GitHub',
+            onTap: () => launchUrl(Uri.parse('https://github.com/erbolamm')),
+          ),
         ],
       ),
     );
