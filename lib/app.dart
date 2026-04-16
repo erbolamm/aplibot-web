@@ -6,6 +6,7 @@ import 'widgets/historial_section.dart';
 import 'widgets/activity_section.dart';
 import 'widgets/chat_section.dart';
 import 'widgets/footer_section.dart';
+import 'widgets/navigation_helpers.dart';
 
 class ApliBotHome extends StatelessWidget {
   const ApliBotHome({super.key});
@@ -32,16 +33,16 @@ class ApliBotHome extends StatelessWidget {
                     ),
                   ),
                   const Spacer(),
-                  _NavLink(label: 'Inicio', onTap: () {}),
-                  _NavLink(label: 'Historial', onTap: () {}),
-                  _NavLink(label: 'Chat', onTap: () {}),
+                  _NavLink(label: 'Inicio', onTap: () => scrollToSection(historialKey)),
+                  _NavLink(label: 'Historial', onTap: () => scrollToSection(historialKey)),
+                  _NavLink(label: 'Chat', onTap: () => scrollToSection(chatKey)),
                 ],
               ),
             ),
             const HeroSection(),
             const OverlayViewer(),
-            const HistorialSection(),
-            const ChatSection(),
+            HistorialSection(key: historialKey),
+            ChatSection(key: chatKey),
             const ActivitySection(),
             const FooterSection(),
           ],
