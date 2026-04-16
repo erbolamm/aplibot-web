@@ -7,9 +7,6 @@ import 'widgets/activity_section.dart';
 import 'widgets/chat_section.dart';
 import 'widgets/footer_section.dart';
 
-/// Página principal de ApliBot Web.
-/// Estructura: NavBar → Hero → Overlays → Historial → Chat → Footer.
-/// El bot puede añadir nuevas secciones importando widgets desde widgets/.
 class ApliBotHome extends StatelessWidget {
   const ApliBotHome({super.key});
 
@@ -19,7 +16,6 @@ class ApliBotHome extends StatelessWidget {
       body: SingleChildScrollView(
         child: Column(
           children: [
-            // NavBar
             Container(
               color: AppColors.primary,
               padding: const EdgeInsets.symmetric(horizontal: 20),
@@ -36,14 +32,12 @@ class ApliBotHome extends StatelessWidget {
                     ),
                   ),
                   const Spacer(),
-                  _NavLink(label: 'Inicio', onTap: () { scrollToSection(historialKey); }),
-                  _NavLink(label: 'Historial', onTap: () { scrollToSection(historialKey); }),
-                  _NavLink(label: 'Chat', onTap: () { scrollToSection(historialKey); }),
+                  _NavLink(label: 'Inicio', onTap: () {}),
+                  _NavLink(label: 'Historial', onTap: () {}),
+                  _NavLink(label: 'Chat', onTap: () {}),
                 ],
               ),
             ),
-
-            // Secciones — el bot puede reordenar o añadir nuevas aquí
             const HeroSection(),
             const OverlayViewer(),
             const HistorialSection(),
