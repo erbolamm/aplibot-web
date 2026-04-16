@@ -2,11 +2,10 @@ import 'package:flutter/material.dart';
 import 'theme.dart';
 import 'widgets/hero_section.dart';
 import 'widgets/overlay_viewer.dart';
-import 'widgets/historial_section.dart';
 import 'widgets/activity_section.dart';
 import 'widgets/chat_section.dart';
 import 'widgets/footer_section.dart';
-import 'widgets/navigation_helpers.dart';
+import 'widgets/blog_section.dart';
 
 class ApliBotHome extends StatelessWidget {
   const ApliBotHome({super.key});
@@ -17,36 +16,52 @@ class ApliBotHome extends StatelessWidget {
       body: SingleChildScrollView(
         child: Column(
           children: [
-            Container(
-              color: AppColors.primary,
-              padding: const EdgeInsets.symmetric(horizontal: 20),
-              height: 52,
-              child: Row(
-                children: [
-                  const Text(
-                    'APLIBOT',
-                    style: TextStyle(
-                      color: Colors.white,
-                      fontWeight: FontWeight.w900,
-                      fontSize: 16,
-                      letterSpacing: 2,
-                    ),
-                  ),
-                  const Spacer(),
-                  _NavLink(label: 'Inicio', onTap: () => scrollToSection(historialKey)),
-                  _NavLink(label: 'Historial', onTap: () => scrollToSection(historialKey)),
-                  _NavLink(label: 'Chat', onTap: () => scrollToSection(chatKey)),
-                ],
-              ),
-            ),
+            _NavBar(),
             const HeroSection(),
+            const BlogSection(),
             const OverlayViewer(),
-            HistorialSection(key: historialKey),
-            ChatSection(key: chatKey),
+            const ChatSection(),
             const ActivitySection(),
             const FooterSection(),
           ],
         ),
+      ),
+    );
+  }
+}
+
+class _NavBar extends StatelessWidget {
+  @override
+  Widget build(BuildContext context) {
+    return Container(
+      color: AppColors.primary,
+      padding: const EdgeInsets.symmetric(horizontal: 20),
+      height: 52,
+      child: Row(
+        children: [
+          const Text(
+            'APLIBOT',
+            style: TextStyle(
+              color: Colors.white,
+              fontWeight: FontWeight.w900,
+              fontSize: 16,
+              letterSpacing: 2,
+            ),
+          ),
+          const Spacer(),
+          _NavLink(
+            label: 'Blog',
+            onTap: () => Navigator.pushNamed(context, '/blog'),
+          ),
+          _NavLink(
+            label: 'Chat',
+            onTap: () => Navigator.pushNamed(context, '/chat'),
+          ),
+          _NavLink(
+            label: 'GitHub',
+            onTap: () {},
+          ),
+        ],
       ),
     );
   }
@@ -70,13 +85,14 @@ class _NavLink extends StatelessWidget {
             padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 6),
             decoration: BoxDecoration(
               borderRadius: BorderRadius.circular(8),
+              border: Border.all(color: Colors.white24),
             ),
             child: Text(
               label,
               style: const TextStyle(
-                color: Colors.white70,
+                color: Colors.white,
                 fontSize: 13,
-                fontWeight: FontWeight.w500,
+                fontWeight: FontWeight.w600,
               ),
             ),
           ),
