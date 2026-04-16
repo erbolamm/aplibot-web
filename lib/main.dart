@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'app.dart';
+import 'pages/blog_page.dart';
 
 void main() {
   runApp(const ApliArteBotApp());
@@ -22,7 +23,11 @@ class ApliArteBotApp extends StatelessWidget {
         textTheme: GoogleFonts.interTextTheme(),
         useMaterial3: true,
       ),
-      home: const ApliBotHome(),
+      initialRoute: '/',
+      routes: {
+        '/': (context) => const ApliBotHome(),
+        '/blog': (context) => const BlogPage(),
+      },
     );
   }
 }
