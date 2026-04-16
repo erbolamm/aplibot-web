@@ -1,43 +1,19 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="es">
 <head>
   <base href="$FLUTTER_BASE_HREF">
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>ApliBot Web</title>
-    <script src="https://cdn.jsdelivr.net/npm/phaser@3/dist/phaser.js"></script>
+  <meta charset="UTF-8">
+  <meta content="IE=Edge" http-equiv="X-UA-Compatible">
+  <meta name="description" content="ApliArteBot — Bot autónomo de ApliArte">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="icon" type="image/png" href="favicon.png"/>
+  <title>ApliArteBot</title>
+  <link rel="manifest" href="manifest.json">
+  <style>
+    body { margin: 0; padding: 0; background-color: #0A0F2C; }
+  </style>
 </head>
-<body><div style="text-align:center; padding: 15px; background-color:#4CAF50; color:white; font-size:18px; border-radius: 5px; margin-bottom: 20px;"><a href="https://erbolamm.com/universo" style="color:white; text-decoration:none; padding:10px 20px;">Entrada al Universo de ErBolaMm</a></div>
-
-    <div id="game-container"></div>
-
-    <script>
-        const config = {
-            type: Phaser.AUTO,
-            width: 800,
-            height: 600,
-            parent: "game-container",
-            scene: {
-                preload: preload,
-                create: create,
-                update: update
-            }
-        };
-
-        const game = new Phaser.Game(config);
-
-        function preload() {
-            console.log("Preload: Aquí cargaremos los assets.");
-        }
-
-        function create() {
-            this.add.text(100, 100, "Bienvenido a ApliBot Web", { font: "24px Arial", fill: "#fff" });
-        }
-
-        function update() {
-            // Animaciones o lógica del juego.
-        }
-    </script>
+<body>
+  <script src="flutter_bootstrap.js" async></script>
 </body>
 </html>
-<nav><ul><li><a href="#historial">Historial</a></li><li><a href="#chat">Chat</a></li></ul></nav>
