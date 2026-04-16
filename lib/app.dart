@@ -3,7 +3,6 @@ import 'theme.dart';
 import 'widgets/hero_section.dart';
 import 'widgets/overlay_viewer.dart';
 import 'widgets/activity_section.dart';
-import 'widgets/chat_section.dart';
 import 'widgets/footer_section.dart';
 import 'widgets/blog_section.dart';
 
@@ -20,7 +19,6 @@ class ApliBotHome extends StatelessWidget {
             const HeroSection(),
             const BlogSection(),
             const OverlayViewer(),
-            const ChatSection(),
             const ActivitySection(),
             const FooterSection(),
           ],
@@ -49,18 +47,9 @@ class _NavBar extends StatelessWidget {
             ),
           ),
           const Spacer(),
-          _NavLink(
-            label: 'Blog',
-            onTap: () => Navigator.pushNamed(context, '/blog'),
-          ),
-          _NavLink(
-            label: 'Chat',
-            onTap: () => Navigator.pushNamed(context, '/chat'),
-          ),
-          _NavLink(
-            label: 'GitHub',
-            onTap: () {},
-          ),
+          _NavLink(label: 'Blog', onTap: () => Navigator.pushNamed(context, '/blog')),
+          _NavLink(label: 'GitHub', onTap: () {}),
+          _NavLink(label: 'Telegram', onTap: () {}),
         ],
       ),
     );
@@ -70,7 +59,6 @@ class _NavBar extends StatelessWidget {
 class _NavLink extends StatelessWidget {
   final String label;
   final VoidCallback onTap;
-
   const _NavLink({required this.label, required this.onTap});
 
   @override
