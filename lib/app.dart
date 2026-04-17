@@ -8,6 +8,7 @@ import 'widgets/footer_section.dart';
 import 'widgets/blog_section.dart';
 import 'widgets/historial_section.dart';
 import 'widgets/projects_section.dart';
+import 'widgets/youtube_section.dart';
 
 final GlobalKey historialKey = GlobalKey();
 
@@ -24,6 +25,7 @@ class ApliBotHome extends StatelessWidget {
             const HeroSection(),
             const BlogSection(),
             const ProjectsSection(),
+            const YoutubeSection(),
             const OverlayViewer(),
             HistorialSection(key: historialKey),
             const ActivitySection(),
