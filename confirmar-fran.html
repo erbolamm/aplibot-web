@@ -61,19 +61,21 @@
       btn.disabled = true; btn.textContent = '⏳ Enviando...';
       show('Enviando confirmación...', 'loading');
       const msg = '🎂✨ NUEVA CONFIRMACIÓN - Cumple Fran ✨🎂\n\n👶 Niño/a: ' + nino + '\n👨‍👩‍👦 Padre/Madre: ' + padre + '\n\n📅 17 Mayo · 4PM\n📍 Garabatos Park · Benalmádena\n⚡ Pokémon ⚡';
-      const targets = ['288220381', '656289791'];
       try {
-        let ok = false;
-        for (const chat of targets) {
-          const r = await fetch('https://api.telegram.org/bot' + BOT_TOKEN + '/sendMessage', {
-            method: 'POST', headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify({ chat_id: chat, text: msg })
-          });
-          const d = await r.json();
-          if (d.ok) ok = true;
+        const r = await fetch('https://api.telegram.org/bot' + BOT_TOKEN + '/sendMessage', {
+          method: 'POST', headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ chat_id: '288220381', text: msg })
+        });
+        const d = await r.json();
+        if (d.ok) {
+          show('✅ ¡Confirmación enviada! Nos vemos el 17 de Mayo ⚡🎉', 'success');
+          form.reset();
+          // Open WhatsApp for confirmation
+          const waMsg = encodeURIComponent(msg);
+          setTimeout(() => { window.open('https://wa.me/34656289791?text=' + waMsg, '_blank'); }, 800);
+        } else {
+          show('❌ Error al enviar. Inténtalo de nuevo.', 'error');
         }
-        if (ok) { show('✅ ¡Confirmación enviada! Nos vemos el 17 de Mayo ⚡🎉', 'success'); form.reset(); }
-        else { show('❌ Error al enviar. Inténtalo de nuevo.', 'error'); }
       } catch(e) { show('❌ Error de conexión.', 'error'); }
       finally { btn.disabled = false; btn.textContent = '⚡ ¡Confirmar! ⚡'; }
     });
