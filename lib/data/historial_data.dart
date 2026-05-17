@@ -13,6 +13,7 @@ class HistorialEntry {
 /// Lista de logros — EL BOT EDITA ESTA LISTA directamente.
 /// Para añadir un logro nuevo, poner al principio de la lista.
 const List<HistorialEntry> historial = [
+  '2 versiones de apliarte_faq (v1.0.6→v1.0.7). FaqAiCallback + modo IA.'
   HistorialEntry(
     fecha: '07-Mar-2026',
     texto: 'Terminamos el directo a las 10:10. Salió medio regular, pero aceptable.',
