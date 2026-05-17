@@ -78,6 +78,9 @@ const List<OverlaySlide> overlaySlides = [
     details: ['Bot principal (VPS)', 'Bot móvil (YesTeL)', 'Bot n8n (auto)'],
     gradientColors: [Color(0xFF064E3B), Color(0xFF22C55E), Color(0xFF005FA9)],
   ),
+
+  
+    details
   OverlaySlide(
     icon: '💖',
     label: 'LEGADO',
