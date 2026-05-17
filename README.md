@@ -32,6 +32,12 @@ Herramienta gratuita y open source. Si te ahorra tiempo, un café ayuda a manten
 - 🏗️ **Flutter AI Template:** [erbolamm.github.io/flutter-ai-template](https://erbolamm.github.io/flutter-ai-template/) · 📦 [GitHub](https://github.com/erbolamm/flutter-ai-template)
 - 📝 **Corrector VSCode:** [Ver Extensión](https://github.com/erbolamm/corrector-vscode) · 📦 [GitHub](https://github.com/erbolamm/corrector-vscode)
 
+
+## Publisher oficial en pub.dev
+
+Todos los paquetes Flutter de ErBolamm se publican bajo **erbolamm.com**:
+- [pub.dev/publishers/erbolamm.com](https://pub.dev/publishers/erbolamm.com)
+
 ## Licencia
 
 MIT — © 2026 ApliArte
