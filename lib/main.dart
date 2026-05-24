@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'app.dart';
 import 'pages/blog_page.dart';
+import 'widgets/pacman_game.dart';
 
 void main() {
   runApp(const ApliArteBotApp());
@@ -27,6 +28,7 @@ class ApliArteBotApp extends StatelessWidget {
       routes: {
         '/': (context) => const ApliBotHome(),
         '/blog': (context) => const BlogPage(),
+      '/pacman': (context) => const PacManGame(),
       },
     );
   }

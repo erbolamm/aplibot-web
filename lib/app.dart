@@ -60,6 +60,7 @@ class _NavBar extends StatelessWidget {
           const Spacer(),
           _NavLink(label: 'Historial', onTap: () => _scrollTo(historialKey)),
           _NavLink(label: 'Avances', onTap: () => Navigator.pushNamed(context, '/blog')),
+          _NavLink(label: '🎮', onTap: () => Navigator.pushNamed(context, '/pacman')),
           _NavLink(label: 'GitHub', onTap: () => launchUrl(Uri.parse('https://github.com/erbolamm'))),
         ],
       ),

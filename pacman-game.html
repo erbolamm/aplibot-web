@@ -1,0 +1,109 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Pac-Man — Me-llaman | ApliArte</title>
+  <style>
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    body { font-family: 'Segoe UI', system-ui, -apple-system, sans-serif; background: #1a1a2e; color: #eee; min-height: 100vh; }
+    .container { max-width: 800px; margin: 0 auto; padding: 40px 20px; }
+    h1 { font-size: 2.5rem; color: #f5e942; margin-bottom: 10px; display: flex; align-items: center; gap: 12px; }
+    h1 span { font-size: 2.8rem; }
+    .subtitle { color: #aaa; font-size: 1.1rem; margin-bottom: 30px; border-left: 3px solid #f5e942; padding-left: 15px; }
+    .game-preview {
+      background: #0f0f23; border-radius: 16px; padding: 20px;
+      display: flex; justify-content: center; align-items: center; margin-bottom: 30px;
+      border: 2px solid #333; min-height: 300px;
+    }
+    .game-preview pre {
+      color: #f5e942; font-size: 1.2rem; text-align: center; line-height: 1.6;
+      font-family: 'Courier New', monospace;
+    }
+    .info-card { background: #16213e; border-radius: 12px; padding: 25px; margin-bottom: 20px; }
+    .info-card h2 { color: #f5e942; font-size: 1.3rem; margin-bottom: 12px; }
+    .info-card p { color: #ccc; line-height: 1.6; font-size: 0.95rem; }
+    .info-card ul { list-style: none; padding: 0; }
+    .info-card ul li { padding: 8px 0; border-bottom: 1px solid #2a2a4a; color: #ddd; }
+    .info-card ul li:last-child { border: none; }
+    .info-card ul li::before { content: "▶ "; color: #f5e942; }
+    .badge { display: inline-block; background: #f5e942; color: #1a1a2e; padding: 4px 12px; border-radius: 20px; font-size: 0.8rem; font-weight: bold; margin-right: 6px; }
+    .btn { display: inline-block; background: #f5e942; color: #1a1a2e; padding: 12px 24px; border-radius: 8px; text-decoration: none; font-weight: bold; margin-top: 15px; transition: transform .2s; }
+    .btn:hover { transform: scale(1.05); }
+    .footer { text-align: center; color: #666; font-size: 0.85rem; margin-top: 40px; padding-top: 20px; border-top: 1px solid #2a2a4a; }
+    .stats { display: flex; gap: 20px; flex-wrap: wrap; margin: 20px 0; }
+    .stat { background: #0f3460; border-radius: 10px; padding: 15px 20px; text-align: center; flex: 1; min-width: 100px; }
+    .stat .num { font-size: 1.8rem; font-weight: bold; color: #f5e942; }
+    .stat .label { font-size: 0.8rem; color: #aaa; margin-top: 4px; }
+    @media (max-width: 600px) {
+      h1 { font-size: 1.8rem; }
+      .stats { flex-direction: column; }
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <h1><span>👻</span> Pac-Man ApliArte</h1>
+    <div class="subtitle">Mini-juego clásico integrado en Me-llaman — Flutter + Dart puro</div>
+
+    <div class="game-preview">
+      <pre>
+  ╔═══════════════════╗
+  ║ · · · · · · · · · ║
+  ║ · ╔══╗ · ╔══╗ · ║
+  ║ ● ║  ║ · ║  ║ ● ║
+  ║ · ╚══╝ · ╚══╝ · ║
+  ║ · · · · · · · · · ║
+  ║ ╔══╗ · ═══ · ╔══╗ ║
+  ║ ║  ║ · · · · ║  ║ ║
+  ║ ╚══╝ · ╔═══╗ · ╚══╝ ║
+  ║ · · · · ║   ║ · · · ║
+  ║ ╔══╗ · ╚═══╝ · ╔══╗ ║
+  ║ ║  ║ · · · · ║  ║ ║
+  ║ ╚══╝ · ╔═══╗ · ╚══╝ ║
+  ║ · · · · ║   ║ · · · ║
+  ║ · ╔══╗ · ╚══╝ · ╔══╗ ║
+  ║ ● ║  ║ · · · · ║  ║ ● ║
+  ║ · ╚══╝ · ╔══╗ · ╚══╝ ║
+  ║ · · · · · · · · · ║
+  ╚═══════════════════╝
+      </pre>
+    </div>
+
+    <div class="stats">
+      <div class="stat"><div class="num">1,489</div><div class="label">Líneas de código</div></div>
+      <div class="stat"><div class="num">21×19</div><div class="label">Laberinto</div></div>
+      <div class="stat"><div class="num">4</div><div class="label">Fantasmas</div></div>
+      <div class="stat"><div class="num">Flutter</div><div class="label">Framework</div></div>
+    </div>
+
+    <div class="info-card">
+      <h2>🎮 Sobre el juego</h2>
+      <p>Clone clásico de Pac-Man desarrollado en Flutter/Dart puro — sin plugins ni dependencias externas. Integrado como característica bonus dentro de la app <strong>Me-llaman</strong>.</p>
+      <p style="margin-top: 10px;">El juego incluye laberinto con puntos y power pellets, 4 fantasmas con IA básica, sistema de puntuación, vidas, y renderizado con CustomPainter. Todo desde cero.</p>
+    </div>
+
+    <div class="info-card">
+      <h2>📋 Características</h2>
+      <ul>
+        <li>Laberinto 21×19 con puntos, paredes y power pellets</li>
+        <li>4 fantasmas con comportamientos diferenciados</li>
+        <li>Renderizado con Canvas / CustomPainter</li>
+        <li>Control táctil + teclado direccional</li>
+        <li>Sistema de vidas, puntuación y niveles</li>
+        <li>100% Dart — sin assets ni dependencias externas</li>
+      </ul>
+    </div>
+
+    <div class="info-card">
+      <h2>🔧 Tecnología</h2>
+      <p><span class="badge">Flutter</span><span class="badge">Dart</span><span class="badge">CustomPainter</span><span class="badge">Canvas</span></p>
+      <p style="margin-top: 12px;">Código fuente disponible en <strong>Me-llaman</strong> (repo privado).</p>
+    </div>
+
+    <div class="footer">
+      <p>ApliArteBot — 2026 | Pac-Man es propiedad de Bandai Namco. Este es un clone educativo/fan.</p>
+    </div>
+  </div>
+</body>
+</html>
