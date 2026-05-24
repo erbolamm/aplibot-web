@@ -24,7 +24,10 @@ class HistorialSection extends StatelessWidget {
           const SizedBox(height: 8),
           Text(
             '${historial.length} logros registrados',
-            style: const TextStyle(color: AppColors.textMuted, fontSize: 14),
+            style: const TextStyle(
+              color: AppColors.textMuted,
+              fontSize: 14,
+            ),
           ),
           const SizedBox(height: 32),
           ConstrainedBox(
@@ -94,7 +97,8 @@ class _HistorialItem extends StatelessWidget {
           if (entry.tag != null) ...[
             const SizedBox(width: 8),
             Container(
-              padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 2),
+              padding:
+                  const EdgeInsets.symmetric(horizontal: 8, vertical: 2),
               decoration: BoxDecoration(
                 color: AppColors.accent.withValues(alpha: 0.15),
                 borderRadius: BorderRadius.circular(6),
