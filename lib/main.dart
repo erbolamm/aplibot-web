@@ -3,6 +3,7 @@ import 'package:google_fonts/google_fonts.dart';
 import 'app.dart';
 import 'pages/blog_page.dart';
 import 'widgets/pacman_game.dart';
+import 'pages/tablas_page.dart';
 
 void main() {
   runApp(const ApliArteBotApp());
@@ -28,7 +29,8 @@ class ApliArteBotApp extends StatelessWidget {
       routes: {
         '/': (context) => const ApliBotHome(),
         '/blog': (context) => const BlogPage(),
-      '/pacman': (context) => const PacManGame(),
+        '/pacman': (context) => const PacManGame(),
+        '/tablas': (context) => const TablasPage(),
       },
     );
   }
