@@ -1,0 +1,625 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>🧠 Gentle·AI — Referencia SDD | ApliArteBot</title>
+<meta name="description" content="Todos los comandos /sdd del ecosistema Gentle·AI de Gentleman Programming.">
+<meta name="theme-color" content="#0d0d1a">
+<link rel="icon" href="favicon.png">
+<style>
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700;900&family=Fira+Code:wght@400;600;700&display=swap');
+
+* { margin: 0; padding: 0; box-sizing: border-box; }
+
+:root {
+    --bg: #0d0d1a;
+    --surface: rgba(255,255,255,0.02);
+    --border: rgba(255,255,255,0.06);
+    --text: #e0e0f0;
+    --muted: #8899bb;
+    --dim: #445566;
+    --accent: #818cf8;
+    --accent2: #f472b6;
+    --cyan: #22d3ee;
+    --green: #34d399;
+    --yellow: #fbbf24;
+    --red: #ef4444;
+}
+
+body {
+    background: var(--bg);
+    color: var(--text);
+    font-family: 'Inter', system-ui, sans-serif;
+    line-height: 1.6;
+    overflow-x: hidden;
+}
+
+/* Animated gradient bg */
+.bg-glow {
+    position: fixed; inset: 0; z-index: -1; pointer-events: none;
+    background:
+        radial-gradient(ellipse 600px 400px at 15% 30%, rgba(99,102,241,0.08), transparent),
+        radial-gradient(ellipse 500px 300px at 80% 20%, rgba(236,72,153,0.05), transparent),
+        radial-gradient(ellipse 400px 500px at 50% 80%, rgba(6,182,212,0.05), transparent);
+    animation: breathe 8s ease-in-out infinite alternate;
+}
+@keyframes breathe {
+    0% { opacity: 0.6; transform: scale(1); }
+    100% { opacity: 1; transform: scale(1.05); }
+}
+
+/* Noise texture */
+.bg-noise {
+    position: fixed; inset: 0; z-index: -1; pointer-events: none;
+    opacity: 0.03;
+    background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+}
+
+.container { max-width: 960px; margin: 0 auto; padding: 2rem 1.5rem 4rem; position: relative; }
+
+/* ===== HEADER ===== */
+.hero {
+    text-align: center; padding: 3rem 0 2rem;
+    position: relative;
+}
+.hero::after {
+    content: ''; position: absolute; bottom: 0; left: 5%; width: 90%;
+    height: 1px;
+    background: linear-gradient(90deg, transparent, rgba(99,102,241,0.3), rgba(244,114,182,0.3), transparent);
+}
+.hero-badge {
+    display: inline-flex; align-items: center; gap: 0.4rem;
+    background: rgba(99,102,241,0.1); border: 1px solid rgba(99,102,241,0.2);
+    border-radius: 20px; padding: 0.3rem 1rem;
+    font-size: 0.75rem; color: var(--accent); margin-bottom: 1rem;
+}
+.hero h1 {
+    font-size: clamp(2.2rem, 5vw, 3.5rem); font-weight: 900; line-height: 1.1;
+    background: linear-gradient(135deg, #818cf8, #f472b6 40%, #22d3ee 70%, #34d399);
+    -webkit-background-clip: text; -webkit-text-fill-color: transparent;
+    background-clip: text;
+    margin-bottom: 0.8rem;
+}
+.hero p {
+    font-size: 1.1rem; color: var(--muted); max-width: 600px; margin: 0 auto 1.5rem;
+}
+.hero-author {
+    display: flex; justify-content: center; gap: 1.5rem; flex-wrap: wrap;
+}
+.hero-author span {
+    font-size: 0.8rem; color: var(--dim);
+}
+.hero-author a {
+    color: var(--accent); text-decoration: none;
+    border-bottom: 1px solid rgba(99,102,241,0.3);
+}
+.hero-author a:hover { border-color: var(--accent); }
+
+/* ===== NAV PILLS ===== */
+.nav-pills {
+    display: flex; gap: 0.5rem; justify-content: center; flex-wrap: wrap;
+    margin: 2rem 0;
+    position: sticky; top: 0.5rem; z-index: 10;
+}
+.nav-pill {
+    padding: 0.4rem 1rem; border-radius: 20px;
+    font-size: 0.75rem; font-weight: 600;
+    background: rgba(255,255,255,0.04);
+    border: 1px solid rgba(255,255,255,0.08);
+    color: var(--muted); cursor: pointer; transition: all 0.2s;
+    text-decoration: none; backdrop-filter: blur(10px);
+}
+.nav-pill:hover {
+    background: rgba(99,102,241,0.15);
+    border-color: rgba(99,102,241,0.3);
+    color: #fff;
+    transform: translateY(-1px);
+}
+
+/* ===== SECTION ===== */
+.section { margin: 3rem 0; }
+.section-header {
+    display: flex; align-items: center; gap: 0.8rem;
+    margin-bottom: 1.5rem;
+}
+.section-header .icon { font-size: 1.8rem; }
+.section-header h2 {
+    font-size: 1.3rem; font-weight: 700;
+}
+.section-header .count {
+    background: rgba(255,255,255,0.06);
+    padding: 0.1rem 0.6rem; border-radius: 12px;
+    font-size: 0.75rem; font-weight: 600; color: var(--muted);
+}
+.section-desc {
+    color: var(--muted); font-size: 0.9rem;
+    margin: -0.8rem 0 1.5rem;
+}
+
+/* ===== COMMAND CARDS ===== */
+.cmd-grid { display: grid; gap: 0.7rem; }
+
+.cmd-card {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 14px; padding: 1.2rem 1.4rem;
+    transition: all 0.25s; position: relative; overflow: hidden;
+}
+.cmd-card::before {
+    content: ''; position: absolute; left: 0; top: 0;
+    width: 3px; height: 100%;
+    border-radius: 0 2px 2px 0;
+}
+.cmd-card:hover {
+    background: rgba(255,255,255,0.04);
+    border-color: rgba(255,255,255,0.12);
+    transform: translateX(5px);
+}
+
+.cmd-card.sdd::before { background: linear-gradient(var(--accent), #6366f1); }
+.cmd-card.cli::before { background: linear-gradient(var(--cyan), #0891b2); }
+.cmd-card.engram::before { background: linear-gradient(var(--green), #059669); }
+.cmd-card.phase::before { background: linear-gradient(var(--yellow), #d97706); }
+
+.cmd-top {
+    display: flex; align-items: center; gap: 0.7rem; flex-wrap: wrap;
+    margin-bottom: 0.4rem;
+}
+.cmd-name {
+    font-family: 'Fira Code', monospace;
+    font-size: 0.95rem; font-weight: 600;
+    color: #f0f0ff;
+}
+.cmd-tag {
+    font-size: 0.6rem; padding: 0.12rem 0.5rem; border-radius: 8px;
+    font-weight: 600; text-transform: uppercase; letter-spacing: 0.5px;
+}
+.tag-sdd { background: rgba(99,102,241,0.2); color: #a5b4fc; }
+.tag-cli { background: rgba(6,182,212,0.2); color: #67e8f9; }
+.tag-engram { background: rgba(52,211,153,0.2); color: #6ee7b7; }
+.tag-phase { background: rgba(251,191,36,0.2); color: #fcd34d; }
+
+.cmd-desc { font-size: 0.88rem; color: var(--muted); line-height: 1.5; }
+.cmd-example {
+    margin-top: 0.6rem; padding: 0.6rem 0.8rem;
+    background: rgba(0,0,0,0.3); border-radius: 8px;
+    font-family: 'Fira Code', monospace; font-size: 0.75rem;
+    color: var(--cyan); overflow-x: auto;
+}
+
+/* ===== FLOW ===== */
+.flow-wrap {
+    background: rgba(255,255,255,0.015);
+    border: 1px solid var(--border);
+    border-radius: 16px; padding: 2rem;
+    margin: 1rem 0 2rem;
+}
+.flow-steps {
+    display: flex; gap: 0.4rem; flex-wrap: wrap; justify-content: center;
+}
+.flow-step {
+    display: flex; align-items: center; gap: 0.4rem;
+    background: rgba(255,255,255,0.03);
+    border: 1px solid rgba(255,255,255,0.06);
+    border-radius: 10px; padding: 0.6rem 0.8rem;
+    transition: all 0.2s;
+}
+.flow-step:hover {
+    background: rgba(255,255,255,0.06);
+    transform: translateY(-2px);
+}
+.flow-step .num {
+    width: 22px; height: 22px; border-radius: 50%;
+    background: rgba(99,102,241,0.2);
+    color: #a5b4fc;
+    display: flex; align-items: center; justify-content: center;
+    font-size: 0.65rem; font-weight: 700;
+    flex-shrink: 0;
+}
+.flow-step .name { font-size: 0.78rem; font-weight: 600; }
+.flow-step .cmd-ref {
+    font-size: 0.6rem; color: var(--dim); margin-left: 0.2rem;
+    font-family: 'Fira Code', monospace;
+}
+.flow-arrow { color: #334; font-size: 1.1rem; }
+
+/* ===== TABLE ===== */
+.table-wrap {
+    overflow-x: auto;
+    background: rgba(255,255,255,0.015);
+    border: 1px solid var(--border);
+    border-radius: 14px;
+}
+table {
+    width: 100%; border-collapse: collapse;
+}
+th {
+    text-align: left; padding: 0.8rem 1rem;
+    font-size: 0.7rem; text-transform: uppercase; letter-spacing: 1px;
+    color: var(--dim); border-bottom: 1px solid var(--border);
+    font-weight: 600;
+}
+td {
+    padding: 0.7rem 1rem; font-size: 0.83rem;
+    border-bottom: 1px solid rgba(255,255,255,0.02);
+}
+tr:last-child td { border-bottom: none; }
+tr:hover td { background: rgba(255,255,255,0.02); }
+.model-name { font-weight: 600; font-family: 'Fira Code', monospace; }
+.model-desc { color: var(--muted); }
+
+.badge-deleg {
+    display: inline-block; padding: 0.1rem 0.5rem; border-radius: 8px;
+    font-size: 0.65rem; font-weight: 600;
+}
+.badge-full { background: rgba(99,102,241,0.15); color: #a5b4fc; }
+.badge-solo { background: rgba(52,211,153,0.15); color: #6ee7b7; }
+
+/* ===== TRIGGER TABLE ===== */
+.trigger-grid { display: grid; gap: 0.5rem; }
+
+/* ===== FOOTER ===== */
+.footer {
+    text-align: center; margin-top: 4rem; padding: 2rem;
+    color: var(--dim); font-size: 0.8rem;
+    border-top: 1px solid var(--border);
+}
+.footer a { color: var(--accent); text-decoration: none; }
+
+/* ===== RESPONSIVE ===== */
+@media (max-width: 640px) {
+    .container { padding: 1rem; }
+    .flow-step { padding: 0.4rem 0.6rem; }
+    .flow-step .name { font-size: 0.7rem; }
+    .cmd-card { padding: 1rem; }
+    .hero h1 { font-size: 1.8rem; }
+}
+</style>
+</head>
+<body>
+
+<div class="bg-glow"></div>
+<div class="bg-noise"></div>
+
+<div class="container">
+
+    <!-- HERO -->
+    <div class="hero">
+        <div class="hero-badge">🧠 Ecosistema · Gentleman Programming</div>
+        <h1>Gentle·AI<br>Referencia SDD</h1>
+        <p>Todos los comandos <strong>/sdd</strong>, herramientas CLI, Engram y el flujo completo de Spec-Driven Development</p>
+        <div class="hero-author">
+            <span>por <a href="https://github.com/Gentleman-Programming" target="_blank">Alan Buscaglia</a></span>
+            <span>·</span>
+            <span><a href="https://github.com/Gentleman-Programming/gentle-ai" target="_blank">github.com/Gentleman-Programming/gentle-ai</a></span>
+        </div>
+    </div>
+
+    <!-- NAV -->
+    <nav class="nav-pills">
+        <a class="nav-pill" href="#sdd">🎯 /sdd</a>
+        <a class="nav-pill" href="#cli">💻 CLI</a>
+        <a class="nav-pill" href="#engram">🧠 Engram</a>
+        <a class="nav-pill" href="#flow">🔄 Flujo SDD</a>
+        <a class="nav-pill" href="#agents">🤖 Agentes</a>
+    </nav>
+
+    <!-- ===== SDD COMMANDS ===== -->
+    <div class="section" id="sdd">
+        <div class="section-header">
+            <span class="icon">🎯</span>
+            <h2>Comandos /sdd</h2>
+            <span class="count">10</span>
+        </div>
+        <div class="section-desc">Slash commands del flujo Spec-Driven Development. Cada uno corresponde a una fase del proceso.</div>
+        <div class="cmd-grid">
+
+            <div class="cmd-card sdd">
+                <div class="cmd-top">
+                    <span class="cmd-name">/sdd-init</span>
+                    <span class="cmd-tag tag-sdd">SDD Core</span>
+                </div>
+                <div class="cmd-desc">Inicia el flujo <strong>Spec-Driven Development</strong> en cualquier proyecto. Detecta stack, tests, y activa <strong>Strict TDD Mode</strong> si hay tests disponibles. Convierte un repo desconocido en entorno SDD estructurado.</div>
+                <div class="cmd-example">/sdd-init → "Stack: Flutter · Tests: sí · Strict TDD: ✅"</div>
+            </div>
+
+            <div class="cmd-card sdd">
+                <div class="cmd-top">
+                    <span class="cmd-name">/sdd-onboard</span>
+                    <span class="cmd-tag tag-sdd">Onboarding</span>
+                </div>
+                <div class="cmd-desc">Guía al usuario a través del flujo SDD paso a paso. Explica cada fase, qué se espera, y cómo interactuar con el agente durante el proceso.</div>
+                <div class="cmd-example">/sdd-onboard → "Bienvenido al SDD · Fase 1: Exploración · ¿Qué necesitas explorar?"</div>
+            </div>
+
+            <div class="cmd-card sdd">
+                <div class="cmd-top">
+                    <span class="cmd-name">/sdd-explore</span>
+                    <span class="cmd-tag tag-sdd">Fase 1</span>
+                </div>
+                <div class="cmd-desc">Explora ideas SDD de forma amplia. Sin compromiso. Lee archivos, entiende el contexto, identifica patrones y oportunidades de mejora. Modelo recomendado: barato/rápido.</div>
+                <div class="cmd-example">/sdd-explore → "Analizando codebase... 47 archivos · 3 patrones detectados · 2 áreas de mejora"</div>
+            </div>
+
+            <div class="cmd-card sdd">
+                <div class="cmd-top">
+                    <span class="cmd-name">/sdd-propose</span>
+                    <span class="cmd-tag tag-sdd">Fase 2</span>
+                </div>
+                <div class="cmd-desc">Crea una <strong>propuesta de cambio</strong> SDD. Define objetivo, alcance, impacto y riesgos. Incluye análisis de costo-beneficio y alternativas. Modelo recomendado: medio.</div>
+                <div class="cmd-example">/sdd-propose → "Propuesta: refactor RemoteConfig · Impacto: bajo · Beneficio: mantenibilidad ++"</div>
+            </div>
+
+            <div class="cmd-card sdd">
+                <div class="cmd-top">
+                    <span class="cmd-name">/sdd-spec</span>
+                    <span class="cmd-tag tag-sdd">Fase 3</span>
+                </div>
+                <div class="cmd-desc">Escribe una <strong>especificación delta</strong> SDD basada en la propuesta aceptada. Define ACs (Criterios de Aceptación), comportamientos esperados, y límites del cambio. Modelo recomendado: potente.</div>
+                <div class="cmd-example">/sdd-spec → "Spec: 12 ACs · 3 comportamientos · 0 breaking changes"</div>
+            </div>
+
+            <div class="cmd-card sdd">
+                <div class="cmd-top">
+                    <span class="cmd-name">/sdd-design</span>
+                    <span class="cmd-tag tag-sdd">Fase 4</span>
+                </div>
+                <div class="cmd-desc">Crea el <strong>diseño técnico</strong> SDD. Arquitectura, interfaces, flujo de datos, archivos a tocar, y decisiones técnicas. Diagramas y justificaciones. Modelo recomendado: razonamiento.</div>
+                <div class="cmd-example">/sdd-design → "Archivos: 4 · Patrón: Repository · Dependencias: 0 nuevas · Tests: 12"</div>
+            </div>
+
+            <div class="cmd-card sdd">
+                <div class="cmd-top">
+                    <span class="cmd-name">/sdd-tasks</span>
+                    <span class="cmd-tag tag-sdd">Fase 5</span>
+                </div>
+                <div class="cmd-desc">Divide el cambio SDD en <strong>tareas atómicas</strong>. Cada tarea debe ser implementable y verificable de forma independiente. Incluye prioridad y dependencias entre tareas.</div>
+                <div class="cmd-example">/sdd-tasks → "T1: Service layer · T2: UI widget · T3: Tests integración · Dep: T1→T2"</div>
+            </div>
+
+            <div class="cmd-card sdd">
+                <div class="cmd-top">
+                    <span class="cmd-name">/sdd-apply</span>
+                    <span class="cmd-tag tag-sdd">Fase 6</span>
+                </div>
+                <div class="cmd-desc">Implementa las tareas SDD. Ejecuta el plan definido, archivo por archivo, siguiendo el diseño aprobado. Sin desviaciones sin re-planificar. Modelo recomendado: rápido/equilibrado.</div>
+                <div class="cmd-example">/sdd-apply → "T1: ✅ · T2: ✅ · T3: ⏳ (depende de mock data)"</div>
+            </div>
+
+            <div class="cmd-card sdd">
+                <div class="cmd-top">
+                    <span class="cmd-name">/sdd-verify</span>
+                    <span class="cmd-tag tag-sdd">Fase 7</span>
+                </div>
+                <div class="cmd-desc">Verifica la implementación contra la spec. Ejecuta tests, revisa que todos los ACs se cumplan, y produce un reporte de verificación. Modelo recomendado: crítico/potente.</div>
+                <div class="cmd-example">/sdd-verify → "12/12 ACs ✅ · 47 tests GREEN · 0 regresiones"</div>
+            </div>
+
+            <div class="cmd-card sdd">
+                <div class="cmd-top">
+                    <span class="cmd-name">/sdd-archive</span>
+                    <span class="cmd-tag tag-sdd">Archivo</span>
+                </div>
+                <div class="cmd-desc">Archiva un SDD completado. Guarda el contexto, decisiones, y resultados en Engram para referencia futura. Limpia el estado y cierra el ciclo.</div>
+                <div class="cmd-example">/sdd-archive → "SDD #47 archivado · 4 memorias guardadas en Engram"</div>
+            </div>
+
+        </div>
+    </div>
+
+    <!-- ===== FLOW ===== -->
+    <div class="section" id="flow">
+        <div class="section-header">
+            <span class="icon">🔄</span>
+            <h2>Flujo SDD Completo</h2>
+        </div>
+        <div class="section-desc">De la idea al archivo — cada fase con su comando y modelo recomendado.</div>
+
+        <div class="flow-wrap">
+            <div class="flow-steps">
+                <div class="flow-step"><span class="num">1</span><span class="name">Explorar</span><span class="cmd-ref">/explore</span></div>
+                <span class="flow-arrow">→</span>
+                <div class="flow-step"><span class="num">2</span><span class="name">Proponer</span><span class="cmd-ref">/propose</span></div>
+                <span class="flow-arrow">→</span>
+                <div class="flow-step"><span class="num">3</span><span class="name">Especificar</span><span class="cmd-ref">/spec</span></div>
+                <span class="flow-arrow">→</span>
+                <div class="flow-step"><span class="num">4</span><span class="name">Diseñar</span><span class="cmd-ref">/design</span></div>
+                <span class="flow-arrow">→</span>
+                <div class="flow-step"><span class="num">5</span><span class="name">Taskear</span><span class="cmd-ref">/tasks</span></div>
+                <span class="flow-arrow">→</span>
+                <div class="flow-step"><span class="num">6</span><span class="name">Aplicar</span><span class="cmd-ref">/apply</span></div>
+                <span class="flow-arrow">→</span>
+                <div class="flow-step"><span class="num">7</span><span class="name">Verificar</span><span class="cmd-ref">/verify</span></div>
+                <span class="flow-arrow">→</span>
+                <div class="flow-step"><span class="num">8</span><span class="name">Archivar</span><span class="cmd-ref">/archive</span></div>
+            </div>
+            <div style="margin-top:1.5rem;display:flex;gap:0.5rem;flex-wrap:wrap;justify-content:center;font-size:0.75rem;color:var(--dim);">
+                <span>💰 Exploración: barato</span>
+                <span>·</span>
+                <span>📐 Diseño: razonamiento</span>
+                <span>·</span>
+                <span>⚡ Implementación: rápido</span>
+                <span>·</span>
+                <span>✅ Verificación: crítico</span>
+            </div>
+        </div>
+    </div>
+
+    <!-- ===== CLI ===== -->
+    <div class="section" id="cli">
+        <div class="section-header">
+            <span class="icon">💻</span>
+            <h2>Comandos CLI (gentle-ai)</h2>
+            <span class="count">6</span>
+        </div>
+        <div class="cmd-grid">
+
+            <div class="cmd-card cli">
+                <div class="cmd-top">
+                    <span class="cmd-name">gentle-ai doctor</span>
+                    <span class="cmd-tag tag-cli">Diagnóstico</span>
+                </div>
+                <div class="cmd-desc">Health check completo del ecosistema: bins, state.json, conectividad Engram, espacio en disco. <strong>Solo lectura.</strong></div>
+                <div class="cmd-example">gentle-ai doctor → "✅ 12/12 checks passed"</div>
+            </div>
+
+            <div class="cmd-card cli">
+                <div class="cmd-top">
+                    <span class="cmd-name">gentle-ai install</span>
+                    <span class="cmd-tag tag-cli">Setup</span>
+                </div>
+                <div class="cmd-desc">Instala Gentle·AI en los agentes. <span class="var">--scope=workspace</span> para aislar a un proyecto. Backups automáticos antes de cada instalación.</div>
+                <div class="cmd-example">gentle-ai install --agent=opencode,claude --scope=workspace</div>
+            </div>
+
+            <div class="cmd-card cli">
+                <div class="cmd-top">
+                    <span class="cmd-name">gentle-ai sync</span>
+                    <span class="cmd-tag tag-cli">Sincronizar</span>
+                </div>
+                <div class="cmd-desc">Sincroniza configuración, skills y perfiles SDD. Crea perfiles con modelos por fase.</div>
+                <div class="cmd-example">gentle-ai sync --profile cheap:openrouter/qwen/qwen3-30b-a3b:free</div>
+            </div>
+
+            <div class="cmd-card cli">
+                <div class="cmd-top">
+                    <span class="cmd-name">gentle-ai update</span>
+                    <span class="cmd-tag tag-cli">Actualizar</span>
+                </div>
+                <div class="cmd-desc">Actualiza Gentle·AI y componentes a última versión. Compara versiones de plugins con GitHub releases.</div>
+                <div class="cmd-example">gentle-ai update → "✅ v1.24.0"</div>
+            </div>
+
+            <div class="cmd-card cli">
+                <div class="cmd-top">
+                    <span class="cmd-name">gentle-ai skill-registry refresh</span>
+                    <span class="cmd-tag tag-cli">Skills</span>
+                </div>
+                <div class="cmd-desc">Escanea skills instaladas y convenciones del proyecto. Se ejecuta automáticamente en agentes con startup hooks.</div>
+                <div class="cmd-example">gentle-ai skill-registry refresh → "Registry: 12 skills"</div>
+            </div>
+
+            <div class="cmd-card cli">
+                <div class="cmd-top">
+                    <span class="cmd-name">gentle-ai sync --profile-phase</span>
+                    <span class="cmd-tag tag-cli">Perfiles</span>
+                </div>
+                <div class="cmd-desc">Asigna modelos específicos a fases concretas del SDD desde CLI.</div>
+                <div class="cmd-example">gentle-ai sync --profile-phase cheap:sdd-design:anthropic/claude-sonnet-4-20250514</div>
+            </div>
+
+        </div>
+    </div>
+
+    <!-- ===== ENGRAM ===== -->
+    <div class="section" id="engram">
+        <div class="section-header">
+            <span class="icon">🧠</span>
+            <h2>Engram — Memoria Persistente</h2>
+            <span class="count">6</span>
+        </div>
+        <div class="cmd-grid">
+
+            <div class="cmd-card engram">
+                <div class="cmd-top">
+                    <span class="cmd-name">engram projects list</span>
+                    <span class="cmd-tag tag-engram">Listar</span>
+                </div>
+                <div class="cmd-desc">Lista todos los proyectos con su contador de recuerdos almacenados.</div>
+                <div class="cmd-example">engram projects list → "CalcaApp: 47 · DockerHostinger: 23"</div>
+            </div>
+
+            <div class="cmd-card engram">
+                <div class="cmd-top">
+                    <span class="cmd-name">engram search &lt;texto&gt;</span>
+                    <span class="cmd-tag tag-engram">Buscar</span>
+                </div>
+                <div class="cmd-desc">Busca decisiones, bugs y contexto de sesiones anteriores. Búsqueda semántica.</div>
+                <div class="cmd-example">engram search "crash onboarding" → "ERB-55: onboarding lockout · ERB-53: gray-screen"</div>
+            </div>
+
+            <div class="cmd-card engram">
+                <div class="cmd-top">
+                    <span class="cmd-name">engram tui</span>
+                    <span class="cmd-tag tag-engram">Visual</span>
+                </div>
+                <div class="cmd-desc">Navegador visual de memoria en terminal con interfaz TUI interactiva.</div>
+                <div class="cmd-example">engram tui → [abre interfaz interactiva en terminal]</div>
+            </div>
+
+            <div class="cmd-card engram">
+                <div class="cmd-top">
+                    <span class="cmd-name">engram projects consolidate</span>
+                    <span class="cmd-tag tag-engram">Mantener</span>
+                </div>
+                <div class="cmd-desc">Corrige deriva de nombres ("my-app" vs "My-App") y unifica proyectos duplicados.</div>
+                <div class="cmd-example">engram projects consolidate → "🧹 3 proyectos fusionados"</div>
+            </div>
+
+            <div class="cmd-card engram">
+                <div class="cmd-top">
+                    <span class="cmd-name">engram sync</span>
+                    <span class="cmd-tag tag-engram">Multi-máquina</span>
+                </div>
+                <div class="cmd-desc">Comparte memoria entre máquinas. Sincroniza contexto de trabajo entre dispositivos.</div>
+                <div class="cmd-example">engram sync → "📤 47 memorias sincronizadas"</div>
+            </div>
+
+            <div class="cmd-card engram">
+                <div class="cmd-top">
+                    <span class="cmd-name">Engram MCP Tools</span>
+                    <span class="cmd-tag tag-engram">API</span>
+                </div>
+                <div class="cmd-desc">Los agentes usan MCP tools para interactuar con Engram: <code>mem_save</code> (guarda contexto), <code>mem_session_summary</code> (resumen de sesión).</div>
+                <div class="cmd-example">🔧 engram/mem_save → "Decisiones de la sesión guardadas"</div>
+            </div>
+
+        </div>
+    </div>
+
+    <!-- ===== AGENTS ===== -->
+    <div class="section" id="agents">
+        <div class="section-header">
+            <span class="icon">🤖</span>
+            <h2>Agentes Soportados</h2>
+            <span class="count">14</span>
+        </div>
+        <div class="table-wrap">
+            <table>
+                <thead>
+                    <tr><th>Agente</th><th>Delegación</th><th>Clave</th></tr>
+                </thead>
+                <tbody>
+                    <tr><td class="model-name">Claude Code</td><td><span class="badge-deleg badge-full">Full</span></td><td class="model-desc">Sub-agents, output styles</td></tr>
+                    <tr><td class="model-name">OpenCode</td><td><span class="badge-deleg badge-full">Full</span></td><td class="model-desc">Per-phase model routing</td></tr>
+                    <tr><td class="model-name">Kilo Code</td><td><span class="badge-deleg badge-full">Full</span></td><td class="model-desc">Multi-mode overlay</td></tr>
+                    <tr><td class="model-name">Gemini CLI</td><td><span class="badge-deleg badge-full">Full</span></td><td class="model-desc">Custom agents en ~/.gemini/agents/</td></tr>
+                    <tr><td class="model-name">Cursor</td><td><span class="badge-deleg badge-full">Full</span></td><td class="model-desc">10 SDD agents en ~/.cursor/agents/</td></tr>
+                    <tr><td class="model-name">VS Code Copilot</td><td><span class="badge-deleg badge-full">Full</span></td><td class="model-desc">Parallel execution (runSubagent)</td></tr>
+                    <tr><td class="model-name">Codex</td><td><span class="badge-deleg badge-solo">Solo</span></td><td class="model-desc">CLI-native, TOML config</td></tr>
+                    <tr><td class="model-name">Windsurf</td><td><span class="badge-deleg badge-solo">Solo</span></td><td class="model-desc">Plan Mode + Code Mode</td></tr>
+                    <tr><td class="model-name">Antigravity</td><td><span class="badge-deleg badge-solo">Solo</span></td><td class="model-desc">Mission Control + sub-agents</td></tr>
+                    <tr><td class="model-name">Kimi Code</td><td><span class="badge-deleg badge-full">Full</span></td><td class="model-desc">Custom agents en ~/.kimi</td></tr>
+                    <tr><td class="model-name">Kiro IDE</td><td><span class="badge-deleg badge-full">Full</span></td><td class="model-desc">Subagentes nativos + orchestracíon</td></tr>
+                    <tr><td class="model-name">Qwen Code</td><td><span class="badge-deleg badge-full">Full</span></td><td class="model-desc">Slash commands, auto_edit mode</td></tr>
+                    <tr><td class="model-name" style="color:#818cf8">OpenClaw</td><td><span class="badge-deleg badge-solo">Solo</span></td><td class="model-desc">Workspace-first · AGENTS.md / SOUL.md</td></tr>
+                    <tr><td class="model-name">Trae</td><td><span class="badge-deleg badge-solo">Solo</span></td><td class="model-desc">ByteDance · ~/.trae/skills/</td></tr>
+                    <tr><td class="model-name">Pi</td><td><span class="badge-deleg badge-full">Full</span></td><td class="model-desc">gentle-pi + Engram</td></tr>
+                </tbody>
+            </table>
+        </div>
+        <div style="margin-top:0.8rem;text-align:center;font-size:0.8rem;color:var(--dim);">
+            ⭐ <strong style="color:var(--accent);">OpenClaw</strong> aparece oficialmente en el README de Gentle·AI
+        </div>
+    </div>
+
+    <div class="footer">
+        🧠 <strong>Gentle·AI</strong> por <a href="https://github.com/Gentleman-Programming" target="_blank">Gentleman Programming</a> (Alan Buscaglia)<br>
+        Documentación generada por <a href="https://erbolamm.github.io/aplibot-web/" target="_blank">ApliArteBot</a> — 3 junio 2026
+    </div>
+
+</div>
+
+</body>
+</html>
