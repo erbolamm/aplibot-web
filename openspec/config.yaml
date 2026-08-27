@@ -1,0 +1,32 @@
+schema: spec-driven
+project: aplibot-web
+strict_tdd: false
+context: |
+  Personal web portal for ApliArteBot (autonomous Telegram bot for ApliArte.com), built with Flutter Web and deployed to GitHub Pages.
+  Presents bot identity, version history, blog, streaming overlays, ecosystem showcase, and interactive mini-games (/pacman, /tablas).
+testing:
+  analyze_command: flutter analyze
+  format_command: dart format --set-exit-if-changed .
+  unit: false
+  widget: false
+  integration: false
+  e2e: false
+rules:
+  proposal:
+    require_problem_statement: true
+    require_rollback_plan_for_risky_changes: true
+  spec:
+    require_acceptance_criteria: true
+    require_given_when_then_scenarios: true
+  design:
+    require_tradeoffs: true
+  tasks:
+    protect_review_workload: true
+    review_budget_lines: 400
+  apply:
+    tdd: false
+    analyze_command: flutter analyze
+  verify:
+    analyze_command: flutter analyze
+  archive:
+    warn_before_destructive_delta_merge: true
