@@ -1,0 +1,1553 @@
+<!DOCTYPE html>
+<html lang="es" data-theme="light">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Plano de la oficina virtual · Panel de control de tareas</title>
+<style>
+/* ============================================================
+   TOKENS DE TEMA  (los mismos nombres usa el SVG vía var())
+   ============================================================ */
+:root, [data-theme="light"]{
+  --bg:#efe7dc; --bg2:#e3d8c9;
+  --panel:#fffaf3; --panel-2:#f6eee2; --ink:#2b2118; --ink-2:#6d5c4c; --ink-3:#a1907e;
+  --line:#e2d5c4; --line-soft:#efe5d8;
+  --slab:#d8c7b1; --slab-edge:#b69f85;
+  --corridor:#eae1d5; --corridor-line:#d3c4b0;
+  --runner:#c46a4b; --runner-soft:#e3b49f; --runner-ink:#fff6ef;
+  --wall:#f3e8d9; --wall-side:#e3d4c0; --wall-cap:#fdf7ee; --wall-line:#cdbaa2; --wall-shade:#00000014;
+  --skirting:#e7dac7;
+  --wood-1:#e0b98c; --wood-2:#d7ac7c; --wood-line:#c2946a;
+  --woodrich-1:#c88f5c; --woodrich-2:#bd8350; --woodrich-line:#a4703f;
+  --tile-1:#d9e2e8; --tile-2:#d0dae1; --tile-line:#bcc9d2;
+  --kraft-1:#e6d3b3; --kraft-2:#dfc9a6; --kraft-line:#cbb189;
+  --rug:#c9705a; --rug-2:#e5c5b6; --rug-3:#b85f4b;
+  --rugcool:#8fa9c4; --rugcool-2:#d3e0ec;
+  --furn-wood:#c08d5b; --furn-wood-2:#a9784a; --furn-wood-3:#8d6139;
+  --furn-dark:#4a4038; --furn-dark-2:#3a322c;
+  --metal:#b9b2a8; --metal-2:#9b948a; --metal-3:#7d766c;
+  --fabric:#d9c3ab; --fabric-2:#c8b096;
+  --screen:#dcebf5; --screen-2:#c3dced; --screen-ink:#3d5a72;
+  --paper:#fffdf8; --paper-line:#e2d9cb;
+  --plant:#5c9163; --plant-2:#7fae72; --pot:#cf8a63; --pot-2:#b9734f;
+  --glass:#dceaf3; --glass-line:#b9cdd9;
+  --sky-1:#cfe9fb; --sky-2:#eaf6ff; --hill:#a9cfa6; --hill-2:#8fbc8c; --sun:#ffd98a; --night-glow:0;
+  --lamp:#ffca7a; --lamp-soft:#ffdca6; --glow:0.55;
+  --led-idle:#c3b7a6; --led-active:#3fae6a; --led-done:#e0a33c;
+  --path:#c9a583; --path-ink:#a8734a;
+  --shadow:#4a3524;
+  --accent:#c46a4b;
+  --outline:#6b5644;
+}
+[data-theme="dark"]{
+  --bg:#15110f; --bg2:#1e1916;
+  --panel:#201b18; --panel-2:#272120; --ink:#f6ece1; --ink-2:#c0ac9a; --ink-3:#8d7a69;
+  --line:#332b26; --line-soft:#2a2421;
+  --slab:#2b2320; --slab-edge:#171311;
+  --corridor:#3a3129; --corridor-line:#4b4038;
+  --runner:#8f4630; --runner-soft:#6d3a2a; --runner-ink:#ffeade;
+  --wall:#4a3f36; --wall-side:#3b322b; --wall-cap:#5b4e43; --wall-line:#241d18; --wall-shade:#00000040;
+  --skirting:#332b25;
+  --wood-1:#6a4c33; --wood-2:#5f432c; --wood-line:#4a3423;
+  --woodrich-1:#7c5330; --woodrich-2:#6d4727; --woodrich-line:#54351c;
+  --tile-1:#3b4750; --tile-2:#354049; --tile-line:#2b343c;
+  --kraft-1:#6b5a3f; --kraft-2:#61513a; --kraft-line:#4e4130;
+  --rug:#8a4433; --rug-2:#5d3529; --rug-3:#6f3527;
+  --rugcool:#3f5f7d; --rugcool-2:#2e4356;
+  --furn-wood:#7d5636; --furn-wood-2:#6a482d; --furn-wood-3:#543a24;
+  --furn-dark:#2a2420; --furn-dark-2:#211c19;
+  --metal:#6d6660; --metal-2:#57514b; --metal-3:#443e39;
+  --fabric:#6b5a49; --fabric-2:#5a4b3c;
+  --screen:#33556e; --screen-2:#26415a; --screen-ink:#cfe6f5;
+  --paper:#e9dfd2; --paper-line:#b6a894;
+  --plant:#3f7049; --plant-2:#548a52; --pot:#8a5439; --pot-2:#6f4129;
+  --glass:#33505f; --glass-line:#4b6a7a;
+  --sky-1:#1c2b45; --sky-2:#2d3f5c; --hill:#2b4033; --hill-2:#22352a; --sun:#ffe9b0; --night-glow:1;
+  --lamp:#ffc46e; --lamp-soft:#ffdfab; --glow:1;
+  --led-idle:#6b6157; --led-active:#4ad07f; --led-done:#f0b64f;
+  --path:#7a5c40; --path-ink:#d8a878;
+  --shadow:#000000;
+  --accent:#e08a63;
+  --outline:#120e0b;
+}
+
+*{box-sizing:border-box}
+html,body{margin:0}
+body{
+  background:
+    radial-gradient(1200px 700px at 15% -10%, var(--bg2), transparent 60%),
+    var(--bg);
+  color:var(--ink);
+  font-family:ui-sans-serif,system-ui,-apple-system,"Segoe UI",Roboto,Inter,"Helvetica Neue",Arial,sans-serif;
+  padding:28px 20px 64px;
+  transition:background .35s ease,color .35s ease;
+}
+.wrap{max-width:1080px;margin:0 auto}
+
+/* ---------- cabecera ---------- */
+header.top{display:flex;flex-wrap:wrap;gap:16px;align-items:flex-end;justify-content:space-between;margin-bottom:18px}
+h1{font-size:22px;line-height:1.2;margin:0 0 4px;letter-spacing:-.01em}
+.sub{margin:0;color:var(--ink-2);font-size:13.5px;max-width:62ch;line-height:1.5}
+.kicker{font-size:11px;letter-spacing:.14em;text-transform:uppercase;color:var(--accent);font-weight:700;margin-bottom:6px}
+.controls{display:flex;gap:8px;align-items:center;flex-wrap:wrap}
+button.chip{
+  font:inherit;font-size:12.5px;font-weight:600;color:var(--ink-2);
+  background:var(--panel);border:1px solid var(--line);border-radius:999px;
+  padding:7px 13px;cursor:pointer;transition:.18s;
+}
+button.chip:hover{color:var(--ink);border-color:var(--accent);transform:translateY(-1px)}
+button.chip[aria-pressed="true"]{background:var(--accent);border-color:var(--accent);color:#fff}
+
+/* ---------- panel (así viviría dentro del dashboard) ---------- */
+.panel{
+  background:var(--panel);border:1px solid var(--line);border-radius:18px;
+  box-shadow:0 1px 0 #fff6 inset, 0 18px 40px -28px #00000055;
+  overflow:hidden;
+}
+.panel-bar{
+  display:flex;align-items:center;gap:10px;justify-content:space-between;
+  padding:11px 16px;border-bottom:1px solid var(--line);background:var(--panel-2);
+}
+.panel-bar h2{font-size:13px;margin:0;letter-spacing:.01em;font-weight:700}
+.panel-bar .meta{font-size:11.5px;color:var(--ink-3)}
+.dots{display:flex;gap:5px}
+.dots i{width:8px;height:8px;border-radius:50%;background:var(--line);display:block}
+.dots i:first-child{background:#e0705a}.dots i:nth-child(2){background:#e0b23c}.dots i:nth-child(3){background:#5fae72}
+.floor{padding:12px}
+svg.plan{display:block;width:100%;height:auto;border-radius:12px;background:var(--panel-2)}
+
+/* ---------- leyendas ---------- */
+.legend{border-top:1px solid var(--line);padding:14px 16px 16px;background:var(--panel)}
+.legend h3{font-size:11px;letter-spacing:.12em;text-transform:uppercase;color:var(--ink-3);margin:0 0 10px}
+.agents{display:grid;grid-template-columns:repeat(auto-fill,minmax(230px,1fr));gap:8px}
+.agent{
+  display:grid;grid-template-columns:auto 1fr auto;gap:9px;align-items:center;
+  padding:8px 10px;border:1px solid var(--line);border-radius:12px;background:var(--panel-2);
+}
+.swatch{width:14px;height:14px;border-radius:5px;box-shadow:0 0 0 2px var(--panel-2),0 0 0 3px currentColor}
+.agent .nm{font-size:13px;font-weight:650;line-height:1.15}
+.agent .pr{font-size:11px;color:var(--ink-3);line-height:1.25}
+.where{font-size:10.5px;font-weight:700;padding:3px 8px;border-radius:999px;white-space:nowrap;border:1px solid transparent}
+.w-descanso{background:#f0e2d4;color:#8a6242;border-color:#e2cdb8}
+.w-orquestador{background:#fdeadd;color:#b05a34;border-color:#f5cdb2}
+.w-trabajo{background:#e3edf5;color:#3f6480;border-color:#cfdfeb}
+.w-entregas{background:#fbf0d8;color:#8d6a1f;border-color:#eeddb4}
+[data-theme="dark"] .w-descanso{background:#33291f;color:#d8b795;border-color:#453627}
+[data-theme="dark"] .w-orquestador{background:#3a2519;color:#f0a87e;border-color:#4d3122}
+[data-theme="dark"] .w-trabajo{background:#1e2b34;color:#9fc3dd;border-color:#2b3b47}
+[data-theme="dark"] .w-entregas{background:#332b18;color:#e3c079;border-color:#453a22}
+.states{display:flex;flex-wrap:wrap;gap:14px;margin-top:14px;padding-top:12px;border-top:1px dashed var(--line)}
+.state{display:flex;gap:7px;align-items:center;font-size:11.5px;color:var(--ink-2)}
+.state i{width:9px;height:9px;border-radius:50%;display:block}
+
+.flow{display:flex;flex-wrap:wrap;gap:8px;align-items:center;margin-top:14px;font-size:12px;color:var(--ink-2)}
+.flow b{display:inline-flex;align-items:center;gap:6px;background:var(--panel-2);border:1px solid var(--line);padding:5px 10px;border-radius:999px;font-weight:650;color:var(--ink)}
+.flow b span{width:16px;height:16px;border-radius:50%;background:var(--accent);color:#fff;font-size:10px;display:grid;place-items:center}
+.flow .arr{color:var(--ink-3)}
+
+/* ---------- notas de diseño ---------- */
+section.notes{margin-top:34px}
+section.notes h2{font-size:15px;margin:0 0 12px}
+.grid2{display:grid;grid-template-columns:repeat(auto-fit,minmax(280px,1fr));gap:14px}
+.card{background:var(--panel);border:1px solid var(--line);border-radius:14px;padding:14px 16px}
+.card h4{margin:0 0 7px;font-size:12.5px;letter-spacing:.02em}
+.card p,.card li{font-size:12.5px;line-height:1.55;color:var(--ink-2);margin:0}
+.card ul{margin:6px 0 0;padding-left:17px}
+.card code{font-size:11.5px;background:var(--panel-2);border:1px solid var(--line);padding:1px 5px;border-radius:5px;color:var(--ink)}
+
+.sizes{display:flex;flex-direction:column;gap:14px;margin-top:14px}
+.sizebox{background:var(--panel);border:1px solid var(--line);border-radius:12px;padding:10px}
+.sizebox .lbl{font-size:11px;color:var(--ink-3);margin-bottom:7px;font-weight:600}
+footer{margin-top:30px;font-size:11.5px;color:var(--ink-3);line-height:1.6}
+footer a{color:var(--accent)}
+
+/* ---------- animaciones del SVG ---------- */
+@keyframes dashflow{to{stroke-dashoffset:-200}}
+.flowline{animation:dashflow 9s linear infinite}
+.flowline.slow{animation-duration:14s}
+@keyframes blink{0%,45%{opacity:1}55%,100%{opacity:.15}}
+.blink{animation:blink 1.4s steps(1,end) infinite}
+@keyframes pulse{0%,100%{opacity:.95;transform:scale(1)}50%{opacity:.45;transform:scale(.8)}}
+.pulse{animation:pulse 1.9s ease-in-out infinite;transform-origin:center;transform-box:fill-box}
+@keyframes zzz{0%{opacity:0;transform:translate(0,0) scale(.7)}25%{opacity:1}100%{opacity:0;transform:translate(7px,-16px) scale(1.15)}}
+.z1{animation:zzz 3.4s ease-out infinite}
+.z2{animation:zzz 3.4s ease-out .9s infinite}
+.z3{animation:zzz 3.4s ease-out 1.8s infinite}
+@keyframes flicker{0%,100%{opacity:.85}50%{opacity:1}}
+.screen-glow{animation:flicker 4s ease-in-out infinite}
+@media (prefers-reduced-motion:reduce){
+  .flowline,.blink,.pulse,.z1,.z2,.z3,.screen-glow{animation:none}
+}
+</style>
+</head>
+<body>
+<div class="wrap">
+
+  <header class="top">
+    <div>
+      <div class="kicker">Panel de control · vista de plano</div>
+      <h1>La oficina virtual</h1>
+      <p class="sub">Cuatro salas, un pasillo en T y ocho personajes con cara y oficio. El recorrido se lee de un vistazo:
+      <b>Descanso → Orquestador → Trabajo → Entregas</b>, y vuelta al sofá cuando no hay faena.</p>
+    </div>
+    <div class="controls">
+      <button class="chip" id="btnLight" aria-pressed="true">☀ Claro</button>
+      <button class="chip" id="btnDark" aria-pressed="false">☾ Oscuro</button>
+      <button class="chip" id="btnMotion" aria-pressed="true">✦ Movimiento</button>
+    </div>
+  </header>
+
+  <!-- ================= PANEL ================= -->
+  <div class="panel">
+    <div class="panel-bar">
+      <h2>Plano de la oficina · estado en vivo</h2>
+      <div class="meta" id="clock">hoy · 09:41</div>
+      <div class="dots" aria-hidden="true"><i></i><i></i><i></i></div>
+    </div>
+    <div class="floor">
+      <div id="plan" role="img"
+           aria-label="Plano cenital de una oficina con cuatro salas: sala de descanso, zona del orquestador, sala de trabajo y zona de entregas, unidas por pasillos. Ocho personajes representan a los agentes de IA; Javier, el dueño, dirige la mesa del orquestador."></div>
+    </div>
+
+    <div class="legend">
+      <h3>Quién es quién y dónde está ahora</h3>
+      <div class="agents" id="agents"></div>
+      <div class="states">
+        <div class="state"><i style="background:var(--led-idle)"></i> sin tarea (en la sala de descanso)</div>
+        <div class="state"><i style="background:var(--led-active)"></i> con tarea en marcha (en su mesa o en la mesa del orquestador)</div>
+        <div class="state"><i style="background:var(--led-done)"></i> tarea entregada (paquete en el mostrador)</div>
+        <div class="state"><i style="background:var(--runner)"></i> pasillos = recorrido; las flechas indican el sentido</div>
+      </div>
+      <div class="flow">
+        <b><span>1</span> Descanso</b><i class="arr">→</i>
+        <b><span>2</span> Orquestador</b><i class="arr">→</i>
+        <b><span>3</span> Trabajo</b><i class="arr">→</i>
+        <b><span>4</span> Entregas</b><i class="arr">→</i>
+        <span style="color:var(--ink-3)">salida</span><i class="arr">↺</i>
+        <span style="color:var(--ink-3)">y de vuelta al sofá</span>
+      </div>
+    </div>
+  </div>
+
+  <!-- ================= NOTAS ================= -->
+  <section class="notes">
+    <h2>Notas de diseño (para pasarlo a producción)</h2>
+    <div class="grid2">
+      <div class="card">
+        <h4>1 · Cómo se distingue cada sala</h4>
+        <ul>
+          <li><b>Suelo distinto por sala:</b> madera cálida (descanso), madera rica + alfombra grande (orquestador), baldosa fría azulada (trabajo), hormigón kraft (entregas).</li>
+          <li><b>Pasillos en piedra clara</b> con alfombra corredora terracota y flechas: el recorrido es literalmente un camino pintado.</li>
+          <li><b>Rótulos sobre el muro</b> con el número de etapa, siempre en el mismo sitio (arriba a la izquierda de cada sala).</li>
+          <li><b>Luz:</b> el orquestador recibe un foco radial suave; es la sala más grande, con techo más alto y doble puerta.</li>
+        </ul>
+      </div>
+      <div class="card">
+        <h4>2 · El sistema de personaje</h4>
+        <ul>
+          <li>Un mismo esqueleto (cabeza grande, cuerpo de judía, brazos de trazo redondeado) y 8 pieles: peinado, ropa, accesorio y gesto.</li>
+          <li>Altura ≈ 40 u en un lienzo de 1040×760 → ~20 px a 520 px de panel. Por eso cara de 3 rasgos, sin detalles finos.</li>
+          <li>Poses reutilizables: <code>stand</code> <code>sit</code> <code>lie</code> <code>game</code> <code>point</code> <code>throw</code> <code>carry</code> <code>boss</code>.</li>
+          <li>Etiqueta con el código (<code>co</code>, <code>cl</code>…) bajo los pies, con halo para leerse sobre cualquier suelo.</li>
+        </ul>
+      </div>
+      <div class="card">
+        <h4>3 · Guiños de marca (sin usar logos)</h4>
+        <ul>
+          <li><b>Codex</b> — verde <code>#10a37f</code>, nudo de trazo en el pecho, taza en la mano.</li>
+          <li><b>Claude</b> — terracota <code>#d97757</code>, broche de rayos, libro y té; pelo rizado.</li>
+          <li><b>Gentleman</b> — rosa <code>#ff4e83</code>, chistera, monóculo, pajarita y batín.</li>
+          <li><b>Javier</b> — azul <code>#005fa9</code>, el único humano: barba, gafas, corona de dueño y carpeta.</li>
+          <li><b>agy</b> — blanco con cuatro puntitos de colores en la pechera y cometa/papel volando.</li>
+          <li><b>Grok</b> — gris oscuro <code>#4b5563</code>, pelo de punta, aspa blanca en la camiseta, cascos y monopatín.</li>
+          <li><b>opencode</b> — gris azulado <code>#9aa4b2</code>, capucha y <code>&gt;_</code> parpadeando en el pecho.</li>
+          <li><b>Agente externo</b> — gris neutro con acreditación de visitante y sobre kraft: encaja con cualquiera.</li>
+        </ul>
+      </div>
+      <div class="card">
+        <h4>4 · Estado → dónde está el muñeco</h4>
+        <ul>
+          <li><code>idle</code> → sala de descanso, con una actividad distinta por personaje (jugar, dormir, leer, ver la tele, dardos).</li>
+          <li><code>briefing</code> → mesa del orquestador (sentado en uno de los 4 puestos).</li>
+          <li><code>working</code> → su mesa de la sala de trabajo, LED verde pulsando y tarjeta de tarea encima.</li>
+          <li><code>delivered</code> → aparece un paquete con cinta de su color en el mostrador de entregas.</li>
+          <li>Mover agente = cambiar su <code>transform</code> (o animar por la ruta del pasillo con <code>offset-path</code>).</li>
+        </ul>
+      </div>
+      <div class="card">
+        <h4>5 · Claro / oscuro</h4>
+        <p>Todo el dibujo bebe de variables CSS: el SVG no duplica paletas. En oscuro la madera se enfría pero sigue cálida, las ventanas pasan a noche con luna, las lámparas suben de intensidad (<code>--glow</code>) y los LED se vuelven emisivos. Contraste de suelo/muro ≥ 3:1 en ambos temas.</p>
+      </div>
+      <div class="card">
+        <h4>6 · Accesibilidad</h4>
+        <p>El plano es <code>role="img"</code> con descripción larga; cada sala y personaje lleva <code>&lt;title&gt;</code>. La información de estado nunca depende sólo del color: está el LED + la sala + la etiqueta de texto en la leyenda. Animaciones desactivables con <code>prefers-reduced-motion</code> y con el botón «Movimiento».</p>
+      </div>
+    </div>
+
+    <h2 style="margin-top:26px">Prueba de lectura a tamaño de panel</h2>
+    <div class="sizes">
+      <div class="sizebox"><div class="lbl">520 px de ancho — panel lateral típico</div><div id="plan520" style="width:520px;max-width:100%"></div></div>
+      <div class="sizebox"><div class="lbl">340 px de ancho — mínimo recomendable (columna estrecha)</div><div id="plan340" style="width:340px;max-width:100%"></div></div>
+    </div>
+  </section>
+
+  <footer>
+    Archivo único, sin dependencias ni red: <a href="plano-oficina-virtual.html">plano-oficina-virtual.html</a> ·
+    SVG suelto para incrustar: <code>plano-oficina.svg</code> ·
+    Lienzo 1040×760, escala 1 u ≈ 1 cm.
+  </footer>
+</div>
+
+<script>
+/* ==========================================================================
+   0 · Utilidades
+   ========================================================================== */
+const V = 'http://www.w3.org/2000/svg';
+const svgEl = (t, a = {}) => { const e = document.createElementNS(V, t); for (const k in a) e.setAttribute(k, a[k]); return e; };
+const esc = s => String(s).replace(/&/g,'&amp;').replace(/</g,'&lt;');
+
+/* Paletas literales (se usan para generar el .svg autónomo y las previsualizaciones).
+   En la página, LITERAL = null y los colores salen de las variables CSS del tema. */
+const PALETTE = {
+  light:{'--panel-2':'#f6eee2','--panel':'#fffaf3','--ink':'#2b2118','--ink-2':'#6d5c4c','--ink-3':'#a1907e','--line':'#e2d5c4','--line-soft':'#efe5d8',
+    '--slab':'#d8c7b1','--slab-edge':'#b69f85','--corridor':'#eae1d5','--corridor-line':'#d3c4b0','--runner':'#c46a4b','--runner-soft':'#e3b49f','--runner-ink':'#fff6ef',
+    '--wall':'#f3e8d9','--wall-side':'#e3d4c0','--wall-cap':'#fdf7ee','--wall-line':'#cdbaa2','--wall-shade':'#00000014','--skirting':'#e7dac7',
+    '--wood-1':'#e0b98c','--wood-2':'#d7ac7c','--wood-line':'#c2946a','--woodrich-1':'#c88f5c','--woodrich-2':'#bd8350','--woodrich-line':'#a4703f',
+    '--tile-1':'#d9e2e8','--tile-2':'#d0dae1','--tile-line':'#bcc9d2','--kraft-1':'#e6d3b3','--kraft-2':'#dfc9a6','--kraft-line':'#cbb189',
+    '--rug':'#c9705a','--rug-2':'#e5c5b6','--rug-3':'#b85f4b','--rugcool':'#8fa9c4','--rugcool-2':'#d3e0ec',
+    '--furn-wood':'#c08d5b','--furn-wood-2':'#a9784a','--furn-wood-3':'#8d6139','--furn-dark':'#4a4038','--furn-dark-2':'#3a322c',
+    '--metal':'#b9b2a8','--metal-2':'#9b948a','--metal-3':'#7d766c','--fabric':'#d9c3ab','--fabric-2':'#c8b096',
+    '--screen':'#dcebf5','--screen-2':'#c3dced','--screen-ink':'#3d5a72','--paper':'#fffdf8','--paper-line':'#e2d9cb',
+    '--plant':'#5c9163','--plant-2':'#7fae72','--pot':'#cf8a63','--pot-2':'#b9734f','--glass-line':'#b9cdd9',
+    '--sky-1':'#cfe9fb','--sky-2':'#eaf6ff','--hill':'#a9cfa6','--hill-2':'#8fbc8c','--sun':'#ffd98a','--night-glow':'0',
+    '--lamp':'#ffca7a','--lamp-soft':'#ffdca6','--glow':'0.55','--led-idle':'#c3b7a6','--led-active':'#3fae6a','--led-done':'#e0a33c',
+    '--path':'#c9a583','--path-ink':'#a8734a','--shadow':'#4a3524','--outline':'#6b5644'},
+  dark:{'--panel-2':'#272120','--panel':'#201b18','--ink':'#f6ece1','--ink-2':'#c0ac9a','--ink-3':'#8d7a69','--line':'#332b26','--line-soft':'#2a2421',
+    '--slab':'#2b2320','--slab-edge':'#171311','--corridor':'#3a3129','--corridor-line':'#4b4038','--runner':'#8f4630','--runner-soft':'#6d3a2a','--runner-ink':'#ffeade',
+    '--wall':'#4a3f36','--wall-side':'#3b322b','--wall-cap':'#5b4e43','--wall-line':'#241d18','--wall-shade':'#00000040','--skirting':'#332b25',
+    '--wood-1':'#6a4c33','--wood-2':'#5f432c','--wood-line':'#4a3423','--woodrich-1':'#7c5330','--woodrich-2':'#6d4727','--woodrich-line':'#54351c',
+    '--tile-1':'#3b4750','--tile-2':'#354049','--tile-line':'#2b343c','--kraft-1':'#6b5a3f','--kraft-2':'#61513a','--kraft-line':'#4e4130',
+    '--rug':'#8a4433','--rug-2':'#5d3529','--rug-3':'#6f3527','--rugcool':'#3f5f7d','--rugcool-2':'#2e4356',
+    '--furn-wood':'#7d5636','--furn-wood-2':'#6a482d','--furn-wood-3':'#543a24','--furn-dark':'#2a2420','--furn-dark-2':'#211c19',
+    '--metal':'#6d6660','--metal-2':'#57514b','--metal-3':'#443e39','--fabric':'#6b5a49','--fabric-2':'#5a4b3c',
+    '--screen':'#33556e','--screen-2':'#26415a','--screen-ink':'#cfe6f5','--paper':'#e9dfd2','--paper-line':'#b6a894',
+    '--plant':'#3f7049','--plant-2':'#548a52','--pot':'#8a5439','--pot-2':'#6f4129','--glass-line':'#4b6a7a',
+    '--sky-1':'#1c2b45','--sky-2':'#2d3f5c','--hill':'#2b4033','--hill-2':'#22352a','--sun':'#ffe9b0','--night-glow':'1',
+    '--lamp':'#ffc46e','--lamp-soft':'#ffdfab','--glow':'1','--led-idle':'#6b6157','--led-active':'#4ad07f','--led-done':'#f0b64f',
+    '--path':'#7a5c40','--path-ink':'#d8a878','--shadow':'#000000','--outline':'#120e0b'}
+};
+let LITERAL = null;                       /* null = usa var() del tema de la página */
+const C = (v, f) => LITERAL ? (LITERAL[v] ?? f) : `var(${v},${f})`;
+
+/* Convierte `fill="var(--x,#fff)"` en `fill="#fff" class="f-x"` + una regla CSS.
+   Así el color temático vive en una hoja de estilo (funciona en todos los navegadores
+   y en renderizadores estáticos, que simplemente usan el valor literal de reserva). */
+function calcFallback(expr){
+  const e = expr.replace(/var\((--[\w-]+),([^()]*)\)/g, (m, n, f) => f);
+  if (!/^[0-9+\-*/().\s]+$/.test(e)) return null;
+  try { const v = Function('"use strict";return (' + e + ')')(); return Math.round(v * 1000) / 1000; } catch (_) { return null; }
+}
+function themify(str){
+  const rules = new Map();
+  let n = 0;
+  const out = str.replace(/<[^>]*>/g, tag => {
+    if (tag.indexOf('var(--') === -1) return tag;
+    const cls = [];
+    const m0 = tag.match(/ class="([^"]*)"/);
+    if (m0) cls.push(m0[1]);
+    tag = tag.replace(/(fill|stroke|stop-color)="var\((--[\w-]+),([^"]*)\)"/g, (m, prop, name, fb) => {
+      const c = (prop === 'fill' ? 'f-' : prop === 'stroke' ? 's-' : 'sc-') + name.slice(2);
+      rules.set(c, `${prop}:var(${name},${fb})`);
+      cls.push(c);
+      return `${prop}="${fb}"`;
+    });
+    tag = tag.replace(/(stop-opacity|opacity)="(calc\([^"]*\))"/g, (m, prop, expr) => {
+      if (expr.indexOf('var(--') === -1) return m;
+      const fb = calcFallback(expr);
+      if (fb === null) return m;
+      const c = `${prop === 'opacity' ? 'o' : 'so'}-c${++n}`;
+      rules.set(c, `${prop}:${expr}`);
+      cls.push(c);
+      return `${prop}="${fb}"`;
+    });
+    tag = tag.replace(/ class="[^"]*"/, '');
+    if (!cls.length) return tag;
+    const uniq = [...new Set(cls)];
+    return tag.replace(/^<([a-zA-Z][\w:-]*)/, `<$1 class="${uniq.join(' ')}"`);
+  });
+  const css = [...rules].map(([c, d]) => `.${c}{${d}}`).join('\n');
+  return { svg: out, css };
+}
+
+/* ==========================================================================
+   1 · Definiciones (tramas de suelo, degradados, recortes, filtros)
+   ========================================================================== */
+function defs(){
+  const wood = (id,c1,c2,cl) => `
+   <pattern id="${id}" width="60" height="22" patternUnits="userSpaceOnUse">
+     <rect width="60" height="22" fill="${C(c1,'#e0b98c')}"/>
+     <rect y="0" width="60" height="10.4" fill="${C(c2,'#d7ac7c')}"/>
+     <path d="M0 11H60M0 22H60" stroke="${C(cl,'#c2946a')}" stroke-width="1" opacity=".6"/>
+     <path d="M19 0V10.4M45 11V22" stroke="${C(cl,'#c2946a')}" stroke-width="1" opacity=".55"/>
+     <path d="M6 3.4h16M33 3.2h13M12 15.6h20M44 15.4h11" stroke="${C(cl,'#c2946a')}" stroke-width=".8" opacity=".28"/>
+   </pattern>`;
+  const tile = (id,c1,c2,cl) => `
+   <pattern id="${id}" width="28" height="28" patternUnits="userSpaceOnUse">
+     <rect width="28" height="28" fill="${C(c1,'#d9e2e8')}"/>
+     <rect width="26.4" height="26.4" fill="${C(c2,'#d0dae1')}"/>
+     <path d="M0 28H28M28 0V28" stroke="${C(cl,'#bcc9d2')}" stroke-width="1.2"/>
+     <path d="M3 3h9" stroke="#ffffff" stroke-width="1.4" opacity=".18"/>
+   </pattern>`;
+  const kraft = (id,c1,c2,cl) => `
+   <pattern id="${id}" width="44" height="44" patternUnits="userSpaceOnUse">
+     <rect width="44" height="44" fill="${C(c1,'#e6d3b3')}"/>
+     <path d="M0 22H44M22 0V44" stroke="${C(cl,'#cbb189')}" stroke-width="1" opacity=".5"/>
+     <rect x="1.5" y="1.5" width="19" height="19" fill="${C(c2,'#dfc9a6')}" opacity=".7"/>
+     <rect x="23.5" y="23.5" width="19" height="19" fill="${C(c2,'#dfc9a6')}" opacity=".7"/>
+   </pattern>`;
+  const corridor = () => `
+   <pattern id="pCorr" width="34" height="34" patternUnits="userSpaceOnUse">
+     <rect width="34" height="34" fill="${C('--corridor','#eae1d5')}"/>
+     <path d="M0 34H34M34 0V34" stroke="${C('--corridor-line','#d3c4b0')}" stroke-width="1.1"/>
+     <circle cx="8" cy="9" r="1" fill="${C('--corridor-line','#d3c4b0')}" opacity=".5"/>
+     <circle cx="25" cy="24" r="1" fill="${C('--corridor-line','#d3c4b0')}" opacity=".5"/>
+   </pattern>`;
+  const runner = () => `
+   <pattern id="pRunner" width="16" height="16" patternUnits="userSpaceOnUse">
+     <rect width="16" height="16" fill="${C('--runner','#c46a4b')}"/>
+     <path d="M0 4H16M0 12H16" stroke="${C('--runner-soft','#e3b49f')}" stroke-width="1.6" opacity=".55"/>
+   </pattern>`;
+
+  return `<defs>
+  <filter id="soft" x="-25%" y="-25%" width="150%" height="150%">
+    <feDropShadow dx="0" dy="3.5" stdDeviation="4" flood-color="${C('--shadow','#4a3524')}" flood-opacity=".22"/>
+  </filter>
+  <filter id="softer" x="-40%" y="-40%" width="180%" height="180%">
+    <feDropShadow dx="0" dy="8" stdDeviation="12" flood-color="${C('--shadow','#4a3524')}" flood-opacity=".28"/>
+  </filter>
+  <radialGradient id="gSpot" cx="50%" cy="50%" r="50%">
+    <stop offset="0%" stop-color="${C('--lamp','#ffca7a')}" stop-opacity="calc(.30*var(--glow,.55))"/>
+    <stop offset="100%" stop-color="${C('--lamp','#ffca7a')}" stop-opacity="0"/>
+  </radialGradient>
+  <radialGradient id="gLamp" cx="50%" cy="50%" r="50%">
+    <stop offset="0%" stop-color="${C('--lamp-soft','#ffdca6')}" stop-opacity="calc(.42*var(--glow,.55))"/>
+    <stop offset="100%" stop-color="${C('--lamp-soft','#ffdca6')}" stop-opacity="0"/>
+  </radialGradient>
+  <radialGradient id="gTV" cx="50%" cy="50%" r="50%">
+    <stop offset="0%" stop-color="${C('--screen','#dcebf5')}" stop-opacity=".5"/>
+    <stop offset="100%" stop-color="${C('--screen','#dcebf5')}" stop-opacity="0"/>
+  </radialGradient>
+  <linearGradient id="gScreen" x1="0" y1="0" x2="0" y2="1">
+    <stop offset="0%" stop-color="${C('--screen','#dcebf5')}"/>
+    <stop offset="100%" stop-color="${C('--screen-2','#c3dced')}"/>
+  </linearGradient>
+  <linearGradient id="gSky" x1="0" y1="0" x2="0" y2="1">
+    <stop offset="0%" stop-color="${C('--sky-1','#cfe9fb')}"/>
+    <stop offset="100%" stop-color="${C('--sky-2','#eaf6ff')}"/>
+  </linearGradient>
+  <linearGradient id="gWall" x1="0" y1="0" x2="0" y2="1">
+    <stop offset="0%" stop-color="${C('--wall','#f3e8d9')}"/>
+    <stop offset="100%" stop-color="${C('--wall-side','#e3d4c0')}"/>
+  </linearGradient>
+  <clipPath id="clipLounge"><rect x="40" y="58" width="290" height="215" rx="3"/></clipPath>
+  <clipPath id="clipOrch"><rect x="360" y="58" width="360" height="215" rx="3"/></clipPath>
+  <clipPath id="clipWork"><rect x="40" y="438" width="680" height="215" rx="3"/></clipPath>
+  <clipPath id="clipDel"><rect x="750" y="438" width="250" height="215" rx="3"/></clipPath>
+  ${wood('pWood','--wood-1','--wood-2','--wood-line')}
+  ${wood('pWoodR','--woodrich-1','--woodrich-2','--woodrich-line')}
+  ${tile('pTile','--tile-1','--tile-2','--tile-line')}
+  ${kraft('pKraft','--kraft-1','--kraft-2','--kraft-line')}
+  ${corridor()}${runner()}
+  </defs>`;
+}
+
+/* ==========================================================================
+   2 · Arquitectura: muros, puertas, ventanas, rótulos
+   ========================================================================== */
+const WH = 26, CT = 10, SD = 13;   /* alto de muro, grosor de remate, fondo de muro lateral */
+
+function walls(r){
+  const {x,y,w,h} = r;
+  return `
+  <g class="walls">
+    <rect x="${x}" y="${y-WH}" width="${w}" height="${WH}" fill="url(#gWall)"/>
+    <rect x="${x}" y="${y-WH}" width="${w}" height="1.6" fill="#ffffff" opacity=".22"/>
+    <rect x="${x}" y="${y-CT}" width="${w}" height="${CT}" fill="${C('--wall-cap','#fdf7ee')}" stroke="${C('--wall-line','#cdbaa2')}" stroke-width="1.4"/>
+    <rect x="${x}" y="${y}" width="${w}" height="5" fill="${C('--wall-shade','#00000014')}"/>
+    <rect x="${x}" y="${y-SD}" width="${SD}" height="${SD+h}" fill="${C('--wall-side','#e3d4c0')}" stroke="${C('--wall-line','#cdbaa2')}" stroke-width="1.3"/>
+    <rect x="${x+w-SD}" y="${y-SD}" width="${SD}" height="${SD+h}" fill="${C('--wall-side','#e3d4c0')}" stroke="${C('--wall-line','#cdbaa2')}" stroke-width="1.3"/>
+    <rect x="${x+SD}" y="${y-1.5}" width="${w-2*SD}" height="3" rx="1.5" fill="${C('--skirting','#e7dac7')}"/>
+    <rect x="${x+SD}" y="${y+h-1.5}" width="${w-2*SD}" height="3" rx="1.5" fill="${C('--skirting','#e7dac7')}"/>
+  </g>`;
+}
+
+/* hueco de puerta practicado en un muro horizontal */
+function gapH(r, y, x1, x2){
+  if (y === r.y - WH) return `<rect x="${x1}" y="${y}" width="${x2-x1}" height="${WH}" fill="${C('--panel-2','#f6eee2')}"/>`;
+  if (y === r.y + r.h - CT) return `<rect x="${x1}" y="${y}" width="${x2-x1}" height="${CT}" fill="${C('--panel-2','#f6eee2')}"/>`;
+  return '';
+}
+
+function doorLeafH(x, y, dir){   /* hoja abatida hacia el pasillo */
+  const L = 42, s = dir > 0 ? 1 : -1;
+  return `<g opacity=".95">
+    <path d="M${x} ${y} A ${L} ${L} 0 0 ${dir>0?0:1} ${x+L*s*.72} ${y+L*s*.7}" fill="none" stroke="${C('--wall-line','#cdbaa2')}" stroke-width="1.3" stroke-dasharray="4 3.5"/>
+    <rect x="${x}" y="${y}" width="${L*.72}" height="7" rx="2.5" transform="rotate(${dir>0?52:-52} ${x} ${y})" fill="${C('--furn-wood','#c08d5b')}" stroke="${C('--furn-wood-3','#8d6139')}" stroke-width="1.4"/>
+  </g>`;
+}
+function doorLeafV(x, y, dir){
+  const L = 40, s = dir > 0 ? 1 : -1;
+  return `<g opacity=".95">
+    <path d="M${x} ${y} A ${L} ${L} 0 0 ${dir>0?1:0} ${x+L*s*.72} ${y+L*s*.72}" fill="none" stroke="${C('--wall-line','#cdbaa2')}" stroke-width="1.3" stroke-dasharray="4 3.5"/>
+    <rect x="${x}" y="${y}" width="7" height="${L*.72}" rx="2.5" transform="rotate(${dir>0?-48:48} ${x} ${y})" fill="${C('--furn-wood','#c08d5b')}" stroke="${C('--furn-wood-3','#8d6139')}" stroke-width="1.4"/>
+  </g>`;
+}
+function doorFrame(x, y, len, horizontal, double){
+  return horizontal
+    ? `<g><rect x="${x-4}" y="${y}" width="5" height="${double?CT+4:WH}" rx="2" fill="${C('--furn-wood-2','#a9784a')}"/>
+        <rect x="${x+len-1}" y="${y}" width="5" height="${double?CT+4:WH}" rx="2" fill="${C('--furn-wood-2','#a9784a')}"/></g>`
+    : `<g><rect x="${x}" y="${y-4}" width="${double?CT+4:WH}" height="5" rx="2" fill="${C('--furn-wood-2','#a9784a')}"/>
+        <rect x="${x}" y="${y+len-1}" width="${double?CT+4:WH}" height="5" rx="2" fill="${C('--furn-wood-2','#a9784a')}"/></g>`;
+}
+
+function windowUnit(x, y, w, h){
+  const pane = `
+   <rect width="${w}" height="${h}" fill="url(#gSky)"/>
+   <circle cx="${w*.76}" cy="${h*.28}" r="${h*.17}" fill="${C('--sun','#ffd98a')}" opacity="calc(1 - .55*var(--night-glow,0))"/>
+   <g opacity="var(--night-glow,0)">
+     <circle cx="${w*.78}" cy="${h*.3}" r="${h*.17}" fill="#f6ecc9"/>
+     <circle cx="${w*.71}" cy="${h*.26}" r="${h*.16}" fill="${C('--sky-1','#1c2b45')}"/>
+     <circle cx="${w*.2}" cy="${h*.22}" r="1.2" fill="#fff" opacity=".9"/>
+     <circle cx="${w*.36}" cy="${h*.4}" r="1" fill="#fff" opacity=".7"/>
+     <circle cx="${w*.55}" cy="${h*.18}" r=".9" fill="#fff" opacity=".6"/>
+   </g>
+   <ellipse cx="${w*.24}" cy="${h*.3}" rx="${w*.13}" ry="${h*.11}" fill="#ffffff" opacity=".55"/>
+   <ellipse cx="${w*.33}" cy="${h*.34}" rx="${w*.09}" ry="${h*.08}" fill="#ffffff" opacity=".45"/>
+   <path d="M0 ${h} L${w*.3} ${h*.6} L${w*.52} ${h} Z" fill="${C('--hill','#a9cfa6')}"/>
+   <path d="M${w*.36} ${h} L${w*.66} ${h*.55} L${w} ${h} Z" fill="${C('--hill-2','#8fbc8c')}"/>`;
+  const id = 'w' + Math.round(x) + '_' + Math.round(y) + '_' + Math.round(w);
+  return `<g transform="translate(${x},${y})">
+    <defs><clipPath id="${id}"><rect width="${w}" height="${h}" rx="2.5"/></clipPath></defs>
+    <rect x="-2.5" y="-2.5" width="${w+5}" height="${h+5}" rx="4" fill="${C('--glass-line','#b9cdd9')}"/>
+    <g clip-path="url(#${id})">${pane}</g>
+    <rect width="${w}" height="${h}" rx="2.5" fill="none" stroke="${C('--furn-wood-2','#a9784a')}" stroke-width="2.6"/>
+    <path d="M${w/2} 0V${h}M0 ${h/2}H${w}" stroke="${C('--furn-wood-2','#a9784a')}" stroke-width="2.2"/>
+    <rect width="${w}" height="${h*.4}" rx="2.5" fill="#ffffff" opacity=".13"/>
+    <rect x="-4" y="${h+1}" width="${w+8}" height="3.6" rx="1.8" fill="${C('--furn-wood','#c08d5b')}"/>
+  </g>`;
+}
+
+function roomSign(x, y, num, text, accent, wide){
+  const w = wide ? text.length*8.1 + 42 : text.length*8.4 + 40, h = 25;
+  return `<g transform="translate(${x},${y})">
+    <rect x="0" y="0" width="${w}" height="${h}" rx="8" fill="${C('--paper','#fffdf8')}" stroke="${C('--wall-line','#cdbaa2')}" stroke-width="1.6" filter="url(#soft)"/>
+    <circle cx="14" cy="${h/2}" r="8" fill="${accent}"/>
+    <text x="14" y="${h/2+3.7}" text-anchor="middle" font-size="10.5" font-weight="800" fill="#fff" font-family="ui-sans-serif,system-ui,sans-serif">${num}</text>
+    <text x="28" y="${h/2+4.4}" font-size="13.5" font-weight="800" fill="${C('--ink','#2b2118')}" letter-spacing=".05em" font-family="ui-sans-serif,system-ui,sans-serif">${esc(text)}</text>
+  </g>`;
+}
+
+/* ==========================================================================
+   3 · Mobiliario y atrezo
+   ========================================================================== */
+const F = {
+  shadow:(cx,cy,rx,ry,o=.16)=>`<ellipse cx="${cx}" cy="${cy}" rx="${rx}" ry="${ry}" fill="${C('--shadow','#4a3524')}" opacity="${o}"/>`,
+
+  plant(x,y,s=1){ return `<g transform="translate(${x},${y}) scale(${s})">
+    ${F.shadow(0,2,13,5)}
+    <path d="M-8 0 L8 0 L6 -15 L-6 -15 Z" fill="${C('--pot','#cf8a63')}" stroke="${C('--pot-2','#b9734f')}" stroke-width="1.5"/>
+    <rect x="-8.6" y="-18.4" width="17.2" height="4.6" rx="2.2" fill="${C('--pot-2','#b9734f')}"/>
+    <path d="M0 -17 C-13 -23 -15 -37 -7 -43 C-3 -35 -2 -25 0 -17Z" fill="${C('--plant','#5c9163')}"/>
+    <path d="M0 -17 C13 -23 16 -37 8 -44 C3 -35 2 -25 0 -17Z" fill="${C('--plant-2','#7fae72')}"/>
+    <path d="M0 -17 C-3 -30 0 -41 0 -49 C5 -41 4 -28 0 -17Z" fill="${C('--plant','#5c9163')}"/>
+    <path d="M0 -17 C-8 -26 -9 -33 -6 -38" stroke="${C('--plant-2','#7fae72')}" stroke-width="1.6" fill="none" stroke-linecap="round"/>
+  </g>`;},
+
+  sofa(x,y){ return `<g transform="translate(${x},${y})">
+    ${F.shadow(0,12,64,10)}
+    <rect x="-62" y="-40" width="124" height="36" rx="13" fill="${C('--furn-wood-2','#a9784a')}"/>
+    <rect x="-56" y="-37" width="52" height="28" rx="9" fill="${C('--fabric','#d9c3ab')}" stroke="${C('--furn-wood-2','#a9784a')}" stroke-width="1.4"/>
+    <rect x="-2" y="-37" width="52" height="28" rx="9" fill="${C('--fabric','#d9c3ab')}" stroke="${C('--furn-wood-2','#a9784a')}" stroke-width="1.4"/>
+    <rect x="-64" y="-18" width="128" height="26" rx="10" fill="${C('--fabric-2','#c8b096')}" stroke="${C('--furn-wood-2','#a9784a')}" stroke-width="1.5"/>
+    <path d="M-58 -6 H58" stroke="${C('--furn-wood-2','#a9784a')}" stroke-width="1.2" opacity=".45"/>
+    <rect x="-72" y="-24" width="19" height="33" rx="9.5" fill="${C('--fabric','#d9c3ab')}" stroke="${C('--furn-wood-2','#a9784a')}" stroke-width="1.5"/>
+    <rect x="53" y="-24" width="19" height="33" rx="9.5" fill="${C('--fabric','#d9c3ab')}" stroke="${C('--furn-wood-2','#a9784a')}" stroke-width="1.5"/>
+    <rect x="-56" y="7" width="7" height="7" rx="2.4" fill="${C('--furn-wood-3','#8d6139')}"/>
+    <rect x="49" y="7" width="7" height="7" rx="2.4" fill="${C('--furn-wood-3','#8d6139')}"/>
+    <rect x="-48" y="-30" width="24" height="18" rx="6" transform="rotate(-8 -36 -21)" fill="${C('--rug-2','#e5c5b6')}" stroke="${C('--rug','#c9705a')}" stroke-width="1.4"/>
+  </g>`;},
+
+  blanket(x,y){ return `<g transform="translate(${x},${y})">
+    <path d="M-34 4 C-30 -13 26 -15 34 -3 L36 8 C24 14 -22 14 -34 8 Z" fill="${C('--rug','#c9705a')}" opacity=".95"/>
+    <path d="M-30 3 C-20 -6 20 -8 31 -2" stroke="${C('--rug-2','#e5c5b6')}" stroke-width="2" fill="none" opacity=".7"/>
+    <path d="M-24 8 C-14 3 16 2 27 6" stroke="${C('--rug-3','#b85f4b')}" stroke-width="1.6" fill="none" opacity=".55"/>
+  </g>`;},
+
+  armchair(x,y){ return `<g transform="translate(${x},${y})">
+    ${F.shadow(0,9,30,8)}
+    <rect x="-26" y="-34" width="52" height="32" rx="11" fill="${C('--rug','#c9705a')}" stroke="${C('--rug-3','#b85f4b')}" stroke-width="1.5"/>
+    <rect x="-20" y="-29" width="40" height="22" rx="8" fill="${C('--rug-2','#e5c5b6')}" opacity=".55"/>
+    <rect x="-28" y="-12" width="56" height="20" rx="8" fill="${C('--rug','#c9705a')}" stroke="${C('--rug-3','#b85f4b')}" stroke-width="1.5"/>
+    <rect x="-34" y="-18" width="13" height="25" rx="6.5" fill="${C('--rug-3','#b85f4b')}"/>
+    <rect x="21" y="-18" width="13" height="25" rx="6.5" fill="${C('--rug-3','#b85f4b')}"/>
+  </g>`;},
+
+  floorLamp(x,y){ return `<g transform="translate(${x},${y})">
+    ${F.shadow(0,2,12,4.5)}
+    <ellipse cx="0" cy="0" rx="11" ry="4.4" fill="${C('--metal-3','#7d766c')}"/>
+    <rect x="-1.7" y="-58" width="3.4" height="58" fill="${C('--metal-2','#9b948a')}"/>
+    <path d="M-13 -58 L13 -58 L9 -77 L-9 -77 Z" fill="${C('--lamp-soft','#ffdca6')}" stroke="${C('--metal-2','#9b948a')}" stroke-width="1.4"/>
+    <circle cx="0" cy="-56" r="30" fill="url(#gLamp)"/>
+    <ellipse cx="0" cy="-56" rx="8" ry="3" fill="#fff" opacity="calc(.55*var(--glow,.55))"/>
+  </g>`;},
+
+  tv(x,y,w=104,h=58){ return `<g transform="translate(${x},${y})">
+    <rect x="${-w/2-5}" y="-5" width="${w+10}" height="${h+10}" rx="8" fill="${C('--furn-dark','#4a4038')}"/>
+    <rect x="${-w/2}" y="0" width="${w}" height="${h}" rx="5" fill="url(#gScreen)" class="screen-glow"/>
+    <path d="M${-w/2+9} ${h*.32}h${w*.3}M${-w/2+9} ${h*.47}h${w*.5}M${-w/2+9} ${h*.62}h${w*.38}M${-w/2+9} ${h*.77}h${w*.22}" stroke="${C('--screen-ink','#3d5a72')}" stroke-width="3.4" stroke-linecap="round" opacity=".5"/>
+    <path d="M${w/2-30} ${h*.5} l14 8 l-14 8 Z" fill="${C('--runner','#c46a4b')}" opacity=".85"/>
+    <circle cx="${w/2-24}" cy="${h*.5+8}" r="17" fill="none" stroke="${C('--runner','#c46a4b')}" stroke-width="2" opacity=".45"/>
+    <rect x="${-w/2}" y="${h-5}" width="${w}" height="5" fill="#ffffff" opacity=".16"/>
+  </g>`;},
+
+  tvStand(x,y,w=124){ return `<g transform="translate(${x},${y})">
+    ${F.shadow(0,15,w/2+3,7)}
+    <rect x="${-w/2}" y="-16" width="${w}" height="30" rx="6" fill="${C('--furn-wood','#c08d5b')}" stroke="${C('--furn-wood-3','#8d6139')}" stroke-width="1.5"/>
+    <rect x="${-w/2+7}" y="-9" width="${w/2-11}" height="16" rx="4" fill="${C('--furn-wood-2','#a9784a')}"/>
+    <rect x="4" y="-9" width="${w/2-11}" height="16" rx="4" fill="${C('--furn-wood-2','#a9784a')}"/>
+    <circle cx="-4" cy="-1" r="2" fill="${C('--metal','#b9b2a8')}"/><circle cx="12" cy="-1" r="2" fill="${C('--metal','#b9b2a8')}"/>
+  </g>`;},
+
+  beanbag(x,y,c1,c2){ return `<g transform="translate(${x},${y})">
+    ${F.shadow(0,10,30,9)}
+    <path d="M-30 9 C-35 -14 -20 -28 1 -28 C23 -28 35 -13 30 9 C25 17 -25 17 -30 9 Z" fill="${C(c1,'#8fa9c4')}" stroke="${C('--outline','#6b5644')}" stroke-width="1.5" opacity=".95"/>
+    <path d="M-24 -7 C-12 -18 13 -19 24 -8" stroke="${C(c2,'#d3e0ec')}" stroke-width="3" fill="none" opacity=".6"/>
+  </g>`;},
+
+  popcorn(x,y){ return `<g transform="translate(${x},${y})">
+    <path d="M-9 -2 L9 -2 L6.5 -20 L-6.5 -20 Z" fill="${C('--paper','#fffdf8')}" stroke="${C('--paper-line','#e2d9cb')}" stroke-width="1.3"/>
+    <path d="M-3.6 -20 L-2.4 -2M3.6 -20 L2.4 -2" stroke="${C('--runner','#c46a4b')}" stroke-width="2.7"/>
+    <circle cx="-5" cy="-22" r="3.6" fill="#fff8e6" stroke="${C('--paper-line','#e2d9cb')}" stroke-width="1"/>
+    <circle cx="1" cy="-24.5" r="4" fill="#fff8e6" stroke="${C('--paper-line','#e2d9cb')}" stroke-width="1"/>
+    <circle cx="6.5" cy="-21.5" r="3.4" fill="#fff8e6" stroke="${C('--paper-line','#e2d9cb')}" stroke-width="1"/>
+    <circle cx="-1" cy="-19" r="3" fill="#fff8e6" stroke="${C('--paper-line','#e2d9cb')}" stroke-width="1"/>
+  </g>`;},
+
+  coffeeTable(x,y){ return `<g transform="translate(${x},${y})">
+    ${F.shadow(0,11,32,8)}
+    <ellipse cx="0" cy="-9" rx="30" ry="14" fill="${C('--furn-wood','#c08d5b')}" stroke="${C('--furn-wood-3','#8d6139')}" stroke-width="1.6"/>
+    <ellipse cx="0" cy="-11" rx="24" ry="10" fill="${C('--furn-wood-2','#a9784a')}" opacity=".45"/>
+    <rect x="-4.5" y="-9" width="4" height="16" rx="2" fill="${C('--furn-wood-3','#8d6139')}"/>
+    <rect x="1" y="-9" width="4" height="16" rx="2" fill="${C('--furn-wood-3','#8d6139')}"/>
+    <g transform="translate(-9,-14)"><rect x="-4.6" y="-6" width="9.2" height="8" rx="2.4" fill="${C('--paper','#fffdf8')}" stroke="${C('--paper-line','#e2d9cb')}" stroke-width="1.2"/><path d="M4.4 -4a3 3 0 010 5" fill="none" stroke="${C('--paper-line','#e2d9cb')}" stroke-width="1.4"/><path d="M-2 -9c1.6-2 -1.6-3.4 0-5.4M2 -9c1.6-2 -1.6-3.4 0-5.4" stroke="${C('--metal-2','#9b948a')}" stroke-width="1.2" fill="none" opacity=".7"/></g>
+    <g transform="translate(9,-13) rotate(-9)"><rect x="-8" y="-5.5" width="16" height="11" rx="1.6" fill="${C('--rug','#c9705a')}"/><rect x="-8" y="-5.5" width="16" height="4" rx="1.6" fill="#ffffff" opacity=".22"/></g>
+  </g>`;},
+
+  gameTable(x,y){ return `<g transform="translate(${x},${y})">
+    ${F.shadow(0,16,44,11)}
+    <rect x="-44" y="-26" width="88" height="42" rx="7" fill="${C('--furn-wood-2','#a9784a')}" stroke="${C('--furn-wood-3','#8d6139')}" stroke-width="1.6"/>
+    <rect x="-38" y="-21" width="76" height="32" rx="4" fill="${C('--rugcool-2','#d3e0ec')}"/>
+    <path d="M0 -21V11" stroke="${C('--rugcool','#8fa9c4')}" stroke-width="2"/>
+    <circle cx="0" cy="-5" r="5.6" fill="none" stroke="${C('--rugcool','#8fa9c4')}" stroke-width="2"/>
+    <rect x="-21" y="-9" width="7" height="3.4" rx="1.7" fill="${C('--furn-dark','#4a4038')}"/>
+    <rect x="14" y="-2" width="7" height="3.4" rx="1.7" fill="${C('--furn-dark','#4a4038')}"/>
+    <rect x="-50" y="13" width="7" height="8" rx="2" fill="${C('--furn-wood-3','#8d6139')}"/>
+    <rect x="43" y="13" width="7" height="8" rx="2" fill="${C('--furn-wood-3','#8d6139')}"/>
+  </g>`;},
+
+  robot(x,y){ return `<g transform="translate(${x},${y})">
+    ${F.shadow(0,3,12,4.5,.2)}
+    <rect x="-11" y="-18" width="22" height="18" rx="6" fill="${C('--metal','#b9b2a8')}" stroke="${C('--metal-3','#7d766c')}" stroke-width="1.5"/>
+    <rect x="-7" y="-14" width="14" height="8" rx="3" fill="${C('--furn-dark','#4a4038')}"/>
+    <circle cx="-3.4" cy="-10" r="1.7" fill="${C('--led-active','#3fae6a')}"/><circle cx="3.4" cy="-10" r="1.7" fill="${C('--led-active','#3fae6a')}"/>
+    <rect x="-1.4" y="-25" width="2.8" height="7" rx="1.4" fill="${C('--metal-3','#7d766c')}"/>
+    <circle cx="0" cy="-26.6" r="2.6" fill="${C('--led-done','#e0a33c')}" class="blink"/>
+    <path d="M-11 -12 L-17 -7M11 -12 L17 -7" stroke="${C('--metal-3','#7d766c')}" stroke-width="3.4" stroke-linecap="round"/>
+  </g>`;},
+
+  kitchenette(x,y){ return `<g transform="translate(${x},${y})">
+    ${F.shadow(0,4,46,7)}
+    <rect x="-48" y="-52" width="96" height="22" rx="5" fill="${C('--furn-wood-2','#a9784a')}" stroke="${C('--furn-wood-3','#8d6139')}" stroke-width="1.4"/>
+    <rect x="-42" y="-47" width="16" height="12" rx="2.5" fill="${C('--paper','#fffdf8')}" opacity=".7"/>
+    <rect x="-22" y="-47" width="16" height="12" rx="2.5" fill="${C('--paper','#fffdf8')}" opacity=".5"/>
+    <rect x="20" y="-46" width="8" height="10" rx="2" fill="${C('--rug','#c9705a')}"/>
+    <rect x="31" y="-46" width="8" height="10" rx="2" fill="${C('--rugcool','#8fa9c4')}"/>
+    <rect x="-48" y="-24" width="96" height="26" rx="5" fill="${C('--furn-wood','#c08d5b')}" stroke="${C('--furn-wood-3','#8d6139')}" stroke-width="1.6"/>
+    <rect x="-50" y="-29" width="100" height="8" rx="3.4" fill="${C('--paper','#fffdf8')}" stroke="${C('--paper-line','#e2d9cb')}" stroke-width="1.3"/>
+    <ellipse cx="18" cy="-25" rx="12" ry="3.4" fill="${C('--metal-2','#9b948a')}"/>
+    <circle cx="18" cy="-25" r="1.6" fill="${C('--metal-3','#7d766c')}"/>
+    <g transform="translate(-26,-29)">
+      <rect x="-11" y="-16" width="22" height="17" rx="3.4" fill="${C('--furn-dark','#4a4038')}"/>
+      <rect x="-8" y="-13" width="10" height="7" rx="2" fill="${C('--screen','#dcebf5')}"/>
+      <circle cx="7" cy="-9.5" r="2.2" fill="${C('--led-active','#3fae6a')}" class="blink"/>
+      <rect x="-6" y="-3.5" width="12" height="3" rx="1.4" fill="${C('--metal','#b9b2a8')}"/>
+      <path d="M-1 -19c1.7-2 -1.7-3.4 0-5.4M4 -19c1.7-2 -1.7-3.4 0-5.4" stroke="${C('--metal-2','#9b948a')}" stroke-width="1.3" fill="none" opacity=".8"/>
+    </g>
+    <g transform="translate(-2,-28)"><rect x="-4" y="-6" width="8" height="7" rx="2" fill="${C('--paper','#fffdf8')}" stroke="${C('--paper-line','#e2d9cb')}" stroke-width="1.1"/></g>
+  </g>`;},
+
+  bookshelf(x,y){ return `<g transform="translate(${x},${y})">
+    ${F.shadow(0,3,26,6)}
+    <rect x="-26" y="-54" width="52" height="56" rx="4" fill="${C('--furn-wood-2','#a9784a')}" stroke="${C('--furn-wood-3','#8d6139')}" stroke-width="1.5"/>
+    <rect x="-22" y="-50" width="44" height="15" fill="${C('--furn-wood','#c08d5b')}"/>
+    <rect x="-22" y="-32" width="44" height="15" fill="${C('--furn-wood','#c08d5b')}"/>
+    <rect x="-22" y="-14" width="44" height="14" fill="${C('--furn-wood','#c08d5b')}"/>
+    <g>
+      <rect x="-20" y="-49" width="5" height="14" fill="#10a37f"/><rect x="-14" y="-47" width="4" height="12" fill="#d97757"/>
+      <rect x="-9" y="-50" width="6" height="15" fill="#4285f4"/><rect x="-2" y="-48" width="4" height="13" fill="#ff4e83"/>
+      <rect x="3" y="-46" width="7" height="11" fill="#4b5563"/><rect x="12" y="-49" width="4" height="14" fill="#9aa4b2"/>
+      <rect x="-19" y="-31" width="6" height="14" fill="#e0a33c"/><rect x="-12" y="-29" width="4" height="12" fill="#10a37f"/>
+      <rect x="-7" y="-32" width="5" height="15" fill="#005fa9"/><rect x="0" y="-28" width="9" height="11" fill="#d97757"/>
+      <rect x="11" y="-31" width="4" height="14" fill="#a6a6a6"/>
+      <rect x="-18" y="-13" width="12" height="5" rx="1.5" fill="#9aa4b2"/><rect x="-18" y="-8" width="12" height="5" rx="1.5" fill="#4b5563"/>
+      <circle cx="10" cy="-6" r="6" fill="${C('--plant-2','#7fae72')}"/><rect x="6" y="-6" width="8" height="6" rx="1.6" fill="${C('--pot','#cf8a63')}"/>
+    </g>
+  </g>`;},
+
+  rug(x,y,rx,ry,c1,c2){ return `<g transform="translate(${x},${y})">
+    <ellipse cx="0" cy="0" rx="${rx}" ry="${ry}" fill="${C(c1,'#c9705a')}"/>
+    <ellipse cx="0" cy="0" rx="${rx-9}" ry="${ry-7}" fill="none" stroke="${C(c2,'#e5c5b6')}" stroke-width="2.4" opacity=".7"/>
+    <ellipse cx="0" cy="0" rx="${rx-18}" ry="${ry-13}" fill="none" stroke="${C(c2,'#e5c5b6')}" stroke-width="1.6" opacity=".4"/>
+  </g>`;},
+
+  dartboard(x,y){ return `<g transform="translate(${x},${y})">
+    <circle cx="0" cy="0" r="16" fill="${C('--paper','#fffdf8')}" stroke="${C('--furn-wood-3','#8d6139')}" stroke-width="2"/>
+    <circle cx="0" cy="0" r="11" fill="none" stroke="${C('--rug','#c9705a')}" stroke-width="3.4"/>
+    <circle cx="0" cy="0" r="5" fill="${C('--rugcool','#8fa9c4')}"/>
+    <circle cx="0" cy="0" r="1.8" fill="${C('--runner','#c46a4b')}"/>
+    <path d="M0 -16V16M-16 0H16" stroke="${C('--furn-wood-3','#8d6139')}" stroke-width="1" opacity=".5"/>
+    <g transform="translate(4,-5) rotate(38)"><rect x="-1" y="-8" width="2" height="11" fill="${C('--metal-3','#7d766c')}"/><path d="M-3.4 -8 L3.4 -8 L0 -13Z" fill="#ff4e83"/></g>
+  </g>`;},
+
+  arcade(x,y){ return `<g transform="translate(${x},${y})">
+    ${F.shadow(0,16,20,7)}
+    <rect x="-19" y="-30" width="38" height="46" rx="5" fill="${C('--furn-dark','#4a4038')}"/>
+    <rect x="-14" y="-46" width="28" height="19" rx="4" fill="${C('--furn-dark-2','#3a322c')}"/>
+    <rect x="-11" y="-43" width="22" height="13" rx="2.5" fill="url(#gScreen)" class="screen-glow"/>
+    <path d="M-7 -37h4M0 -34h6" stroke="${C('--screen-ink','#3d5a72')}" stroke-width="2" stroke-linecap="round"/>
+    <rect x="-14" y="-25" width="28" height="9" rx="2.5" fill="${C('--furn-dark-2','#3a322c')}"/>
+    <circle cx="-6" cy="-20.5" r="3.4" fill="#ff4e83"/><rect x="2" y="-22" width="5" height="4" rx="1.4" fill="#4285f4"/><circle cx="10" cy="-20.5" r="2.6" fill="#10a37f"/>
+    <rect x="-14" y="-8" width="28" height="20" rx="3" fill="${C('--furn-dark-2','#3a322c')}"/>
+    <circle cx="0" cy="1" r="5" fill="${C('--led-active','#3fae6a')}" opacity=".9" class="blink"/>
+  </g>`;},
+
+  /* ---- orquestador ---- */
+  bigScreen(x,y,w=214,h=76){ return `<g transform="translate(${x},${y})">
+    <rect x="${-w/2-6}" y="-6" width="${w+12}" height="${h+12}" rx="9" fill="${C('--furn-dark','#4a4038')}"/>
+    <rect x="${-w/2}" y="0" width="${w}" height="${h}" rx="5" fill="${C('--furn-dark-2','#3a322c')}"/>
+    <rect x="${-w/2}" y="0" width="${w}" height="${h}" rx="5" fill="url(#gScreen)" opacity=".22"/>
+    <g>
+      ${[0,1,2].map(i=>{
+        const cx = -w/2 + 16 + i*(w-32)/3, cw = (w-46)/3;
+        const titles = ['POR HACER','EN CURSO','HECHO'];
+        const cards = [[ '#a6a6a6','#9aa4b2' ],[ '#10a37f','#4285f4','#d97757' ],[ '#ff4e83' ]];
+        return `<g>
+          <text x="${cx}" y="14" font-size="8" font-weight="800" fill="${C('--screen-ink','#3d5a72')}" letter-spacing=".08em" font-family="ui-sans-serif,system-ui,sans-serif" opacity=".95">${titles[i]}</text>
+          ${titles[i]==='EN CURSO'?`<circle cx="${cx-7}" cy="11" r="2.6" fill="${C('--led-active','#3fae6a')}" class="pulse"/>`:''}
+          ${cards[i].map((c,k)=>`<g transform="translate(${cx},${20+k*17})">
+            <rect width="${cw}" height="13" rx="3" fill="${C('--paper','#fffdf8')}" opacity=".93"/>
+            <rect width="3.6" height="13" rx="1.8" fill="${c}"/>
+            <path d="M8 5h${cw-16}M8 9h${cw-26}" stroke="${C('--screen-ink','#3d5a72')}" stroke-width="1.6" opacity=".45" stroke-linecap="round"/>
+          </g>`).join('')}
+        </g>`;
+      }).join('')}
+    </g>
+    <rect x="${-w/2}" y="0" width="${w}" height="${h*.35}" rx="5" fill="#ffffff" opacity=".07"/>
+    <circle cx="0" cy="${h+3}" r="2" fill="${C('--led-active','#3fae6a')}" class="blink"/>
+  </g>`;},
+
+  orchTable(x,y){ return `<g transform="translate(${x},${y})">
+    ${F.shadow(0,26,118,32,.2)}
+    <ellipse cx="0" cy="18" rx="104" ry="26" fill="${C('--furn-wood-3','#8d6139')}" opacity=".5"/>
+    <ellipse cx="0" cy="6" rx="106" ry="34" fill="${C('--furn-wood-2','#a9784a')}"/>
+    <ellipse cx="0" cy="0" rx="106" ry="34" fill="${C('--furn-wood','#c08d5b')}" stroke="${C('--furn-wood-3','#8d6139')}" stroke-width="2"/>
+    <ellipse cx="0" cy="0" rx="92" ry="26" fill="none" stroke="${C('--furn-wood-3','#8d6139')}" stroke-width="1.4" opacity=".45"/>
+    <ellipse cx="-30" cy="-11" rx="34" ry="9" fill="#ffffff" opacity=".1"/>
+  </g>`;},
+
+  chair(x,y,rot=0){ return `<g transform="translate(${x},${y}) rotate(${rot})">
+    ${F.shadow(0,10,15,6)}
+    <rect x="-13" y="-20" width="26" height="19" rx="7" fill="${C('--furn-dark','#4a4038')}"/>
+    <rect x="-15" y="-5" width="30" height="15" rx="6" fill="${C('--furn-dark-2','#3a322c')}"/>
+    <rect x="-2" y="9" width="4" height="7" fill="${C('--metal-3','#7d766c')}"/>
+    <path d="M-12 19 L0 15 L12 19" stroke="${C('--metal-2','#9b948a')}" stroke-width="3" fill="none" stroke-linecap="round"/>
+  </g>`;},
+
+  laptop(x,y,rot=0,glow='#10a37f'){ return `<g transform="translate(${x},${y}) rotate(${rot})">
+    <path d="M-12 -1 L12 -1 L10 -14 L-10 -14 Z" fill="${C('--screen','#dcebf5')}" stroke="${C('--metal-3','#7d766c')}" stroke-width="1.4"/>
+    <rect x="-14" y="-1.5" width="28" height="5" rx="2.2" fill="${C('--metal-2','#9b948a')}"/>
+    <path d="M-7 -5h9M-7 -8.5h13M-7 -12h5" stroke="${glow}" stroke-width="1.6" opacity=".8" stroke-linecap="round"/>
+    <circle cx="8.5" cy="-11.5" r="1.4" fill="${glow}" class="blink"/>
+  </g>`;},
+
+  papers(x,y,rot=0){ return `<g transform="translate(${x},${y}) rotate(${rot})">
+    <rect x="-9" y="-6" width="18" height="13" rx="1.6" fill="${C('--paper','#fffdf8')}" stroke="${C('--paper-line','#e2d9cb')}" stroke-width="1.1" transform="rotate(-7)"/>
+    <rect x="-8" y="-7" width="18" height="13" rx="1.6" fill="${C('--paper','#fffdf8')}" stroke="${C('--paper-line','#e2d9cb')}" stroke-width="1.1" transform="rotate(4)"/>
+    <path d="M-4 -3h10M-4 0h7M-4 3h9" stroke="${C('--paper-line','#e2d9cb')}" stroke-width="1.3" stroke-linecap="round"/>
+  </g>`;},
+
+  mug(x,y,c='#d97757'){ return `<g transform="translate(${x},${y})">
+    <rect x="-4.6" y="-7" width="9.2" height="9" rx="2.4" fill="${C('--paper','#fffdf8')}" stroke="${c}" stroke-width="2"/>
+    <path d="M4.4 -5a3.2 3.2 0 010 5.4" fill="none" stroke="${c}" stroke-width="1.6"/>
+    <path d="M-1.6 -10c1.8-2 -1.8-3.6 0-5.6M2 -10c1.8-2 -1.8-3.6 0-5.6" stroke="${C('--metal-2','#9b948a')}" stroke-width="1.2" fill="none" opacity=".75"/>
+  </g>`;},
+
+  pendant(x,y,len=40){ return `<g transform="translate(${x},${y})">
+    <path d="M0 ${-len}V-6" stroke="${C('--furn-dark','#4a4038')}" stroke-width="2"/>
+    <path d="M-19 -6 L19 -6 L11 -25 L-11 -25 Z" fill="${C('--runner','#c46a4b')}" stroke="${C('--rug-3','#b85f4b')}" stroke-width="1.6"/>
+    <ellipse cx="0" cy="-5" rx="13" ry="4" fill="${C('--lamp-soft','#ffdca6')}"/>
+    <circle cx="0" cy="-3" r="46" fill="url(#gLamp)"/>
+  </g>`;},
+
+  sideboard(x,y){ return `<g transform="translate(${x},${y})">
+    ${F.shadow(0,4,42,7)}
+    <rect x="-42" y="-20" width="84" height="24" rx="4" fill="${C('--furn-wood','#c08d5b')}" stroke="${C('--furn-wood-3','#8d6139')}" stroke-width="1.5"/>
+    <path d="M0 -20V4" stroke="${C('--furn-wood-3','#8d6139')}" stroke-width="1.3"/>
+    <circle cx="-7" cy="-8" r="2.2" fill="${C('--metal','#b9b2a8')}"/><circle cx="7" cy="-8" r="2.2" fill="${C('--metal','#b9b2a8')}"/>
+    <rect x="-36" y="3" width="5" height="6" rx="1.6" fill="${C('--furn-wood-3','#8d6139')}"/>
+    <rect x="31" y="3" width="5" height="6" rx="1.6" fill="${C('--furn-wood-3','#8d6139')}"/>
+    <g transform="translate(-22,-20)">
+      <path d="M-6 0 L6 0 L4 -6 L-4 -6 Z" fill="${C('--led-done','#e0a33c')}"/>
+      <path d="M-4 -6 L4 -6 L3 -15 L-3 -15 Z" fill="${C('--led-done','#e0a33c')}"/>
+      <path d="M-3 -13 C-11 -13 -11 -5 -4 -6M3 -13 C11 -13 11 -5 4 -6" fill="none" stroke="${C('--led-done','#e0a33c')}" stroke-width="2.2"/>
+      <circle cx="0" cy="-16.5" r="2.6" fill="#fff3d0"/>
+    </g>
+    ${F.plant(24,-20,.62)}
+  </g>`;},
+
+  whiteboard(x,y,w=92,h=52){ return `<g transform="translate(${x},${y})">
+    <rect x="-4" y="-4" width="${w+8}" height="${h+8}" rx="5" fill="${C('--metal-2','#9b948a')}"/>
+    <rect width="${w}" height="${h}" rx="3" fill="${C('--paper','#fffdf8')}"/>
+    <path d="M10 14h${w*.4}M10 22h${w*.28}" stroke="${C('--screen-ink','#3d5a72')}" stroke-width="2.4" stroke-linecap="round" opacity=".5"/>
+    <rect x="${w*.55}" y="9" width="${w*.32}" height="14" rx="3" fill="#d97757" opacity=".55"/>
+    <rect x="${w*.55}" y="27" width="${w*.2}" height="10" rx="3" fill="#10a37f" opacity=".55"/>
+    <path d="M12 ${h-12} C${w*.3} ${h-24} ${w*.55} ${h-6} ${w-14} ${h-18}" fill="none" stroke="${C('--runner','#c46a4b')}" stroke-width="2.4" stroke-linecap="round"/>
+    <path d="M${w-19} ${h-23} l7 5 l-8 4Z" fill="${C('--runner','#c46a4b')}"/>
+    <rect x="${w*.3}" y="${h+2}" width="${w*.4}" height="4" rx="2" fill="${C('--metal-3','#7d766c')}"/>
+  </g>`;},
+
+  podium(x,y){ return `<g transform="translate(${x},${y})">
+    ${F.shadow(0,5,26,7)}
+    <path d="M-24 4 L24 4 L19 -26 L-19 -26 Z" fill="${C('--furn-wood','#c08d5b')}" stroke="${C('--furn-wood-3','#8d6139')}" stroke-width="1.6"/>
+    <rect x="-27" y="-32" width="54" height="9" rx="3.4" fill="${C('--furn-wood-2','#a9784a')}" stroke="${C('--furn-wood-3','#8d6139')}" stroke-width="1.4"/>
+    <rect x="-13" y="-18" width="26" height="14" rx="3" fill="${C('--runner','#c46a4b')}" opacity=".85"/>
+    <path d="M-8 -12h16M-8 -8h10" stroke="#fff" stroke-width="1.7" opacity=".7" stroke-linecap="round"/>
+  </g>`;},
+
+  clock(x,y,r=15){ return `<g transform="translate(${x},${y})">
+    <circle r="${r}" fill="${C('--paper','#fffdf8')}" stroke="${C('--furn-wood-3','#8d6139')}" stroke-width="2.6"/>
+    <circle r="${r-4.5}" fill="none" stroke="${C('--paper-line','#e2d9cb')}" stroke-width="1"/>
+    <path d="M0 ${-r+5}V${-r+8}M0 ${r-5}V${r-8}M${-r+5} 0H${-r+8}M${r-5} 0H${r-8}" stroke="${C('--furn-wood-3','#8d6139')}" stroke-width="1.8"/>
+    <path d="M0 0 L0 ${-r*.5}" stroke="${C('--furn-dark','#4a4038')}" stroke-width="2.4" stroke-linecap="round"/>
+    <path d="M0 0 L${r*.52} ${r*.2}" stroke="${C('--runner','#c46a4b')}" stroke-width="1.9" stroke-linecap="round"/>
+    <circle r="1.9" fill="${C('--furn-dark','#4a4038')}"/>
+  </g>`;},
+
+  /* ---- sala de trabajo ---- */
+  desk(x,y,name,accent,state){
+    const led = state==='active' ? C('--led-active','#3fae6a') : C('--led-idle','#c3b7a6');
+    const pulse = state==='active' ? ' class="pulse"' : '';
+    return `<g transform="translate(${x},${y})">
+      ${F.shadow(0,17,54,11)}
+      <rect x="-52" y="-19" width="104" height="33" rx="5" fill="${C('--furn-wood','#c08d5b')}" stroke="${C('--furn-wood-3','#8d6139')}" stroke-width="1.6"/>
+      <rect x="-52" y="12" width="104" height="7" rx="3" fill="${C('--furn-wood-2','#a9784a')}"/>
+      <rect x="-48" y="18" width="7" height="8" rx="2" fill="${C('--furn-wood-3','#8d6139')}"/>
+      <rect x="41" y="18" width="7" height="8" rx="2" fill="${C('--furn-wood-3','#8d6139')}"/>
+      <g transform="translate(-19,-19)">
+        <rect x="-19" y="-16" width="38" height="25" rx="3.4" fill="${C('--furn-dark','#4a4038')}"/>
+        <rect x="-16.4" y="-13.6" width="32.8" height="20" rx="2" fill="url(#gScreen)" ${state==='active'?'class="screen-glow"':''}/>
+        ${state==='active'
+          ? `<path d="M-12 -9h13M-12 -5h21M-12 -1h9M-12 3h16" stroke="${accent}" stroke-width="2" stroke-linecap="round" opacity=".85"/>
+             <circle cx="11" cy="-9.5" r="2.2" fill="${accent}"${pulse}/>`
+          : `<path d="M-12 -8h18M-12 -3h12M-12 2h20" stroke="${C('--screen-ink','#3d5a72')}" stroke-width="2" stroke-linecap="round" opacity=".35"/>`}
+        <rect x="-4.6" y="9" width="9.2" height="4.4" fill="${C('--metal-3','#7d766c')}"/>
+        <rect x="-11" y="12.6" width="22" height="3.6" rx="1.8" fill="${C('--metal-2','#9b948a')}"/>
+      </g>
+      <rect x="15" y="-13" width="27" height="11" rx="2.4" fill="${C('--metal-3','#7d766c')}"/>
+      <path d="M19 -9.5h19M19 -6h12" stroke="#fff" stroke-width="1.5" opacity=".35" stroke-linecap="round"/>
+      <rect x="13" y="-9" width="17" height="8" rx="1.6" fill="${C('--furn-dark-2','#3a322c')}"/>
+      <g transform="translate(15,-9.5)">${[0,1,2,3].map(i=>`<rect x="${i*4.4}" y="0" width="3.4" height="3.4" rx=".8" fill="${C('--metal','#b9b2a8')}"/>`).join('')}</g>
+      ${state==='active'?`<g transform="translate(38,-6) rotate(7)">
+          <rect x="-8" y="-11" width="16" height="21" rx="2.4" fill="${C('--paper','#fffdf8')}" stroke="${accent}" stroke-width="1.8"/>
+          <path d="M-4.5 -6h9M-4.5 -2.5h6M-4.5 1h8" stroke="${accent}" stroke-width="1.4" opacity=".6" stroke-linecap="round"/>
+          <circle cx="0" cy="-14.5" r="3.4" fill="${accent}"/>
+        </g>`:`<g transform="translate(38,-4) rotate(-5)"><rect x="-7" y="-4" width="14" height="9" rx="1.4" fill="${C('--paper','#fffdf8')}" stroke="${C('--paper-line','#e2d9cb')}" stroke-width="1"/></g>`}
+      <g transform="translate(44,-14)"><rect x="-4" y="-6" width="8" height="8" rx="2" fill="${C('--paper','#fffdf8')}" stroke="${accent}" stroke-width="1.6"/></g>
+      <rect x="-52" y="24" width="104" height="13" rx="4" fill="${C('--paper','#fffdf8')}" stroke="${C('--paper-line','#e2d9cb')}" stroke-width="1.3"/>
+      <rect x="-49" y="26.6" width="4" height="7.8" rx="2" fill="${accent}"/>
+      <text x="-41" y="33.4" font-size="9.5" font-weight="800" fill="${C('--ink','#2b2118')}" letter-spacing=".04em" font-family="ui-sans-serif,system-ui,sans-serif">${esc(name)}</text>
+      <circle cx="45" cy="30.5" r="3.6" fill="${led}"${pulse}/>
+    </g>`;
+  },
+
+  printer(x,y){ return `<g transform="translate(${x},${y})">
+    ${F.shadow(0,15,26,8)}
+    <rect x="-25" y="-26" width="50" height="40" rx="6" fill="${C('--metal-2','#9b948a')}" stroke="${C('--metal-3','#7d766c')}" stroke-width="1.5"/>
+    <rect x="-19" y="-31" width="38" height="9" rx="2.6" fill="${C('--paper','#fffdf8')}"/>
+    <rect x="-18" y="2" width="36" height="8" rx="2" fill="${C('--furn-dark-2','#3a322c')}"/>
+    <rect x="-14" y="4" width="28" height="9" rx="1.6" fill="${C('--paper','#fffdf8')}" stroke="${C('--paper-line','#e2d9cb')}" stroke-width="1"/>
+    <circle cx="16" cy="-16" r="3" fill="${C('--led-active','#3fae6a')}" class="blink"/>
+    <path d="M-16 -16h20" stroke="${C('--metal-3','#7d766c')}" stroke-width="2" stroke-linecap="round"/>
+  </g>`;},
+
+  boxes(x,y,s=1){ return `<g transform="translate(${x},${y}) scale(${s})">
+    ${F.shadow(0,3,26,7)}
+    <rect x="-24" y="-18" width="26" height="20" rx="2.6" fill="${C('--kraft-1','#e6d3b3')}" stroke="${C('--kraft-line','#cbb189')}" stroke-width="1.4"/>
+    <path d="M-11 -18V2" stroke="${C('--runner','#c46a4b')}" stroke-width="3"/>
+    <rect x="2" y="-24" width="22" height="26" rx="2.6" fill="${C('--kraft-2','#dfc9a6')}" stroke="${C('--kraft-line','#cbb189')}" stroke-width="1.4"/>
+    <path d="M2 -11H24" stroke="${C('--rugcool','#8fa9c4')}" stroke-width="3"/>
+  </g>`;},
+
+  /* ---- entregas ---- */
+  counter(x,y,w=152){ return `<g transform="translate(${x},${y})">
+    ${F.shadow(0,22,w/2+4,10,.2)}
+    <rect x="${-w/2}" y="-26" width="${w}" height="46" rx="6" fill="${C('--furn-wood-2','#a9784a')}" stroke="${C('--furn-wood-3','#8d6139')}" stroke-width="1.6"/>
+    <path d="M${-w/2+22} -26V20M${-w/2+52} -26V20M${w/2-52} -26V20M${w/2-22} -26V20" stroke="${C('--furn-wood-3','#8d6139')}" stroke-width="1.2" opacity=".4"/>
+    <rect x="${-w/2-7}" y="-33" width="${w+14}" height="11" rx="4" fill="${C('--furn-wood','#c08d5b')}" stroke="${C('--furn-wood-3','#8d6139')}" stroke-width="1.6"/>
+    <rect x="${-w/2-7}" y="-33" width="${w+14}" height="4" rx="2" fill="#ffffff" opacity=".16"/>
+    <g transform="translate(${-w/2+22},-14)">
+      <rect x="-16" y="-11" width="32" height="21" rx="3" fill="${C('--metal-2','#9b948a')}" stroke="${C('--metal-3','#7d766c')}" stroke-width="1.4"/>
+      <rect x="-11" y="-6" width="22" height="11" rx="2" fill="${C('--furn-dark','#4a4038')}"/>
+      <path d="M-8 -1L8 -1" stroke="${C('--led-active','#3fae6a')}" stroke-width="2" class="blink"/>
+    </g>
+    <text x="0" y="13" text-anchor="middle" font-size="10.5" font-weight="800" letter-spacing=".2em" fill="${C('--paper','#fffdf8')}" opacity=".8" font-family="ui-sans-serif,system-ui,sans-serif">ENTREGAS</text>
+  </g>`;},
+
+  outbox(x,y){ return `<g transform="translate(${x},${y})">
+    ${F.shadow(0,4,28,7)}
+    <rect x="-26" y="-14" width="52" height="21" rx="3.6" fill="${C('--rugcool','#8fa9c4')}" stroke="${C('--metal-3','#7d766c')}" stroke-width="1.5"/>
+    <rect x="-26" y="-14" width="52" height="7" rx="3.4" fill="${C('--rugcool-2','#d3e0ec')}" opacity=".7"/>
+    <text x="0" y="2.4" text-anchor="middle" font-size="8.4" font-weight="800" letter-spacing=".12em" fill="#ffffff" opacity=".9" font-family="ui-sans-serif,system-ui,sans-serif">SALIDA</text>
+  </g>`;},
+
+  parcel(x,y,w,h,tape,rot=0){ return `<g transform="translate(${x},${y}) rotate(${rot})">
+    <rect x="${-w/2}" y="${-h}" width="${w}" height="${h}" rx="2.6" fill="${C('--kraft-1','#e6d3b3')}" stroke="${C('--kraft-line','#cbb189')}" stroke-width="1.5"/>
+    <rect x="-2.6" y="${-h}" width="5.2" height="${h}" fill="${tape}"/>
+    <rect x="${-w/2}" y="${-h}" width="${w}" height="${h*.24}" rx="2.6" fill="#ffffff" opacity=".18"/>
+    <rect x="${w/2-13}" y="${-h+5}" width="9" height="7" rx="1.2" fill="${C('--paper','#fffdf8')}" stroke="${C('--paper-line','#e2d9cb')}" stroke-width=".9"/>
+    <path d="M${w/2-11} ${-h+8}h5" stroke="${C('--paper-line','#e2d9cb')}" stroke-width="1"/>
+  </g>`;},
+
+  labelPrinter(x,y){ return `<g transform="translate(${x},${y})">
+    ${F.shadow(0,3,17,5)}
+    <rect x="-15" y="-14" width="30" height="18" rx="4" fill="${C('--furn-dark','#4a4038')}"/>
+    <rect x="-10" y="-11" width="20" height="7" rx="2" fill="${C('--screen','#dcebf5')}"/>
+    <path d="M-7 -7.5h13" stroke="${C('--screen-ink','#3d5a72')}" stroke-width="1.6" opacity=".6"/>
+    <g transform="rotate(-7)">
+      <rect x="-9" y="-2" width="19" height="13" rx="2" fill="${C('--paper','#fffdf8')}" stroke="${C('--runner','#c46a4b')}" stroke-width="1.7"/>
+      <text x="0.5" y="7" text-anchor="middle" font-size="6.6" font-weight="800" fill="${C('--runner','#c46a4b')}" font-family="ui-sans-serif,system-ui,sans-serif">¡LISTA!</text>
+    </g>
+  </g>`;},
+
+  handtruck(x,y){ return `<g transform="translate(${x},${y})">
+    ${F.shadow(0,4,17,6)}
+    <circle cx="-10" cy="2" r="6.6" fill="${C('--furn-dark','#4a4038')}"/><circle cx="-10" cy="2" r="2.4" fill="${C('--metal','#b9b2a8')}"/>
+    <circle cx="10" cy="2" r="6.6" fill="${C('--furn-dark','#4a4038')}"/><circle cx="10" cy="2" r="2.4" fill="${C('--metal','#b9b2a8')}"/>
+    <path d="M-13 -3 H13 M-11 -3 V-42 M11 -3 V-42" stroke="${C('--metal-3','#7d766c')}" stroke-width="3.4" fill="none" stroke-linecap="round"/>
+    <path d="M-11 -42 q11 -7 22 0" stroke="${C('--metal-3','#7d766c')}" stroke-width="3.4" fill="none" stroke-linecap="round"/>
+    <rect x="-10" y="-26" width="20" height="14" rx="2" fill="${C('--kraft-1','#e6d3b3')}" stroke="${C('--kraft-line','#cbb189')}" stroke-width="1.3"/>
+    <rect x="-8" y="-38" width="16" height="12" rx="2" fill="${C('--kraft-2','#dfc9a6')}" stroke="${C('--kraft-line','#cbb189')}" stroke-width="1.3"/>
+    <path d="M0 -38V-26" stroke="${C('--runner','#c46a4b')}" stroke-width="2.6"/>
+  </g>`;},
+
+  scale(x,y){ return `<g transform="translate(${x},${y})">
+    ${F.shadow(0,3,15,5)}
+    <rect x="-14" y="-9" width="28" height="12" rx="3" fill="${C('--metal-2','#9b948a')}" stroke="${C('--metal-3','#7d766c')}" stroke-width="1.3"/>
+    <rect x="-9" y="-6" width="12" height="6" rx="1.6" fill="${C('--furn-dark','#4a4038')}"/>
+    <text x="-3" y="-1.4" text-anchor="middle" font-size="5.2" font-weight="800" fill="${C('--led-active','#3fae6a')}" font-family="ui-sans-serif,system-ui,sans-serif">2.4</text>
+    <circle cx="9" cy="-3" r="2" fill="${C('--led-done','#e0a33c')}"/>
+  </g>`;},
+
+  shelfUnit(x,y,w=118){ return `<g transform="translate(${x},${y})">
+    ${F.shadow(0,4,w/2,7)}
+    <rect x="${-w/2}" y="-62" width="${w}" height="66" rx="4" fill="${C('--furn-wood-2','#a9784a')}" stroke="${C('--furn-wood-3','#8d6139')}" stroke-width="1.6"/>
+    ${[-44,-24,-4].map((yy,i)=>`<rect x="${-w/2+5}" y="${yy}" width="${w-10}" height="4.4" rx="2" fill="${C('--furn-wood','#c08d5b')}"/>`).join('')}
+    ${[[-40,-58,'#d97757',26],[-40,-40,'#10a37f',20],[6,-56,'#4285f4',24],[10,-40,'#a6a6a6',26],[-34,-20,'#9aa4b2',22],[0,-22,'#ff4e83',24],[26,-18,'#4b5563',20]]
+      .map(b=>`<rect x="${b[0]}" y="${b[1]}" width="${b[3]}" height="${-b[1]+([-44,-24,-4].find(v=>v>b[1])??4)-2}" rx="2.4" fill="${b[2]}" opacity=".82"/>`)
+      .join('')}
+  </g>`;},
+
+  chute(x,y){ return `<g transform="translate(${x},${y})">
+    <path d="M-30 0 L30 0 L22 30 L-22 30 Z" fill="${C('--metal-2','#9b948a')}" stroke="${C('--metal-3','#7d766c')}" stroke-width="1.6"/>
+    <path d="M-22 30 L22 30 L18 40 L-18 40 Z" fill="${C('--metal-3','#7d766c')}"/>
+    <path d="M-24 8h48M-22 17h44" stroke="#ffffff" stroke-width="1.6" opacity=".18"/>
+    <g transform="translate(-4,4) rotate(-8)"><rect x="-11" y="-9" width="22" height="17" rx="2.4" fill="${C('--kraft-1','#e6d3b3')}" stroke="${C('--kraft-line','#cbb189')}" stroke-width="1.3"/><rect x="-2" y="-9" width="4" height="17" fill="#ff4e83"/></g>
+    <path d="M0 42 l0 12" stroke="${C('--runner','#c46a4b')}" stroke-width="2.6" stroke-linecap="round"/>
+    <path d="M-5 50 l5 7 l5 -7Z" fill="${C('--runner','#c46a4b')}"/>
+  </g>`;},
+
+  welcomeMat(x,y,w=64,h=24){ return `<g transform="translate(${x},${y})">
+    <rect x="${-w/2}" y="${-h/2}" width="${w}" height="${h}" rx="5" fill="${C('--runner','#c46a4b')}"/>
+    <rect x="${-w/2+4}" y="${-h/2+4}" width="${w-8}" height="${h-8}" rx="3" fill="none" stroke="${C('--runner-soft','#e3b49f')}" stroke-width="1.6" opacity=".8"/>
+    <text x="0" y="3.4" text-anchor="middle" font-size="8.6" font-weight="800" letter-spacing=".14em" fill="${C('--runner-ink','#fff6ef')}" font-family="ui-sans-serif,system-ui,sans-serif">HOLA</text>
+  </g>`;},
+
+  bench(x,y,w=94){ return `<g transform="translate(${x},${y})">
+    ${F.shadow(0,9,w/2,6)}
+    <rect x="${-w/2}" y="-8" width="${w}" height="9" rx="3" fill="${C('--furn-wood','#c08d5b')}" stroke="${C('--furn-wood-3','#8d6139')}" stroke-width="1.3"/>
+    <rect x="${-w/2}" y="2" width="${w}" height="6" rx="2.6" fill="${C('--furn-wood-2','#a9784a')}"/>
+    <rect x="${-w/2+6}" y="7" width="6" height="8" rx="2" fill="${C('--furn-wood-3','#8d6139')}"/>
+    <rect x="${w/2-12}" y="7" width="6" height="8" rx="2" fill="${C('--furn-wood-3','#8d6139')}"/>
+  </g>`;},
+
+  bike(x,y){ return `<g transform="translate(${x},${y})">
+    ${F.shadow(0,4,26,5)}
+    <circle cx="-15" cy="-7" r="10" fill="none" stroke="${C('--furn-dark','#4a4038')}" stroke-width="2.6"/>
+    <circle cx="15" cy="-7" r="10" fill="none" stroke="${C('--furn-dark','#4a4038')}" stroke-width="2.6"/>
+    <path d="M-15 -7 L-3 -20 L9 -20 L15 -7 M-3 -20 L3 -7 L9 -20" stroke="${C('--runner','#c46a4b')}" stroke-width="2.8" fill="none" stroke-linecap="round"/>
+    <path d="M9 -20 L11 -26 M-4 -21 L-9 -25" stroke="${C('--furn-dark','#4a4038')}" stroke-width="2.4" stroke-linecap="round"/>
+    <rect x="-13" y="-27" width="9" height="3" rx="1.5" fill="${C('--furn-dark','#4a4038')}"/>
+  </g>`;},
+
+  vac(x,y){ return `<g transform="translate(${x},${y})">
+    ${F.shadow(0,3,14,5,.2)}
+    <circle r="12" fill="${C('--metal-2','#9b948a')}" stroke="${C('--metal-3','#7d766c')}" stroke-width="1.6"/>
+    <circle r="7.4" fill="${C('--furn-dark','#4a4038')}"/>
+    <circle cx="0" cy="-3" r="2.4" fill="${C('--led-active','#3fae6a')}" class="blink"/>
+    <path d="M-5 3h10" stroke="${C('--metal','#b9b2a8')}" stroke-width="1.6" stroke-linecap="round"/>
+  </g>`;},
+
+  plantPotSmall(x,y){ return `<g transform="translate(${x},${y})">
+    ${F.shadow(0,2,9,3.5)}
+    <path d="M-6 0 L6 0 L4.6 -11 L-4.6 -11 Z" fill="${C('--pot','#cf8a63')}" stroke="${C('--pot-2','#b9734f')}" stroke-width="1.2"/>
+    <path d="M0 -10 C-8 -15 -8 -25 -2 -29 C0 -22 0 -16 0 -10Z" fill="${C('--plant','#5c9163')}"/>
+    <path d="M0 -10 C8 -15 9 -24 3 -28 C1 -21 1 -16 0 -10Z" fill="${C('--plant-2','#7fae72')}"/>
+  </g>`;},
+
+  /* letrero exterior colgado */
+  hangingSign(x,y,text,accent){ return `<g transform="translate(${x},${y})">
+    <path d="M-30 -22V-8M30 -22V-8" stroke="${C('--furn-dark','#4a4038')}" stroke-width="2.4"/>
+    <rect x="-40" y="-8" width="80" height="24" rx="6" fill="${C('--paper','#fffdf8')}" stroke="${C('--wall-line','#cdbaa2')}" stroke-width="1.8" filter="url(#soft)"/>
+    <rect x="-40" y="-8" width="6" height="24" rx="3" fill="${accent}"/>
+    <text x="2" y="8" text-anchor="middle" font-size="11.5" font-weight="800" letter-spacing=".1em" fill="${C('--ink','#2b2118')}" font-family="ui-sans-serif,system-ui,sans-serif">${esc(text)}</text>
+  </g>`;},
+
+  exitSign(x,y){ return `<g transform="translate(${x},${y})">
+    <rect x="-27" y="-11" width="54" height="22" rx="5" fill="${C('--plant','#5c9163')}"/>
+    <text x="-4" y="4" text-anchor="middle" font-size="9.6" font-weight="800" letter-spacing=".12em" fill="#fff" font-family="ui-sans-serif,system-ui,sans-serif">SALIDA</text>
+    <path d="M16 -4 l6 4 l-6 4Z" fill="#fff"/>
+  </g>`;}
+};
+
+/* ==========================================================================
+   4 · Personajes  (mismo esqueleto, 8 pieles)
+   ========================================================================== */
+const AGENTS = {
+  co:{ code:'co', name:'Codex',      accent:'#10a37f', hairC:'#2c6f5c', shirt:'#10a37f', shirt2:'#0d8266', skin:'#f0c9a4', hair:'short',   mouth:'smile',  brows:'relax', motif:'knot'  },
+  cl:{ code:'cl', name:'Claude',     accent:'#d97757', hairC:'#8c4a30', shirt:'#d97757', shirt2:'#bd6145', skin:'#eab98f', hair:'curly',   mouth:'smile',  blush:true, motif:'sunburst', acc:'book' },
+  pi:{ code:'pi', name:'Gentleman',  accent:'#ff4e83', hairC:'#3a2b2b', shirt:'#ff4e83', shirt2:'#e03a6d', skin:'#f6d6bd', hair:'none',    mouth:'smirk',  hat:'top', mono:true, outfit:'bow', blush:true },
+  ja:{ code:'ja', name:'Javier',     accent:'#005fa9', hairC:'#4a3627', shirt:'#005fa9', shirt2:'#004d8a', skin:'#eec39c', hair:'side',    mouth:'grin',   glasses:true, hat:'crown', facial:'beard', acc:'folder' },
+  ge:{ code:'ge', name:'agy',        accent:'#4285f4', hairC:'#2f3a4a', shirt:'#f4f6f8', shirt2:'#dfe5ec', skin:'#f2cdae', hair:'cap',     mouth:'open',   acc:'dots', brows:'up' },
+  gr:{ code:'gr', name:'Grok',       accent:'#4b5563', hairC:'#1c2128', shirt:'#4b5563', shirt2:'#3b444f', skin:'#e5b489', hair:'spiky',   mouth:'smirk',  motif:'slash', acc:'headphones', brows:'arch' },
+  op:{ code:'op', name:'opencode',   accent:'#9aa4b2', hairC:'#5b6674', shirt:'#9aa4b2', shirt2:'#828d9b', skin:'#f0c9a4', hair:'messy',   mouth:'flat',   glasses:true, outfit:'hoodie', motif:'cursor' },
+  ex:{ code:'ex', name:'Externo',    accent:'#a6a6a6', hairC:'#8a8f96', shirt:'#a6a6a6', shirt2:'#8f949b', skin:'#d9a379', hair:'bald',    mouth:'oh',     acc:'badge', acc2:'envelope', hat:'capg' }
+};
+
+/* accesorios de mano */
+const HELD = {
+  mug:`<g transform="translate(14,-16)"><rect x="-4" y="-6" width="8.4" height="9" rx="2.4" fill="#10a37f"/><path d="M4.2 -4a3 3 0 010 5" fill="none" stroke="#10a37f" stroke-width="1.6"/><path d="M-1 -9c1.6-2 -1.6-3.4 0-5.4" stroke="${C('--metal-2','#9b948a')}" stroke-width="1.2" fill="none"/></g>`,
+  book:`<g transform="translate(0,-14)"><path d="M-13 0 L-13 -12 L0 -9 L13 -12 L13 0 L0 3Z" fill="${C('--paper','#fffdf8')}" stroke="#b4543a" stroke-width="1.8" stroke-linejoin="round"/><path d="M0 -9V3" stroke="#b4543a" stroke-width="1.6"/><path d="M-10 -8.5h6M4 -8.5h6" stroke="#cbbba8" stroke-width="1.3"/></g>`,
+  pointer:`<g transform="translate(15,-25) rotate(24)"><rect x="-1.7" y="-15" width="3.4" height="27" rx="1.7" fill="${C('--furn-wood-3','#8d6139')}"/><circle cx="0" cy="-16" r="3.2" fill="#005fa9"/></g>`,
+  folder:`<g transform="translate(-14,-15) rotate(-9)"><rect x="-9" y="-7" width="18" height="14" rx="2" fill="#005fa9"/><rect x="-9" y="-7" width="18" height="5" rx="2" fill="#3f86c4"/><rect x="-4" y="-1" width="9" height="4" rx="1" fill="#fff" opacity=".8"/></g>`,
+  dart:`<g transform="translate(15,-20) rotate(34)"><rect x="-1.3" y="-9" width="2.6" height="12" rx="1" fill="${C('--metal-3','#7d766c')}"/><path d="M-3.6 -9 L3.6 -9 L0 -15Z" fill="#4285f4"/></g>`,
+  envelope:`<g transform="translate(-14,-16) rotate(-7)"><rect x="-9" y="-6" width="18" height="12.5" rx="2" fill="${C('--kraft-1','#e6d3b3')}" stroke="${C('--kraft-line','#cbb189')}" stroke-width="1.3"/><path d="M-9 -5 L0 2 L9 -5" fill="none" stroke="${C('--kraft-line','#cbb189')}" stroke-width="1.4"/></g>`,
+  popcorn:`<g transform="translate(-15,-17)"><path d="M-6 0 L6 0 L4.4 -12 L-4.4 -12Z" fill="${C('--paper','#fffdf8')}" stroke="${C('--paper-line','#e2d9cb')}" stroke-width="1.1"/><path d="M-2 -12 L-1.2 0M2 -12 L1.2 0" stroke="#c46a4b" stroke-width="1.8"/><circle cx="-2.6" cy="-14" r="2.4" fill="#fff8e6"/><circle cx="2" cy="-15" r="2.6" fill="#fff8e6"/></g>`,
+  brush:`<g transform="translate(15,-18) rotate(-16)"><rect x="-1.6" y="-4" width="3.2" height="15" rx="1.4" fill="${C('--furn-wood-3','#8d6139')}"/><rect x="-2.6" y="-7" width="5.2" height="4" rx="1.4" fill="${C('--metal','#b9b2a8')}"/><path d="M-2.4 -7 L2.4 -7 L1.6 -14 L-1.6 -14Z" fill="#005fa9"/></g>`,
+  none:''
+};
+
+/* peinados / sombreros (coordenadas relativas a la cabeza: cx=0, cy=-36, r=10.6) */
+const HAIR = {
+  short:`<path d="M-11 -38 C-11 -51 11 -51 11 -38 C7 -44.5 -7 -44.5 -11 -38 Z"/>
+         <path d="M-10.8 -38 C-11.6 -32 -11 -29 -10 -27.5 L-8.6 -33Z"/><path d="M10.8 -38 C11.6 -32 11 -29 10 -27.5 L8.6 -33Z"/>`,
+  curly:`<circle cx="-8" cy="-45" r="4.4"/><circle cx="-2.6" cy="-48.4" r="4.8"/><circle cx="3.4" cy="-48" r="4.6"/><circle cx="8.6" cy="-44.4" r="4.2"/>
+         <circle cx="-10.4" cy="-40" r="3.8"/><circle cx="10.6" cy="-39.4" r="3.6"/><path d="M-10.6 -40 C-10 -48 10 -48 10.6 -40 C6 -45 -6 -45 -10.6 -40Z"/>`,
+  spiky:`<path d="M-11 -38 L-9.5 -52 L-4.6 -44 L-1 -55 L3.4 -44.5 L7.6 -52.5 L11 -38 C6 -44 -6 -44 -11 -38Z"/>`,
+  messy:`<path d="M-11 -37 C-13 -50 -2 -53 5 -49 C12 -45.5 12 -39 10.6 -36.5 C8 -42 2 -44 -3 -42 C-7 -40.4 -9.4 -39 -11 -37Z"/>
+         <path d="M4 -49 C9 -50 12 -46 11 -42" stroke-width="1.4" fill="none"/>`,
+  side:`<path d="M-10.8 -37 C-11.6 -50 8 -53 11 -41 C7.5 -46.5 1 -46.5 -3.6 -43.5 C-7 -41.4 -9.4 -39 -10.8 -37Z"/>`,
+  cap:`<path d="M-10.6 -40.6 C-9 -49 9 -49 10.6 -40.6 C5 -45 -5 -45 -10.6 -40.6Z"/>`,
+  bald:`<path d="M-10.4 -41 C-8 -46.5 8 -46.5 10.4 -41" stroke-width="2.4" fill="none" opacity=".55"/>
+        <path d="M-10.6 -38 C-12 -33 -11 -29.5 -9.6 -28 L-8.4 -34Z"/><path d="M10.6 -38 C12 -33 11 -29.5 9.6 -28 L8.4 -34Z"/>`,
+  none:''
+};
+const HATS = {
+  top:`<g><rect x="-14" y="-47" width="28" height="3.6" rx="1.8" fill="#2b2118"/><path d="M-9 -47 L-8 -68 Q0 -71 8 -68 L9 -47Z" fill="#332a24"/><rect x="-8.6" y="-53.5" width="17.2" height="4.4" fill="#ff4e83"/><path d="M-6 -66 C-2 -68 3 -68 6 -66" stroke="#ffffff" stroke-width="1.4" opacity=".25" fill="none"/></g>`,
+  crown:`<g><path d="M-9 -49 L-9 -58 L-4.5 -53 L0 -60 L4.5 -53 L9 -58 L9 -49 Z" fill="#f0b429" stroke="#c98d12" stroke-width="1.3" stroke-linejoin="round"/><circle cx="0" cy="-56" r="1.5" fill="#fff3d0"/><circle cx="-6.4" cy="-52.6" r="1.2" fill="#ff4e83"/><circle cx="6.4" cy="-52.6" r="1.2" fill="#4285f4"/></g>`,
+  capg:`<g><path d="M-10.6 -41 C-9.4 -52 9.4 -52 10.6 -41Z" fill="#6f7681"/><path d="M4 -42.5 C13 -43.5 17.5 -40.6 16.4 -37.6 C12 -38.4 7 -39.4 3 -40Z" fill="#5c636d"/><circle cx="0" cy="-49" r="1.6" fill="#4b525b"/></g>`
+};
+
+const EYES = {
+  open:`<circle cx="-3.9" cy="-36.6" r="1.85"/><circle cx="3.9" cy="-36.6" r="1.85"/>
+        <circle cx="-3.25" cy="-37.35" r=".66" fill="#fff" stroke="none"/><circle cx="4.55" cy="-37.35" r=".66" fill="#fff" stroke="none"/>`,
+  happy:`<path d="M-6 -35.6 q2.1 -2.8 4.2 0M1.8 -35.6 q2.1 -2.8 4.2 0" fill="none" stroke-width="1.7" stroke-linecap="round"/>`,
+  closed:`<path d="M-6 -36.2 q2.1 2.3 4.2 0M1.8 -36.2 q2.1 2.3 4.2 0" fill="none" stroke-width="1.7" stroke-linecap="round"/>`,
+  wink:`<circle cx="-3.9" cy="-36.6" r="1.85"/><circle cx="-3.25" cy="-37.35" r=".66" fill="#fff" stroke="none"/>
+        <path d="M1.8 -35.9 q2.1 -2.4 4.2 0" fill="none" stroke-width="1.7" stroke-linecap="round"/>`,
+  wide:`<circle cx="-4.1" cy="-36.4" r="2.5"/><circle cx="4.1" cy="-36.4" r="2.5"/>
+        <circle cx="-3.3" cy="-37.3" r=".85" fill="#fff" stroke="none"/><circle cx="4.9" cy="-37.3" r=".85" fill="#fff" stroke="none"/>`,
+  screen:`<circle cx="-4" cy="-36.6" r="2.1"/><circle cx="4" cy="-36.6" r="2.1"/>
+          <circle cx="-3.3" cy="-37.3" r=".7" fill="#fff" stroke="none"/><circle cx="4.7" cy="-37.3" r=".7" fill="#fff" stroke="none"/>`
+};
+const MOUTHS = {
+  smile:`<path d="M-3.5 -31.3 q3.5 3.5 7 0" fill="none" stroke-width="1.7" stroke-linecap="round"/>`,
+  grin:`<path d="M-4.3 -31.6 q4.3 5.4 8.6 0Z" stroke-width="1.5" stroke-linejoin="round"/>`,
+  open:`<ellipse cx="0" cy="-31" rx="2.7" ry="3.3" stroke-width="1.4"/>`,
+  flat:`<path d="M-3 -31.4 h6" fill="none" stroke-width="1.7" stroke-linecap="round"/>`,
+  smirk:`<path d="M-3.6 -31.2 q3.6 2.7 6.6 -1.5" fill="none" stroke-width="1.7" stroke-linecap="round"/>`,
+  oh:`<circle cx="0" cy="-31.1" r="2.1" stroke-width="1.5"/>`,
+  sleep:`<path d="M-2.6 -31.2 q2.6 1.8 5.2 0" fill="none" stroke-width="1.6" stroke-linecap="round"/>`
+};
+const BROWS = {
+  relax:`<path d="M-6.4 -40.8 q2.5 -1.4 5 -.3M1.4 -41.1 q2.5 -1.1 5 .3" fill="none" stroke-width="1.5" stroke-linecap="round"/>`,
+  up:`<path d="M-6.6 -41.8 q2.6 -2 5.2 -.6M1.4 -42.4 q2.6 -1.4 5.2 .6" fill="none" stroke-width="1.5" stroke-linecap="round"/>`,
+  arch:`<path d="M-6.6 -40.4 l5.2 -1.8M1.4 -42.2 l5.2 1.8" fill="none" stroke-width="1.7" stroke-linecap="round"/>`,
+  none:''
+};
+const MOTIFS = {
+  knot:`<path d="M0 -14.6 l4.4 2.6 v5 L0 -4.4 l-4.4 -2.6 v-5Z" fill="none" stroke="#fff" stroke-width="1.7" stroke-linejoin="round" opacity=".92"/><path d="M-4.4 -7 l4.4 2.6 4.4 -2.6M0 -4.4V-14.6" stroke="#fff" stroke-width="1.2" opacity=".5" fill="none"/>`,
+  sunburst:`<g stroke="#fff" stroke-width="1.6" stroke-linecap="round" opacity=".95"><path d="M0 -14.8v-3M0 -4.6v3M-5.1 -9.7h-3M5.1 -9.7h3M-3.6 -13.3l-2.1-2.1M3.6 -13.3l2.1-2.1M-3.6 -6.1l-2.1 2.1M3.6 -6.1l2.1 2.1"/></g><circle cx="0" cy="-9.7" r="2.1" fill="#fff" opacity=".95"/>`,
+  slash:`<g stroke="#fff" stroke-width="2.4" stroke-linecap="round" opacity=".9"><path d="M-4.6 -14.6 L4.6 -5.4M4.6 -14.6 L-4.6 -5.4"/></g>`,
+  cursor:`<g><path d="M-6 -14 l4 4 -4 4" fill="none" stroke="#2b3440" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/><rect x="1" y="-7.6" width="6.4" height="2.2" rx="1" fill="#2b3440" class="blink"/></g>`,
+  bow:`<g><path d="M0 -22.4 l-7 -4.2 v8.4ZM0 -22.4 l7 -4.2 v8.4Z" fill="#fff" opacity=".95"/><circle cx="0" cy="-22.4" r="2.2" fill="#ffd9e4"/></g>`,
+  none:''
+};
+
+function char(id, o = {}){
+  const a = AGENTS[id];
+  const pose = o.pose || 'stand';
+  const s = o.scale ?? 1;
+  const dir = o.dir ?? 1;
+  const skin = o.skin || a.skin, hairC = o.hairC || a.hairC, sh = o.shirt || a.shirt, sh2 = o.shirt2 || a.shirt2;
+  const stroke = `${C('--outline','#6b5644')} 1.5`;
+  const ink = C('--ink','#2b2118');
+
+  /* --- piernas / pies --- */
+  let legs = '';
+  if (pose === 'stand' || pose === 'boss' || pose === 'carry' || pose === 'point' || pose === 'throw' || pose === 'game'){
+    const spread = pose === 'boss' ? 5.6 : 4.6;
+    legs = `<rect x="${-spread-3}" y="-7" width="6.4" height="8" rx="2.6" fill="${o.trouser || '#4a4038'}"/>
+            <rect x="${spread-3.4}" y="-7" width="6.4" height="8" rx="2.6" fill="${o.trouser || '#4a4038'}"/>
+            <ellipse cx="${-spread-.4}" cy="-.6" rx="4.9" ry="2.7" fill="${C('--furn-dark','#4a4038')}"/>
+            <ellipse cx="${spread+.4}" cy="-.6" rx="4.9" ry="2.7" fill="${C('--furn-dark','#4a4038')}"/>`;
+  } else if (pose === 'sit' || pose === 'lie'){
+    legs = `<ellipse cx="-4" cy="-1.6" rx="5" ry="2.8" fill="${C('--furn-dark','#4a4038')}"/>
+            <ellipse cx="5" cy="-1.6" rx="5" ry="2.8" fill="${C('--furn-dark','#4a4038')}"/>`;
+  }
+
+  /* --- brazos --- */
+  const armStyle = `fill="none" stroke="${sh}" stroke-width="5.4" stroke-linecap="round"`;
+  const handL = (x,y)=>`<circle cx="${x}" cy="${y}" r="2.9" fill="${skin}" stroke="${C('--outline','#6b5644')}" stroke-width="1.2"/>`;
+  let arms = '';
+  switch (pose){
+    case 'stand': arms = `<path d="M-7.4 -16.4 C-12.4 -13 -12 -6.4 -9.8 -4" ${armStyle}/><path d="M7.4 -16.4 C12.4 -13 12 -6.4 9.8 -4" ${armStyle}/>${handL(-9.8,-4)}${handL(9.8,-4)}`; break;
+    case 'boss':  arms = `<path d="M-7.4 -16.6 C-13 -14 -14 -8 -11.4 -6" ${armStyle}/><path d="M7.4 -17.6 C13 -21 14 -27 11.4 -30" ${armStyle}/>${handL(-11.4,-6)}${handL(11.4,-30)}`; break;
+    case 'point': arms = `<path d="M-7.4 -16.4 C-12.4 -13 -12 -6.4 -9.8 -4" ${armStyle}/><path d="M7.4 -17.4 C14 -19 19 -22 22.4 -25" ${armStyle}/>${handL(-9.8,-4)}${handL(22.4,-25)}`; break;
+    case 'throw': arms = `<path d="M-7.4 -16.4 C-12.4 -13 -12 -6.4 -9.8 -4" ${armStyle}/><path d="M7.4 -18 C14 -22 18 -26 20.6 -29.4" ${armStyle}/>${handL(-9.8,-4)}${handL(20.6,-29.4)}`; break;
+    case 'game':  arms = `<path d="M-7.4 -17 C-13 -19 -15 -23 -13 -26" ${armStyle}/><path d="M7.4 -17 C13 -19 15 -23 13 -26" ${armStyle}/>${handL(-13,-26)}${handL(13,-26)}`; break;
+    case 'carry': arms = `<path d="M-7.4 -17 C-12 -17 -14 -14 -13 -11.4" ${armStyle}/><path d="M7.4 -17 C12 -17 14 -14 13 -11.4" ${armStyle}/>${handL(-13,-11.4)}${handL(13,-11.4)}`; break;
+    case 'sit':   arms = `<path d="M-7.4 -16 C-12 -12 -12.4 -7 -10.4 -5.4" ${armStyle}/><path d="M7.4 -16 C12 -12 12.4 -7 10.4 -5.4" ${armStyle}/>${handL(-10.4,-5.4)}${handL(10.4,-5.4)}`; break;
+    case 'lie':   arms = `<path d="M-7.4 -16 C-11 -13 -11 -8 -9 -6" ${armStyle}/><path d="M7.4 -16 C10.4 -19 13 -21 15 -21" ${armStyle}/>${handL(-9,-6)}${handL(15,-21)}`; break;
+    default:      arms = `<path d="M-7.4 -16.4 C-12.4 -13 -12 -6.4 -9.8 -4" ${armStyle}/><path d="M7.4 -16.4 C12.4 -13 12 -6.4 9.8 -4" ${armStyle}/>${handL(-9.8,-4)}${handL(9.8,-4)}`;
+  }
+
+  /* --- ropa / detalles del torso --- */
+  let outfit = '';
+  if (a.outfit === 'hoodie') outfit = `<path d="M-9 -22 C-9 -27.5 9 -27.5 9 -22 C5 -19.6 -5 -19.6 -9 -22Z" fill="${sh2}"/><path d="M-3.4 -21.4 V-14M3.4 -21.4 V-14" stroke="${C('--outline','#6b5644')}" stroke-width="1.3" opacity=".6"/>`;
+  if (a.outfit === 'bow') outfit = `<path d="M0 -21.6 l-4.6 -1.2 v2.6Z" fill="#fff" opacity=".15"/><path d="M-6.6 -6.4 h13.2" stroke="#fff" stroke-width="1.4" opacity=".35"/>`;
+  if (a.acc === 'dots') outfit = `<circle cx="-4.6" cy="-14.6" r="1.9" fill="#4285f4"/><circle cx="0" cy="-11.6" r="1.9" fill="#ea4335"/><circle cx="4.6" cy="-14.6" r="1.9" fill="#fbbc05"/><circle cx="0" cy="-17.6" r="1.9" fill="#34a853"/>`;
+  if (a.acc === 'badge') outfit = `<path d="M-3.4 -22.6 L0 -17.4 L3.4 -22.6" fill="none" stroke="${C('--runner','#c46a4b')}" stroke-width="1.7"/><rect x="-4.6" y="-17.6" width="9.2" height="11" rx="2" fill="${C('--paper','#fffdf8')}" stroke="${C('--paper-line','#e2d9cb')}" stroke-width="1.2"/><path d="M-2.4 -13.6h4.8M-2.4 -10.6h3.2" stroke="${C('--paper-line','#e2d9cb')}" stroke-width="1.2"/><circle cx="0" cy="-8.4" r="1.2" fill="${C('--runner','#c46a4b')}"/>`;
+
+  const motif = MOTIFS[a.motif] && a.acc !== 'badge' && a.acc !== 'dots' ? MOTIFS[a.motif] : '';
+
+  /* --- cara --- */
+  const eyes = EYES[o.eyes || a.eyes || 'open'];
+  const mouth = MOUTHS[o.mouth || a.mouth || 'smile'];
+  const brows = a.brows ? BROWS[a.brows] : '';
+  const glasses = a.glasses || o.glasses ? `<g fill="none" stroke="${C('--furn-dark','#4a4038')}" stroke-width="1.5">
+      <circle cx="-4.1" cy="-36.4" r="4.3"/><circle cx="4.1" cy="-36.4" r="4.3"/><path d="M-.2 -36.4h.4M-8.4 -37.4l-2.4-1M8.4 -37.4l2.4-1"/></g>
+      <path d="M-6.6 -38.6 a4.3 4.3 0 013-1.6" stroke="#fff" stroke-width="1.3" fill="none" opacity=".7"/>` : '';
+  const mono = a.mono ? `<g><circle cx="4.6" cy="-36.4" r="5.1" fill="none" stroke="#f0b429" stroke-width="1.7"/><path d="M9.4 -33.4 C13 -30 14 -25 12.4 -21" stroke="#f0b429" stroke-width="1.3" fill="none"/><path d="M2.6 -38.4a5 5 0 012.6-1.4" stroke="#fff" stroke-width="1.2" fill="none" opacity=".8"/></g>` : '';
+  const facial = a.facial === 'beard' ? `<path d="M-8.6 -33 C-8.6 -24.6 8.6 -24.6 8.6 -33 C5.6 -29.6 -5.6 -29.6 -8.6 -33Z" fill="${hairC}" opacity=".95"/>` : '';
+  const blush = (a.blush || o.blush) ? `<ellipse cx="-7.4" cy="-32.4" rx="2.4" ry="1.5" fill="#ff9c9c" opacity=".5"/><ellipse cx="7.4" cy="-32.4" rx="2.4" ry="1.5" fill="#ff9c9c" opacity=".5"/>` : '';
+  const headphones = a.acc === 'headphones' ? `<g fill="none" stroke="#2b3138" stroke-width="2.4"><path d="M-11 -40 C-11 -51 11 -51 11 -40"/></g>
+      <rect x="-13.6" y="-41" width="5" height="8" rx="2.4" fill="#2b3138"/><rect x="8.6" y="-41" width="5" height="8" rx="2.4" fill="#2b3138"/>` : '';
+
+  const zzz = o.zzz ? `<g fill="none" stroke="${ink}" stroke-width="1.7" stroke-linecap="round" opacity=".75">
+      <text class="z1" x="12" y="-50" font-size="9" font-weight="800" fill="${ink}" stroke="none" font-family="ui-sans-serif,system-ui,sans-serif">z</text>
+      <text class="z2" x="18" y="-58" font-size="11" font-weight="800" fill="${ink}" stroke="none" font-family="ui-sans-serif,system-ui,sans-serif">z</text>
+      <text class="z3" x="25" y="-67" font-size="13" font-weight="800" fill="${ink}" stroke="none" font-family="ui-sans-serif,system-ui,sans-serif">Z</text></g>` : '';
+
+  const held = o.held ? (HELD[o.held] || '') : (a.acc && HELD[a.acc] ? HELD[a.acc] : '');
+
+  const body = `<g class="char" transform="translate(${o.x},${o.y}) scale(${(s*dir).toFixed(3)},${s})">
+    <ellipse cx="0" cy="0" rx="12" ry="4.6" fill="${C('--shadow','#4a3524')}" opacity=".2"/>
+    <ellipse cx="0" cy="0" rx="14.6" ry="6" fill="none" stroke="${a.accent}" stroke-width="1.7" opacity=".5"/>
+    ${legs}
+    <path d="M-8.6 -1.6 C-10.6 -13 -9.6 -22.6 0 -23.6 C9.6 -22.6 10.6 -13 8.6 -1.6 Z" fill="${sh}" stroke="${C('--outline','#6b5644')}" stroke-width="1.5" stroke-linejoin="round"/>
+    <path d="M-6 -4.2 C-8 -12 -7.4 -19 -1.6 -21.4" stroke="#ffffff" stroke-width="2" opacity=".16" fill="none"/>
+    ${motif}${outfit}
+    ${arms}
+    <circle cx="0" cy="-36" r="10.6" fill="${skin}" stroke="${C('--outline','#6b5644')}" stroke-width="1.5"/>
+    <ellipse cx="-3.4" cy="-42.6" rx="4.6" ry="2.4" fill="#ffffff" opacity=".18" transform="rotate(-16 -3.4 -42.6)"/>
+    ${facial}
+    <g fill="${hairC}" stroke="${C('--outline','#6b5644')}" stroke-width="1.3">${HAIR[a.hair] || ''}</g>
+    ${a.hat ? HATS[a.hat] : ''}
+    ${headphones}
+    <g fill="${ink}" stroke="${ink}" stroke-width="1.4">${eyes}${mouth}${brows}</g>
+    ${glasses}${mono}${blush}
+    ${held}${zzz}
+  </g>`;
+  LABELS.push({ x:o.x, y:o.y + (pose==='sit'||pose==='lie' ? 15 : 9), t:a.code });
+  return body;
+}
+let LABELS = [];
+function paintLabels(){
+  const out = LABELS.map(l=>`<text x="${l.x}" y="${l.y}" text-anchor="middle" font-size="9.6" font-weight="800" letter-spacing=".06em"
+      fill="${C('--ink','#2b2118')}" stroke="${C('--panel','#fffaf3')}" stroke-width="3.4" paint-order="stroke"
+      font-family="ui-sans-serif,system-ui,sans-serif">${l.t}</text>`).join('');
+  LABELS = [];
+  return `<g class="labels">${out}</g>`;
+}
+
+/* ==========================================================================
+   5 · Rutas del pasillo, flechas y fichas de etapa
+   ========================================================================== */
+const P_MAIN = 'M190 316 L190 292 L315 292 L315 404 L470 404 L470 292 L600 292 L600 412 L810 412 L810 546 L754 546';
+const P_BACK = 'M600 412 L470 412 L470 292 L190 292 L190 300';
+
+function paths(){
+  return `<g class="paths" fill="none">
+    <path d="${P_MAIN}" stroke="${C('--path','#c9a583')}" stroke-width="5" opacity=".4" stroke-linecap="round"/>
+    <path d="${P_MAIN}" stroke="${C('--path-ink','#a8734a')}" stroke-width="2.4" stroke-dasharray="9 9" stroke-linecap="round" class="flowline"/>
+    <path d="${P_BACK}" stroke="${C('--path','#c9a583')}" stroke-width="3.4" opacity=".26" stroke-linecap="round"/>
+    <path d="${P_BACK}" stroke="${C('--path-ink','#a8734a')}" stroke-width="1.9" stroke-dasharray="6 8" stroke-linecap="round" class="flowline slow" opacity=".65"/>
+    <g class="envelope">
+      <rect x="-8" y="-6" width="16" height="12" rx="2" fill="${C('--paper','#fffdf8')}" stroke="${C('--runner','#c46a4b')}" stroke-width="1.8"/>
+      <path d="M-8 -5 L0 1.6 L8 -5" fill="none" stroke="${C('--runner','#c46a4b')}" stroke-width="1.6"/>
+      <animateMotion dur="26s" repeatCount="indefinite" path="${P_MAIN}" rotate="0" keyPoints="0;1" keyTimes="0;1" calcMode="linear"/>
+    </g>
+  </g>`;
+}
+function chevron(x,y,rot,scale=1){
+  return `<g transform="translate(${x},${y}) rotate(${rot}) scale(${scale})"><path d="M-7 -5 L0 3 L7 -5" fill="none" stroke="${C('--runner-ink','#fff6ef')}" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round" opacity=".8"/></g>`;
+}
+function chip(x,y,num,text,accent){
+  const w = 26 + text.length*6.9, h = 20;
+  return `<g transform="translate(${x},${y})">
+    <rect x="${-w/2}" y="${-h/2}" width="${w}" height="${h}" rx="10" fill="${C('--paper','#fffdf8')}" stroke="${accent}" stroke-width="1.7" filter="url(#soft)"/>
+    <circle cx="${-w/2+11}" cy="0" r="6.4" fill="${accent}"/>
+    <text x="${-w/2+11}" y="3.4" text-anchor="middle" font-size="8.6" font-weight="800" fill="#fff" font-family="ui-sans-serif,system-ui,sans-serif">${num}</text>
+    <text x="${-w/2+22}" y="3.6" font-size="9.6" font-weight="700" fill="${C('--ink-2','#6d5c4c')}" letter-spacing=".04em" font-family="ui-sans-serif,system-ui,sans-serif">${esc(text)}</text>
+  </g>`;
+}
+
+/* ==========================================================================
+   6 · Ensamblado del plano
+   ========================================================================== */
+const ROOMS = {
+  lounge:{ x:40,  y:58,  w:290, h:215 },
+  orch:  { x:360, y:58,  w:360, h:215 },
+  work:  { x:40,  y:438, w:680, h:215 },
+  del:   { x:750, y:438, w:250, h:215 }
+};
+
+function buildPlan(){
+  LABELS = [];
+  const R = ROOMS;
+
+  /* ---- suelos ---- */
+  const floors = `
+  <g clip-path="url(#clipLounge)"><rect x="${R.lounge.x}" y="${R.lounge.y}" width="${R.lounge.w}" height="${R.lounge.h}" fill="url(#pWood)"/></g>
+  <g clip-path="url(#clipOrch)"><rect x="${R.orch.x}" y="${R.orch.y}" width="${R.orch.w}" height="${R.orch.h}" fill="url(#pWoodR)"/></g>
+  <g clip-path="url(#clipWork)"><rect x="${R.work.x}" y="${R.work.y}" width="${R.work.w}" height="${R.work.h}" fill="url(#pTile)"/></g>
+  <g clip-path="url(#clipDel)"><rect x="${R.del.x}" y="${R.del.y}" width="${R.del.w}" height="${R.del.h}" fill="url(#pKraft)"/></g>`;
+
+  /* ---- pasillos ---- */
+  const corrH = `<rect x="40" y="273" width="960" height="165" fill="url(#pCorr)"/>`;
+  const corrV = `<rect x="730" y="420" width="140" height="250" fill="url(#pCorr)"/>`;
+  const runnerH = `<rect x="40" y="336" width="690" height="40" rx="5" fill="url(#pRunner)" opacity=".92"/>
+    <rect x="40" y="340" width="690" height="3" fill="#fff" opacity=".1"/>
+    <rect x="40" y="369" width="690" height="3" fill="#000" opacity=".08"/>`;
+  const runnerV = `<rect x="781" y="430" width="38" height="240" rx="5" fill="url(#pRunner)" opacity=".92"/>
+    <rect x="785" y="430" width="3" height="240" fill="#fff" opacity=".1"/>
+    <rect x="811" y="430" width="3" height="240" fill="#000" opacity=".08"/>`;
+
+  /* ---- SALA DE DESCANSO ---- */
+  const lounge = [
+    { y:80,  s: windowUnit(96,72,74,28) + windowUnit(214,72,74,28) },
+    { y:104, s: F.bookshelf(74,104) },
+    { y:124, s: F.tv(250,100,100,54) },
+    { y:140, s: F.tvStand(250,152,120) + `<circle cx="250" cy="130" r="58" fill="url(#gTV)" opacity=".6"/>` },
+    { y:150, s: F.kitchenette(262,150) },
+    { y:164, s: F.floorLamp(150,166) },
+    { y:180, s: F.rug(178,196,72,44,'--rugcool','--rugcool-2') },
+    { y:186, s: F.armchair(142,186) },
+    { y:190, s: F.dartboard(316,142) },
+    { y:205, s: F.sofa(78,205) },
+    { y:210, s: F.coffeeTable(182,214) },
+    { y:222, s: F.gameTable(248,222) + F.robot(288,206) },
+    { y:236, s: F.arcade(306,238) },
+    { y:246, s: F.plant(58,248,.9) },
+    /* personajes */
+    { y:205, s: char('pi',{ x:84, y:198, pose:'lie', dir:-1, scale:.8, eyes:'closed', mouth:'sleep', zzz:true }) },
+    { y:206, s: F.blanket(84,201) },
+    { y:207, s: char('cl',{ x:142, y:181, pose:'sit', scale:.8 }) },
+    { y:224, s: char('ge',{ x:170, y:222, pose:'sit', scale:.8, eyes:'screen', mouth:'open', dir:-1, held:'popcorn' }) },
+    { y:225, s: F.beanbag(170,232,'--rugcool','--rugcool-2') },
+    { y:240, s: char('op',{ x:248, y:244, pose:'game', scale:.8, eyes:'happy', mouth:'grin' }) },
+    { y:246, s: char('ex',{ x:288, y:246, pose:'throw', scale:.8, dir:-1, eyes:'open', mouth:'smile', held:'dart' }) }
+  ];
+
+  /* ---- ORQUESTADOR ---- */
+  const orch = [
+    { y:78,  s: windowUnit(372,70,52,22) + windowUnit(656,70,52,22) },
+    { y:86,  s: F.bigScreen(540,74,214,76) },
+    { y:96,  s: F.sideboard(394,96) },
+    { y:120, s: F.whiteboard(676,120,88,50) },
+    { y:150, s: F.pendant(540,150,86) },
+    { y:182, s: F.rug(540,182,132,72,'--rug','--rug-2') },
+    { y:186, s: F.chair(452,166,-96) + F.chair(628,166,96) + F.chair(505,224,180) + F.chair(578,224,-180) },
+    { y:190, s: F.orchTable(540,190) },
+    { y:196, s: F.podiu ? '' : F.podium(540,150) },
+    { y:200, s: F.papers(492,182,8) + F.mug(516,178,'#005fa9') + F.papers(592,184,-6) + F.mug(610,180,'#10a37f') },
+    { y:200, s: F.laptop(462,186,-12,'#10a37f') + F.laptop(618,186,12,'#4285f4') + F.laptop(540,208,0,'#4b5563') },
+    { y:210, s: F.plant(378,214,.8) + F.plant(704,210,.9) },
+    { y:214, s: char('co',{ x:440, y:184, pose:'sit', scale:.8, dir:1, held:'mug' }) },
+    { y:214, s: char('ge',{ x:640, y:184, pose:'point', scale:.8, dir:-1, held:'none', eyes:'happy' }) },
+    { y:222, s: char('ja',{ x:540, y:148, pose:'boss', scale:.85, held:'folder' }) },
+    { y:246, s: char('gr',{ x:540, y:238, pose:'sit', scale:.8, dir:1, eyes:'open', mouth:'smirk' }) }
+  ];
+
+  /* ---- SALA DE TRABAJO ---- */
+  const desks = [
+    { x:130, y:490, n:'co · Codex',    a:'#10a37f', st:'idle'   },
+    { x:290, y:490, n:'cl · Claude',   a:'#d97757', st:'idle'   },
+    { x:450, y:490, n:'pi · Gentleman',a:'#ff4e83', st:'idle'   },
+    { x:610, y:490, n:'ja · Javier',   a:'#005fa9', st:'idle'   },
+    { x:130, y:596, n:'ge · agy',      a:'#4285f4', st:'idle'   },
+    { x:290, y:596, n:'gr · Grok',     a:'#4b5563', st:'idle'   },
+    { x:450, y:596, n:'op · opencode', a:'#9aa4b2', st:'idle'   },
+    { x:610, y:596, n:'ex · Externo',  a:'#a6a6a6', st:'idle'   }
+  ];
+  const work = [
+    { y:452, s: windowUnit(66,450,60,24) + windowUnit(642,450,60,24) + F.clock(380,462,14) },
+    { y:462, s: F.plant(706,466,.85) },
+    ...desks.map(d=>({ y:d.y, s: F.desk(d.x,d.y,d.n,d.a,d.st) })),
+    { y:640, s: F.printer(60,644) },
+    { y:644, s: F.boxes(676,648,.9) },
+    { y:648, s: F.whiteboard(300,646,84,44) }
+  ];
+
+  /* ---- ENTREGAS ---- */
+  const del = [
+    { y:452, s: windowUnit(770,450,54,22) + F.shelfUnit(930,500,110) },
+    { y:520, s: F.counter(872,520,150) },
+    { y:524, s: F.outbox(806,486) },
+    { y:528, s: F.parcel(838,500,26,20,'#d97757',-3) + F.parcel(864,498,22,17,'#4285f4',4) + F.parcel(890,502,28,22,'#ff4e83',-2) },
+    { y:534, s: F.labelPrinter(930,494) + F.scale(958,540) },
+    { y:600, s: F.handtruck(962,606) },
+    { y:630, s: F.boxes(782,636,1) + F.plantPotSmall(830,640) },
+    { y:640, s: F.chute(900,600) }
+  ];
+
+  /* ---- exterior / accesos ---- */
+  const outside = `
+  ${F.welcomeMat(190,296,66,26)}
+  ${F.hangingSign(190,352,'ENTRADA','#c46a4b')}
+  ${F.plantPotSmall(146,300)}
+  ${F.plantPotSmall(238,300)}
+  ${F.welcomeMat(800,668,62,24)}
+  ${F.exitSign(800,700)}
+  ${F.plant(742,690,.85)}
+  ${F.bench(940,560,86)}
+  ${F.plantPotSmall(990,600)}
+  ${F.bike(944,706)}`;
+
+  /* ---- puertas ---- */
+  const doors = `
+  ${gapH(R.lounge, R.lounge.y+R.lounge.h-CT, 168, 212)}
+  ${doorFrame(168, R.lounge.y+R.lounge.h-CT, 44, true, false)}
+  ${doorLeafH(170, R.lounge.y+R.lounge.h+2, 1)}
+
+  ${gapH(R.orch, R.orch.y+R.orch.h-CT, 506, 574)}
+  ${doorFrame(506, R.orch.y+R.orch.h-CT, 68, true, true)}
+  ${doorLeafH(508, R.orch.y+R.orch.h+2, 1)}
+  ${doorLeafH(572, R.orch.y+R.orch.h+2, -1)}
+
+  ${gapH(R.work, R.work.y-CT, 578, 622)}
+  ${doorFrame(578, R.work.y-CT, 44, true, false)}
+  ${doorLeafH(580, R.work.y-2, 1)}
+
+  ${gapH(R.del, R.del.y-CT, 786, 834)}
+  ${doorFrame(786, R.del.y-CT, 48, true, false)}
+  ${doorLeafH(788, R.del.y-2, 1)}
+
+  ${gapH(R.del, R.del.x+R.del.h*0+R.del.h-CT+CT, 0, 0)}
+  ${'' /* hueco de la puerta de salida, en el muro inferior de entregas */}
+  <rect x="778" y="${R.del.y+R.del.h-CT}" width="44" height="${CT}" fill="${C('--panel-2','#f6eee2')}"/>
+  ${doorFrame(778, R.del.y+R.del.h-CT, 44, true, false)}
+  ${doorLeafH(780, R.del.y+R.del.h+2, 1)}
+
+  ${'' /* ventanilla de servicio del mostrador hacia el pasillo vertical */}
+  <rect x="${R.del.x-SD}" y="524" width="${SD}" height="52" fill="${C('--panel-2','#f6eee2')}"/>
+  <rect x="${R.del.x-SD-2}" y="520" width="5" height="60" rx="2" fill="${C('--furn-wood-2','#a9784a')}"/>
+  <rect x="${R.del.x-SD-2}" y="520" width="17" height="5" rx="2" fill="${C('--furn-wood-2','#a9784a')}"/>
+  <rect x="${R.del.x-SD-2}" y="575" width="17" height="5" rx="2" fill="${C('--furn-wood-2','#a9784a')}"/>
+  <text x="${R.del.x-SD+7}" y="516" text-anchor="middle" font-size="8" font-weight="800" fill="${C('--ink-3','#a1907e')}" font-family="ui-sans-serif,system-ui,sans-serif">MOSTRADOR</text>`;
+
+  /* ---- rótulos de sala ---- */
+  const signs = `
+  ${roomSign(56,34,'1','DESCANSO','#c46a4b')}
+  ${roomSign(376,34,'2','ORQUESTADOR','#d97757',true)}
+  ${roomSign(56,414,'3','TRABAJO','#4285f4')}
+  ${roomSign(766,414,'4','ENTREGAS','#e0a33c')}`;
+
+  /* ---- fichas de etapa en el pasillo + flechas ---- */
+  const chips = `
+  ${chip(268,310,'1','DESCANSO','#c46a4b')}
+  ${chip(440,310,'2','ORQUESTADOR','#d97757')}
+  ${chip(672,310,'3','TRABAJO','#4285f4')}
+  ${chip(800,470,'4','ENTREGAS','#e0a33c')}
+  ${chevron(316,356,0)}${chevron(420,356,0)}${chevron(545,356,0)}${chevron(660,356,0)}
+  ${chevron(800,500,90)}${chevron(800,560,90)}${chevron(800,616,90)}`;
+
+  /* ---- leyenda mínima dentro del plano ---- */
+  const mini = `<g transform="translate(884,452)">
+    <rect x="0" y="0" width="146" height="92" rx="11" fill="${C('--panel','#fffaf3')}" stroke="${C('--line','#e2d5c4')}" stroke-width="1.4" opacity=".96" filter="url(#soft)"/>
+    <text x="12" y="18" font-size="8.6" font-weight="800" letter-spacing=".12em" fill="${C('--ink-3','#a1907e')}" font-family="ui-sans-serif,system-ui,sans-serif">ESTADO DEL AGENTE</text>
+    <g font-size="9.6" font-weight="600" fill="${C('--ink-2','#6d5c4c')}" font-family="ui-sans-serif,system-ui,sans-serif">
+      <circle cx="17" cy="35" r="4.4" fill="${C('--led-idle','#c3b7a6')}"/><text x="28" y="38.4">sin tarea</text>
+      <circle cx="17" cy="53" r="4.4" fill="${C('--led-active','#3fae6a')}" class="pulse"/><text x="28" y="56.4">trabajando</text>
+      <circle cx="17" cy="71" r="4.4" fill="${C('--led-done','#e0a33c')}"/><text x="28" y="74.4">entregado</text>
+    </g>
+    <g transform="translate(96,35)"><path d="M0 0h22" stroke="${C('--runner','#c46a4b')}" stroke-width="3" stroke-dasharray="5 4"/></g>
+    <text x="96" y="56" font-size="8.4" fill="${C('--ink-3','#a1907e')}" font-family="ui-sans-serif,system-ui,sans-serif">recorrido</text>
+    <text x="96" y="72" font-size="8.4" fill="${C('--ink-3','#a1907e')}" font-family="ui-sans-serif,system-ui,sans-serif">1 u ≈ 1 cm</text>
+  </g>`;
+
+  /* ---- barras de escala + norte ---- */
+  const scalebar = `<g transform="translate(44,716)">
+    <rect x="0" y="0" width="70" height="7" rx="2" fill="${C('--paper','#fffdf8')}" stroke="${C('--wall-line','#cdbaa2')}" stroke-width="1.2"/>
+    <rect x="0" y="0" width="35" height="7" rx="2" fill="${C('--furn-dark','#4a4038')}" opacity=".75"/>
+    <text x="76" y="7" font-size="9" font-weight="700" fill="${C('--ink-3','#a1907e')}" font-family="ui-sans-serif,system-ui,sans-serif">2 m</text>
+  </g>
+  <g transform="translate(996,690)">
+    <circle r="19" fill="${C('--panel','#fffaf3')}" stroke="${C('--wall-line','#cdbaa2')}" stroke-width="1.4" opacity=".95"/>
+    <path d="M0 -13 L5 4 L0 0.6 L-5 4Z" fill="${C('--runner','#c46a4b')}"/>
+    <text x="0" y="-16" text-anchor="middle" font-size="8.6" font-weight="800" fill="${C('--ink-2','#6d5c4c')}" font-family="ui-sans-serif,system-ui,sans-serif">N</text>
+  </g>`;
+
+  return `<svg class="plan" viewBox="0 0 1040 760" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Plano de la oficina virtual">
+  ${defs()}
+  <style>text{ -webkit-font-smoothing:antialiased }</style>
+  <title>Plano de la oficina virtual con las cuatro salas y los ocho agentes</title>
+
+  <g id="ground">
+    <rect x="0" y="0" width="1040" height="760" fill="${C('--panel-2','#f6eee2')}"/>
+    <g opacity=".5" stroke="${C('--line-soft','#efe5d8')}" stroke-width="1">
+      ${Array.from({length:25},(_,i)=>`<path d="M${i*44} 0V760"/>`).join('')}
+      ${Array.from({length:18},(_,i)=>`<path d="M0 ${i*44}H1040"/>`).join('')}
+    </g>
+  </g>
+
+  <g id="slab">
+    <rect x="14" y="14" width="1012" height="672" rx="20" fill="${C('--slab','#d8c7b1')}" stroke="${C('--slab-edge','#b69f85')}" stroke-width="2" filter="url(#softer)"/>
+    <ellipse cx="540" cy="182" rx="330" ry="230" fill="url(#gSpot)"/>
+    ${corrH}${corrV}
+    ${floors}
+    ${runnerH}${runnerV}
+    ${paths()}
+    ${chips}
+  </g>
+
+  <g id="room-lounge"><title>Sala de descanso</title>${walls(R.lounge)}</g>
+  <g id="room-orch"><title>Zona del Orquestador</title>${walls(R.orch)}</g>
+  <g id="room-work"><title>Sala de trabajo</title>${walls(R.work)}</g>
+  <g id="room-del"><title>Zona de entregas</title>${walls(R.del)}</g>
+
+  ${doors}
+  ${signs}
+
+  <g id="furn-lounge">${sortY(lounge)}${paintLabels()}</g>
+  <g id="furn-orch">${sortY(orch)}${paintLabels()}</g>
+  <g id="furn-work">${sortY(work)}${paintLabels()}</g>
+  <g id="furn-del">${sortY(del)}${paintLabels()}</g>
+
+  ${outside}
+  ${mini}
+  ${scalebar}
+</svg>`;
+}
+function sortY(items){ return items.slice().sort((a,b)=>a.y-b.y).map(i=>i.s).join(''); }
+
+/* ==========================================================================
+   7 · Montaje en la página
+   ========================================================================== */
+/* versión temática: colores por variable CSS (los cambia el toggle claro/oscuro) */
+function planThemed(){
+  const raw = buildPlan();
+  const t = themify(raw);
+  return t.svg.replace('/*PLAN_CSS*/', '\n' + t.css);
+}
+/* versión estática con paleta fija (para exportar el .svg autónomo) */
+function planStatic(which){
+  LITERAL = PALETTE[which];
+  const raw = buildPlan().replace('/*PLAN_CSS*/', '');
+  LITERAL = null;
+  return raw;
+}
+
+const html = planThemed();
+document.getElementById('plan').innerHTML = html;
+document.getElementById('plan520').innerHTML = html;
+document.getElementById('plan340').innerHTML = html;
+
+/* leyenda HTML */
+const ROSTER = [
+  { c:'co', n:'Codex',     p:'guiño OpenAI · nudo verde',        room:'Orquestador', st:'En reunión', cls:'w-orquestador' },
+  { c:'cl', n:'Claude',    p:'guiño Anthropic · terracota y libro', room:'Descanso',  st:'Leyendo',    cls:'w-descanso' },
+  { c:'pi', n:'Gentleman', p:'identidad propia · chistera rosa',  room:'Descanso',    st:'Durmiendo',  cls:'w-descanso' },
+  { c:'ja', n:'Javier',    p:'ApliArte · el humano, dueño',       room:'Orquestador', st:'Dirigiendo', cls:'w-orquestador' },
+  { c:'ge', n:'agy',       p:'guiño Google · cuatro puntitos',    room:'Descanso',    st:'Viendo la tele', cls:'w-descanso' },
+  { c:'gr', n:'Grok',      p:'guiño xAI · aspa y cascos',         room:'Orquestador', st:'En reunión', cls:'w-orquestador' },
+  { c:'op', n:'opencode',  p:'identidad propia · capucha y >_',   room:'Descanso',    st:'Jugando',    cls:'w-descanso' },
+  { c:'ex', n:'Externo',   p:'genérico · acreditación de visita', room:'Descanso',    st:'Dardos',     cls:'w-descanso' }
+];
+document.getElementById('agents').innerHTML = ROSTER.map(a=>`
+  <div class="agent">
+    <span class="swatch" style="background:${AGENTS[a.c].accent};color:${AGENTS[a.c].accent}"></span>
+    <span><span class="nm">${a.n} <span style="color:var(--ink-3);font-weight:600">· ${a.c}</span></span>
+    <span class="pr">${a.p}</span></span>
+    <span class="where ${a.cls}">${a.room}</span>
+  </div>`).join('');
+
+/* tema */
+const root = document.documentElement;
+const bL = document.getElementById('btnLight'), bD = document.getElementById('btnDark');
+function setTheme(t){ root.setAttribute('data-theme',t); bL.setAttribute('aria-pressed', t==='light'); bD.setAttribute('aria-pressed', t==='dark'); }
+if (window.matchMedia && matchMedia('(prefers-color-scheme: dark)').matches) setTheme('dark');
+bL.onclick = ()=>setTheme('light');
+bD.onclick = ()=>setTheme('dark');
+
+/* movimiento */
+const bM = document.getElementById('btnMotion');
+bM.onclick = ()=>{
+  const on = bM.getAttribute('aria-pressed')==='true';
+  bM.setAttribute('aria-pressed', String(!on));
+  document.querySelectorAll('svg.plan').forEach(s=>{
+    s.style.setProperty('--motion', on?'paused':'running');
+    s.querySelectorAll('.flowline,.blink,.pulse,.z1,.z2,.z3,.screen-glow').forEach(e=>e.style.animationPlayState = on?'paused':'running');
+    s.querySelectorAll('animateMotion').forEach(e=> on ? e.setAttribute('dur','1e9s') : e.setAttribute('dur','26s'));
+  });
+};
+
+/* reloj del panel */
+(function(){
+  const d = new Date();
+  document.getElementById('clock').textContent =
+    d.toLocaleDateString('es-ES',{weekday:'long'}) + ' · ' + d.toLocaleTimeString('es-ES',{hour:'2-digit',minute:'2-digit'});
+})();
+</script>
+</body>
+</html>

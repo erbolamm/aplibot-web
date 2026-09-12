@@ -1,0 +1,465 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Oficinas — Comparativa de diseño ApliArte</title>
+<style>
+  :root {
+    --primary: #005fa9;
+    --primary-dark: #00467b;
+    --accent: #5ecef5;
+    --accent-glow: #8fd5fa;
+    --bg: #fdfdfd;
+    --bg-soft: #f4f5f7;
+    --card: #ffffff;
+    --text: #303030;
+    --text-muted: #6b7280;
+    --border: #d9d9d9;
+    --warm: #e8955e;
+    --warm-dark: #b46734;
+    --success: #22c55e;
+    color-scheme: light;
+  }
+  [data-theme="dark"] {
+    --bg: #303030;
+    --bg-soft: #262626;
+    --card: #3a3a3a;
+    --text: #fdfdfd;
+    --text-muted: #bebbb9;
+    --border: #4a4a4a;
+    color-scheme: dark;
+  }
+  @media (prefers-color-scheme: dark) {
+    :root:not([data-theme="light"]) {
+      --bg: #303030;
+      --bg-soft: #262626;
+      --card: #3a3a3a;
+      --text: #fdfdfd;
+      --text-muted: #bebbb9;
+      --border: #4a4a4a;
+      color-scheme: dark;
+    }
+  }
+  * { box-sizing: border-box; }
+  body {
+    margin: 0;
+    padding: 0;
+    background: var(--bg);
+    color: var(--text);
+    font-family: 'Inter', system-ui, -apple-system, sans-serif;
+    transition: background 0.2s ease, color 0.2s ease;
+  }
+  .wrap {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 24px 20px 64px;
+  }
+  header.top {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 12px;
+    margin-bottom: 8px;
+  }
+  .brand {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    font-weight: 800;
+    letter-spacing: 0.5px;
+    color: var(--primary);
+    font-size: 15px;
+  }
+  .brand .chevron {
+    display: inline-block;
+    width: 22px;
+    height: 22px;
+    background: linear-gradient(135deg, var(--primary), var(--accent));
+    clip-path: polygon(0% 0%, 60% 0%, 100% 50%, 60% 100%, 0% 100%, 40% 50%);
+    border-radius: 4px;
+  }
+  .theme-toggle {
+    border: 1px solid var(--border);
+    background: var(--card);
+    color: var(--text);
+    border-radius: 999px;
+    padding: 8px 14px;
+    font-size: 14px;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    min-height: 40px;
+  }
+  .theme-toggle:active { transform: scale(0.97); }
+
+  .hero {
+    padding: 28px 0 20px;
+  }
+  .hero h1 {
+    font-family: 'Fira Sans Condensed', 'Inter', sans-serif;
+    font-weight: 800;
+    font-size: clamp(24px, 4vw, 34px);
+    margin: 0 0 10px;
+    background: linear-gradient(90deg, var(--primary), var(--accent));
+    -webkit-background-clip: text;
+    background-clip: text;
+    -webkit-text-fill-color: transparent;
+  }
+  .hero p {
+    color: var(--text-muted);
+    line-height: 1.6;
+    font-size: 15px;
+    max-width: 780px;
+    margin: 0 0 8px;
+  }
+  .hero .note {
+    font-size: 13px;
+    color: var(--text-muted);
+    border-left: 3px solid var(--accent);
+    padding: 8px 12px;
+    background: var(--bg-soft);
+    border-radius: 0 8px 8px 0;
+    max-width: 780px;
+    margin-top: 14px;
+  }
+
+  .grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+    gap: 18px;
+    margin-top: 24px;
+  }
+
+  .card {
+    background: var(--card);
+    border: 1px solid rgba(94, 206, 245, 0.25);
+    border-radius: 16px;
+    padding: 18px;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    position: relative;
+    box-shadow: 0 2px 10px rgba(0,0,0,0.04);
+  }
+  .card.winner {
+    border: 2px solid var(--warm);
+    box-shadow: 0 0 0 3px rgba(232, 149, 94, 0.15), 0 4px 16px rgba(0,0,0,0.06);
+  }
+  .badge-winner {
+    position: absolute;
+    top: -12px;
+    right: 14px;
+    background: linear-gradient(90deg, var(--warm), var(--warm-dark));
+    color: #fff;
+    font-size: 12px;
+    font-weight: 800;
+    padding: 5px 12px;
+    border-radius: 999px;
+    box-shadow: 0 2px 8px rgba(180, 103, 52, 0.4);
+    letter-spacing: 0.3px;
+  }
+  .card-tag {
+    align-self: flex-start;
+    font-size: 11px;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    color: var(--primary-dark);
+    background: rgba(94, 206, 245, 0.15);
+    padding: 3px 9px;
+    border-radius: 999px;
+  }
+  .card h3 {
+    margin: 0;
+    font-size: 17px;
+    font-weight: 800;
+    color: var(--text);
+  }
+  .card p.desc {
+    margin: 0;
+    font-size: 13.5px;
+    color: var(--text-muted);
+    line-height: 1.5;
+    min-height: 40px;
+  }
+  .card-actions {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 10px;
+    margin-top: 6px;
+    flex-wrap: wrap;
+  }
+  .btn-open {
+    background: var(--primary);
+    color: #fff;
+    border: none;
+    padding: 10px 16px;
+    border-radius: 10px;
+    font-weight: 700;
+    font-size: 13.5px;
+    cursor: pointer;
+    text-decoration: none;
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    box-shadow: 0 0 14px rgba(94, 206, 245, 0.35);
+    min-height: 40px;
+  }
+  .btn-open:hover { background: var(--primary-dark); }
+
+  .vote-block {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+  }
+  .btn-vote {
+    background: var(--card);
+    border: 1.5px solid var(--accent);
+    color: var(--primary-dark);
+    padding: 9px 14px;
+    border-radius: 10px;
+    font-weight: 700;
+    font-size: 13px;
+    cursor: pointer;
+    min-height: 40px;
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+  }
+  [data-theme="dark"] .btn-vote { color: var(--accent-glow); }
+  .btn-vote:disabled {
+    opacity: 0.65;
+    cursor: default;
+    border-color: var(--success);
+    color: var(--success);
+  }
+  .btn-vote:not(:disabled):active { transform: scale(0.97); }
+  .vote-count {
+    font-weight: 800;
+    font-size: 14px;
+    color: var(--text);
+    min-width: 26px;
+    text-align: center;
+  }
+  .vote-count.pending { color: var(--text-muted); font-weight: 500; }
+
+  .poll-caption {
+    text-align: center;
+    color: var(--text-muted);
+    font-size: 12.5px;
+    margin: 28px auto 0;
+    max-width: 640px;
+    line-height: 1.5;
+  }
+
+  footer.page-footer {
+    text-align: center;
+    margin-top: 40px;
+    color: var(--text-muted);
+    font-size: 12px;
+  }
+  footer.page-footer a { color: var(--primary); text-decoration: none; }
+
+  @media (max-width: 480px) {
+    .wrap { padding: 16px 14px 48px; }
+    .card-actions { flex-direction: column; align-items: stretch; }
+    .btn-open, .vote-block { width: 100%; justify-content: center; }
+  }
+</style>
+</head>
+<body>
+<div class="wrap">
+  <header class="top">
+    <div class="brand"><span class="chevron"></span> APLIARTE</div>
+    <button class="theme-toggle" id="themeToggle" type="button" aria-label="Cambiar tema claro/oscuro">
+      <span id="themeIcon">🌙</span> <span id="themeLabel">Oscuro</span>
+    </button>
+  </header>
+
+  <section class="hero">
+    <h1>Oficinas — comparativa de diseño</h1>
+    <p>
+      En septiembre de 2026, el equipo de ErBolamm comparó varias propuestas de interfaz para el
+      panel de la oficina virtual: vistas 2D, isométricas y volumétricas en CSS 3D. Aquí quedan
+      los borradores que se evaluaron y una votación abierta para hacernos una idea de cuál gusta
+      más.
+    </p>
+    <div class="note">
+      Las tarjetas marcadas como <strong>«referencia externa»</strong> son propuestas generadas por
+      IA de terceros, usadas solo como inspiración durante la comparación — no son trabajo de
+      ApliArte ni representan su marca.
+    </div>
+  </section>
+
+  <div class="grid" id="cardsGrid"></div>
+
+  <p class="poll-caption">
+    Un voto por navegador (no es a prueba de trampas, es solo para hacernos una idea).
+  </p>
+
+  <footer class="page-footer">
+    ApliArte — ErBolamm · <a href="../">Volver a ApliArteBot</a>
+  </footer>
+</div>
+
+<script>
+(function () {
+  'use strict';
+
+  var NAMESPACE = 'erbolamm-oficinas-2026';
+  var VOTED_KEY_PREFIX = 'oficinas-voto-';
+
+  var drafts = [
+    { slug: 'pi', label: 'Gentleman [pi]', tag: '2D', desc: 'Vista cenital 2D, planta de oficina clásica.' },
+    { slug: 'co', label: 'Codex [co] — borrador original', tag: '2D', desc: 'Primer borrador de Codex, vista 2D de planta.' },
+    { slug: 'cl', label: 'Claude [cl] — borrador original', tag: '2D', desc: 'Primer borrador de Claude, vista 2D de planta.' },
+    { slug: 'ja', label: 'Javier [ja] (Minimax Code)', tag: '2D', desc: 'Propuesta de Javier generada con Minimax Code.' },
+    { slug: 'ja-3d', label: 'Javier [ja] — versión 3D (Three.js)', tag: '3D', desc: 'Vista 3D real con Three.js, cámara navegable.' },
+    { slug: 'cl-3d-css', label: 'Claude [cl] — toque 3D con CSS', tag: 'CSS 3D', desc: 'Perspectiva 3D lograda solo con transformaciones CSS.' },
+    { slug: 'cl-3d-iso', label: 'Claude [cl] — isométrico', tag: 'Isométrico', desc: 'Proyección isométrica de la planta de la oficina.' },
+    { slug: 'co-3d-css', label: 'Codex [co] — maqueta volumétrica CSS 3D', tag: 'CSS 3D', desc: 'Maqueta volumétrica en CSS 3D — la elegida para el panel real.', winner: true },
+    { slug: 'ext-plano-virtual', label: 'Referencia externa — plano virtual', tag: 'Externa', desc: 'Propuesta de terceros: plano de oficina virtual, solo inspiración.' },
+    { slug: 'ext-dashboard-a', label: 'Referencia externa — virtual office dashboard (A)', tag: 'Externa', desc: 'Propuesta de terceros: panel de oficina virtual, variante A.' },
+    { slug: 'ext-dashboard-b', label: 'Referencia externa — virtual office dashboard (B)', tag: 'Externa', desc: 'Propuesta de terceros: panel de oficina virtual, variante B.' }
+  ];
+
+  function apiUrl(action, slug) {
+    // Este espejo de CountAPI usa una única clave combinada (namespace-clave),
+    // no el formato clásico de dos segmentos namespace/clave.
+    return 'https://countapi.mileshilliard.com/api/v1/' + action + '/' + NAMESPACE + '-voto-' + slug;
+  }
+
+  function fetchCount(slug, cb) {
+    fetch(apiUrl('get', slug))
+      .then(function (r) { if (!r.ok) throw new Error('bad status'); return r.json(); })
+      .then(function (data) { cb(typeof data.value === 'number' ? data.value : null); })
+      .catch(function () { cb(null); });
+  }
+
+  function hitCount(slug, cb) {
+    fetch(apiUrl('hit', slug))
+      .then(function (r) { if (!r.ok) throw new Error('bad status'); return r.json(); })
+      .then(function (data) { cb(typeof data.value === 'number' ? data.value : null, null); })
+      .catch(function (err) { cb(null, err); });
+  }
+
+  function votedKey(slug) { return VOTED_KEY_PREFIX + slug; }
+
+  function hasVoted(slug) {
+    try { return localStorage.getItem(votedKey(slug)) === '1'; }
+    catch (e) { return false; }
+  }
+
+  function markVoted(slug) {
+    try { localStorage.setItem(votedKey(slug), '1'); } catch (e) { /* ignore */ }
+  }
+
+  function buildCard(d) {
+    var card = document.createElement('div');
+    card.className = 'card' + (d.winner ? ' winner' : '');
+
+    var html = '';
+    if (d.winner) {
+      html += '<div class="badge-winner">★ Elegido</div>';
+    }
+    html += '<span class="card-tag">' + d.tag + '</span>';
+    html += '<h3>' + d.label + '</h3>';
+    html += '<p class="desc">' + d.desc + '</p>';
+    html += '<div class="card-actions">';
+    html += '<a class="btn-open" href="' + d.slug + '/index.html" target="_blank" rel="noopener">Abrir ↗</a>';
+    html += '<div class="vote-block">';
+    html += '<button class="btn-vote" data-slug="' + d.slug + '" type="button">👍 Votar</button>';
+    html += '<span class="vote-count pending" data-count="' + d.slug + '">—</span>';
+    html += '</div>';
+    html += '</div>';
+
+    card.innerHTML = html;
+    return card;
+  }
+
+  function renderCards() {
+    var grid = document.getElementById('cardsGrid');
+    drafts.forEach(function (d) {
+      var card = buildCard(d);
+      grid.appendChild(card);
+    });
+
+    drafts.forEach(function (d) {
+      var countEl = grid.querySelector('[data-count="' + d.slug + '"]');
+      var voteBtn = grid.querySelector('.btn-vote[data-slug="' + d.slug + '"]');
+
+      fetchCount(d.slug, function (value) {
+        if (value === null) {
+          countEl.textContent = 'sin datos';
+        } else {
+          countEl.textContent = value;
+          countEl.classList.remove('pending');
+        }
+      });
+
+      if (hasVoted(d.slug)) {
+        voteBtn.disabled = true;
+        voteBtn.textContent = '✓ Votado';
+      }
+
+      voteBtn.addEventListener('click', function () {
+        if (voteBtn.disabled) return;
+        voteBtn.disabled = true;
+        voteBtn.textContent = '…';
+        hitCount(d.slug, function (value, err) {
+          if (err || value === null) {
+            voteBtn.disabled = false;
+            voteBtn.textContent = '👍 Votar';
+            countEl.textContent = 'sin datos';
+            return;
+          }
+          countEl.textContent = value;
+          countEl.classList.remove('pending');
+          voteBtn.textContent = '✓ Votado';
+          markVoted(d.slug);
+        });
+      });
+    });
+  }
+
+  function applyTheme(theme) {
+    if (theme === 'dark') {
+      document.documentElement.setAttribute('data-theme', 'dark');
+      document.getElementById('themeIcon').textContent = '☀️';
+      document.getElementById('themeLabel').textContent = 'Claro';
+    } else {
+      document.documentElement.setAttribute('data-theme', 'light');
+      document.getElementById('themeIcon').textContent = '🌙';
+      document.getElementById('themeLabel').textContent = 'Oscuro';
+    }
+  }
+
+  function initTheme() {
+    var saved = null;
+    try { saved = localStorage.getItem('oficinas-theme'); } catch (e) { /* ignore */ }
+    if (saved === 'dark' || saved === 'light') {
+      applyTheme(saved);
+    } else {
+      var prefersDark = window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches;
+      applyTheme(prefersDark ? 'dark' : 'light');
+    }
+
+    document.getElementById('themeToggle').addEventListener('click', function () {
+      var current = document.documentElement.getAttribute('data-theme');
+      var next = current === 'dark' ? 'light' : 'dark';
+      applyTheme(next);
+      try { localStorage.setItem('oficinas-theme', next); } catch (e) { /* ignore */ }
+    });
+  }
+
+  document.addEventListener('DOMContentLoaded', function () {
+    initTheme();
+    renderCards();
+  });
+})();
+</script>
+</body>
+</html>

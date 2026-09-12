@@ -4,6 +4,7 @@ import 'app.dart';
 import 'pages/blog_page.dart';
 import 'widgets/pacman_game.dart';
 import 'pages/tablas_page.dart';
+import 'pages/oficinas_page.dart';
 
 void main() {
   runApp(const ApliArteBotApp());
@@ -31,6 +32,7 @@ class ApliArteBotApp extends StatelessWidget {
         '/blog': (context) => const BlogPage(),
         '/pacman': (context) => const PacManGame(),
         '/tablas': (context) => const TablasPage(),
+        '/oficinas': (context) => const OficinasPage(),
       },
     );
   }

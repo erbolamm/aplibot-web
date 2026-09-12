@@ -1,0 +1,715 @@
+<!DOCTYPE html>
+<html lang="es" data-theme="light">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>La Oficina · Borrador pi · ApliArte</title>
+<style>
+  /* ---- Tokens ApliArte (ingredientes/marca/APLIARTE_BRAND_KIT.md) ----
+     Retirados y PROHIBIDOS: #141622, #1e2238, #452816 */
+  :root{
+    --blue:#005fa9; --navy:#00467b; --cyan:#5ecef5; --glow:#8fd5fa;
+    --white:#fdfdfd; --charcoal:#303030; --grey:#d9d9d9; --muted:#bebbb9;
+    --border:#a6a6a6; --amber:#e8955e; --brown:#b46734;
+    --card-border: rgba(94,206,245,.25);
+    --cta-shadow: 0 0 14px rgba(94,206,245,.4);
+    --font-head:'Fira Sans Condensed','Inter','DejaVu Sans',system-ui,sans-serif;
+    --font-ui:'Inter','DejaVu Sans',system-ui,sans-serif;
+    --font-body:'Abel',system-ui,sans-serif;
+    --font-mono:'JetBrains Mono',ui-monospace,monospace;
+  }
+  html[data-theme="light"]{
+    --bg:#fdfdfd; --card:#ffffff; --text:#303030; --line:#d9d9d9;
+    --floor1:#eef6fb; --floor2:#e8f2fa; --floor3:#f2f7fb; --floor4:#f6f1ea;
+    --corridor:#e3eef6; --wall:#005fa9; --desk:#b46734; --wood:#b46734;
+  }
+  html[data-theme="dark"]{
+    --bg:#303030; --card:#00467b; --text:#fdfdfd; --line:#00467b;
+    --floor1:#27455c; --floor2:#22405a; --floor3:#2a4a63; --floor4:#3a3f45;
+    --corridor:#1d3document; --wall:#5ecef5; --desk:#8a5227; --wood:#8a5227;
+  }
+  html[data-theme="dark"]{ --corridor:#1d3a52; }
+  *{box-sizing:border-box}
+  body{
+    margin:0; background:var(--bg); color:var(--text);
+    font-family:var(--font-body); transition:background .25s,color .25s;
+  }
+  header{
+    display:flex; align-items:center; gap:16px; flex-wrap:wrap;
+    padding:14px 22px; background:var(--card);
+    border-bottom:1px solid var(--card-border);
+  }
+  .brand{display:flex; align-items:center; gap:12px}
+  .brand h1{
+    font-family:var(--font-head); font-weight:800; font-size:26px; margin:0; letter-spacing:.5px;
+  }
+  .brand p{margin:2px 0 0; font-family:var(--font-ui); font-size:12px; color:var(--muted)}
+  .spacer{flex:1}
+  .pill{
+    display:inline-flex; align-items:center; gap:8px; padding:7px 14px; border-radius:999px;
+    background:var(--bg); border:1px solid var(--card-border);
+    font-family:var(--font-ui); font-size:12px; font-weight:600;
+  }
+  .pill b{font-family:var(--font-mono); font-size:14px}
+  .dot{width:9px;height:9px;border-radius:50%}
+  button{
+    font-family:var(--font-ui); font-weight:600; font-size:13px; cursor:pointer;
+    border-radius:10px; border:1px solid var(--card-border); padding:8px 14px;
+    background:var(--bg); color:var(--text); transition:.15s;
+  }
+  button:hover{border-color:var(--cyan); box-shadow:0 0 8px rgba(94,206,245,.35)}
+  button.primary{
+    background:var(--blue); color:var(--white); border-color:var(--blue);
+    box-shadow:var(--cta-shadow);
+  }
+  button.on{background:var(--cyan); color:#083049; border-color:var(--cyan)}
+  #themeBtn{font-size:16px; padding:8px 12px}
+  .wrap{max-width:1280px; margin:0 auto}
+  main{
+    display:grid; grid-template-columns:230px minmax(0,1fr) 280px;
+    gap:14px; padding:14px; align-items:start;
+  }
+  @media (max-width:900px){ main{grid-template-columns:1fr} }
+  .card{
+    background:var(--card); border:1px solid var(--card-border); border-radius:16px;
+    padding:14px; box-shadow:0 2px 10px rgba(0,0,0,.05);
+  }
+  .card h2{
+    font-family:var(--font-head); font-weight:700; font-size:15px; margin:0 0 10px;
+    letter-spacing:.6px; text-transform:uppercase;
+  }
+  .agentRow{
+    display:flex; gap:10px; align-items:center; padding:8px; border-radius:12px; margin-bottom:6px;
+    border:1px solid transparent;
+  }
+  .agentRow:hover{border-color:var(--card-border); background:rgba(94,206,245,.06)}
+  .ava{width:34px;height:34px;border-radius:10px;flex:none;display:grid;place-items:center;
+       font-family:var(--font-mono); font-size:12px; font-weight:700; color:#fff}
+  .agentRow .nm{font-family:var(--font-ui); font-weight:600; font-size:13px}
+  .agentRow .st{font-size:11px; color:var(--muted)}
+  .bar{height:5px;border-radius:4px;background:var(--line);overflow:hidden;margin-top:5px}
+  .bar i{display:block;height:100%;background:linear-gradient(90deg,var(--blue),var(--cyan));width:0%}
+  .badge{
+    display:inline-block; padding:2px 8px; border-radius:999px; font-size:10px; font-weight:700;
+    font-family:var(--font-ui); color:#083049; background:var(--cyan);
+  }
+  .badge.warm{background:var(--amber); color:#3a2410}
+  .task{border:1px solid var(--card-border); border-radius:12px; padding:10px; margin-bottom:8px}
+  .task .t{font-family:var(--font-ui); font-weight:600; font-size:13px}
+  .feed{font-size:12px; line-height:1.5; max-height:220px; overflow:auto}
+  .feed div{padding:4px 0; border-bottom:1px dashed var(--card-border)}
+  .feed time{font-family:var(--font-mono); font-size:10px; color:var(--muted); margin-right:6px}
+  #plan{width:100%; height:auto; display:block; border-radius:14px}
+  footer{
+    padding:8px 14px 16px; font-size:12px; color:var(--muted); font-family:var(--font-ui);
+  }
+  .legend{display:flex; gap:8px; flex-wrap:wrap; margin-top:10px}
+      .chip{display:inline-flex;align-items:center;gap:6px;padding:4px 10px;border-radius:999px;
+            border:1px solid var(--card-border); font-family:var(--font-ui); font-size:11px; font-weight:600}
+      #agentsLayer g{cursor:pointer}
+      .agentRow{cursor:pointer}
+      .modal{position:fixed; inset:0; z-index:60; display:grid; place-items:center;
+             background:rgba(48,48,48,.5); backdrop-filter:blur(2px); padding:16px}
+      .modal[hidden]{display:none}
+      .sheet{width:min(380px, calc(100vw - 32px)); max-height:86vh; overflow:auto; background:var(--card);
+             border:1px solid var(--card-border); border-radius:18px; padding:16px;
+             box-shadow:0 18px 50px rgba(0,0,0,.35)}
+      .sheet header{display:flex; align-items:center; gap:10px; padding:0; border:0; background:none}
+      .sheet h3{font-family:var(--font-head); font-weight:800; font-size:20px; margin:0; flex:1}
+      .sheet .x{padding:4px 10px; border-radius:8px}
+      .sheet .kv{display:flex; justify-content:space-between; gap:10px; font-size:12px;
+                 font-family:var(--font-ui); padding:5px 0; border-bottom:1px dashed var(--card-border)}
+      .sheet .kv b{font-weight:600}
+    </style>
+</head>
+<body>
+<header>
+  <div class="brand">
+    <svg width="40" height="40" viewBox="0 0 40 40" aria-hidden="true">
+      <rect x="1" y="1" width="38" height="38" rx="10" fill="none" stroke="#005fa9" stroke-width="2"/>
+      <path d="M11 26 L20 12 L29 26" fill="none" stroke="#005fa9" stroke-width="3.4" stroke-linecap="round"/>
+      <path d="M15 26 L20 18.5 L25 26" fill="none" stroke="#5ecef5" stroke-width="3.4" stroke-linecap="round"/>
+    </svg>
+    <div>
+      <h1>La Oficina</h1>
+      <p>Borrador <b>pi</b> · 8 agentes · orquestación en vivo · paleta ApliArte</p>
+    </div>
+  </div>
+  <div class="spacer"></div>
+  <span class="pill"><span class="dot" style="background:var(--blue)"></span>Trabajando <b id="sWork">0</b></span>
+  <span class="pill"><span class="dot" style="background:var(--amber)"></span>En briefing <b id="sBrief">0</b></span>
+  <span class="pill"><span class="dot" style="background:var(--cyan)"></span>Entregadas <b id="sDone">0</b></span>
+  <span class="pill"><span class="dot" style="background:var(--muted)"></span>Descanso <b id="sRest">0</b></span>
+  <button id="pauseBtn" class="primary">⏸ Pausar</button>
+  <button data-speed="0.5">0.5×</button>
+  <button data-speed="1" class="on">1×</button>
+  <button data-speed="2">2×</button>
+  <button id="themeBtn" title="Cambiar tema (se recuerda)">☀️</button>
+</header>
+
+<div class="wrap">
+<main>
+  <section class="card">
+    <h2>Agentes</h2>
+    <div id="roster"></div>
+    <p style="font-size:11px;color:var(--muted);margin:8px 2px 0">
+      Cada agente viste el color de su proveedor como guiño, sin logotipos.
+      <b>Gentleman</b> ocupa el puesto de mando; <b>Javier</b> tiene su propio despacho como dueño.
+    </p>
+  </section>
+
+  <section class="card">
+    <h2>Plano de la oficina</h2>
+    <svg id="plan" viewBox="0 0 1280 860" role="img" aria-label="Plano de la oficina con 4 zonas"></svg>
+    <div class="legend" id="legend"></div>
+  </section>
+
+  <section>
+    <div class="card">
+      <h2>Tareas</h2>
+      <div id="tasks"></div>
+    </div>
+    <div class="card" style="margin-top:16px">
+      <h2>Actividad</h2>
+      <div class="feed" id="feed"></div>
+    </div>
+  </section>
+</main>
+
+<footer>
+  Recorrido: <b>1 descanso → 2 orquestador → 3 trabajo → 4 entregas → vuelta al sofá</b>.
+  Los personajes son guiños de color y forma, sin logotipos de marca. Borrador de dirección visual:
+  no se conecta a datos reales.
+    </footer>
+    </div>
+
+    <div class="modal" id="ficha" hidden role="dialog" aria-modal="true" aria-labelledby="fichaName">
+      <div class="sheet">
+        <header>
+          <svg id="fichaAva" width="56" height="106" viewBox="-28 -118 56 126" aria-hidden="true"></svg>
+          <h3 id="fichaName">—</h3>
+          <button class="x" id="fichaClose" aria-label="Cerrar ficha">✕</button>
+        </header>
+        <div id="fichaBody"></div>
+      </div>
+    </div>
+
+<script>
+"use strict";
+/* ============================ Tema (sol/luna, recordado) ============================ */
+const THEME_KEY = "apliarte-oficina-theme";
+const root = document.documentElement;
+root.dataset.theme = localStorage.getItem(THEME_KEY) || "light";
+const themeBtn = document.getElementById("themeBtn");
+const paintThemeBtn = () => themeBtn.textContent = root.dataset.theme === "light" ? "☀️" : "🌙";
+themeBtn.onclick = () => {
+  root.dataset.theme = root.dataset.theme === "light" ? "dark" : "light";
+  localStorage.setItem(THEME_KEY, root.dataset.theme);
+  paintThemeBtn();
+};
+paintThemeBtn();
+
+/* ---- Montaje de markup de constantes sin asignaciones HTML directas (DOMParser no ejecuta scripts) ---- */
+function mountSVG(el, str){
+  const doc = new DOMParser().parseFromString(
+    "<svg xmlns='http://www.w3.org/2000/svg'>" + str + "</svg>", "image/svg+xml");
+  if (doc.querySelector("parsererror")) throw new Error("SVG inválido");
+  el.replaceChildren(...[...doc.documentElement.childNodes].map(n => document.importNode(n, true)));
+}
+function mountHTML(el, str){
+  const doc = new DOMParser().parseFromString(str, "text/html");
+  el.replaceChildren(...[...doc.body.childNodes].map(n => document.importNode(n, true)));
+}
+
+/* ============================ Agentes ============================ */
+const AGENTS = [
+  { id:"co", name:"Codex",          color:"#10a37f", desc:"Refactors y tests" },
+  { id:"cl", name:"Claude",         color:"#d97757", desc:"Escritura y análisis" },
+  { id:"pi", name:"Gentleman",      color:"#ff4e83", desc:"Orquestador designado", fixed:"command" },
+  { id:"ja", name:"Javier",         color:"#005fa9", desc:"Dueño · decide y revisa", fixed:"owner" },
+  { id:"ge", name:"agy",            color:"#4285f4", desc:"Búsqueda y datos" },
+  { id:"gr", name:"Grok",           color:"#4b5563", desc:"Informe de incidencias" },
+  { id:"op", name:"opencode",       color:"#9aa4b2", desc:"Scripts y automatismos" },
+  { id:"ex", name:"Agente externo", color:"#a6a6a6", desc:"Colaborador invitado" },
+];
+const ROT = AGENTS.filter(a => !a.fixed);
+const CHAR_SCALE = 0.6;           // detalle de ref1, escala de ref2
+const SKIN = ["#f2c9a0","#e8b48c","#c98d5e","#8d5a3b","#f6d7b8"];
+
+/* ============================ Geometría del plano ============================ */
+const ROOMS = {
+  1:{x:40,  y:40,  w:560, h:360, name:"Sala de descanso",   tone:"--floor1"},
+  2:{x:680, y:40,  w:560, h:360, name:"Zona del Orquestador",tone:"--floor2"},
+  3:{x:40,  y:460, w:560, h:360, name:"Sala de trabajo",    tone:"--floor3"},
+  4:{x:680, y:460, w:560, h:360, name:"Zona de entregas",   tone:"--floor4"},
+};
+const DOORS = [ {x:320, y:400, into:"up"}, {x:960, y:400, into:"up"},
+{x:320, y:460, into:"down"}, {x:960, y:460, into:"down"} ];
+const CORRIDOR = { y:400, h:60 };
+const JUNCTION = { x:610, w:60 };
+const DESKS = [ [110,585],[240,585],[370,585],[500,585], [110,745],[240,745],[370,745],[500,745] ];
+const DESK_OF = { co:0, cl:1, pi:2, ja:3, ge:4, gr:5, op:6, ex:7 };
+const REST_SPOTS = [ [165,205,"sofa"],[230,205,"sofa"],[300,265,"cojin"],[470,140,"ventana"],
+                     [420,235,"tv"],[255,315,"cafe"],[520,300,"estirar"],[120,315,"leer"] ];
+const COMMAND = [880,238];
+const MEETING = [1055,240];
+const STAND   = [[965,318],[1010,332]];
+const OWNER   = [1160,172];
+const DELIVER = [ [830,610],[905,615],[980,625] ];
+
+/* ============================ Dibujo de personajes ============================ */
+function nodSVG(id, c){
+  switch(id){
+    case "co": return `<path d="M-17,-88 a17,17 0 0 1 34,0 l0,10 l-34,0 z" fill="${c}" opacity=".85"/>
+      <polygon points="0,-58 6,-54 6,-47 0,-43 -6,-47 -6,-54" fill="#fdfdfd" opacity=".9"/>`;
+    case "cl": return `<circle cx="7" cy="-56" r="3.4" fill="#fdfdfd" opacity=".9"/>
+      <path d="M-16,-70 q16,-8 32,0" stroke="${c}" stroke-width="3" fill="none" opacity=".7"/>`;
+    case "pi": return `<path d="M-15,-96 q15,-14 30,0 l0,4 l-30,0 z" fill="#2b2b2b"/>
+      <rect x="-17" y="-93" width="34" height="3.4" rx="1.7" fill="#2b2b2b"/>
+      <circle cx="6" cy="-86" r="5" fill="none" stroke="#2b2b2b" stroke-width="1.6"/>
+      <path d="M-5,-66 l5,4 l5,-4 l-5,-3 z" fill="#2b2b2b"/>`;
+    case "ja": return `<path d="M-13,-84 q13,16 26,0 l0,8 q-13,10 -26,0 z" fill="#6b4a2f"/>
+      <circle cx="-5.5" cy="-87" r="4.6" fill="none" stroke="#2b2b2b" stroke-width="1.5"/>
+      <circle cx="5.5" cy="-87" r="4.6" fill="none" stroke="#2b2b2b" stroke-width="1.5"/>
+      <path d="M-1,-87 l2,0" stroke="#2b2b2b" stroke-width="1.5"/>
+      <path d="M-6,-68 l6,10 l6,-10" stroke="#005fa9" stroke-width="2.4" fill="none"/>`;
+    case "ge": return `<path d="M0,-100 l0,-9" stroke="${c}" stroke-width="2.4"/><circle cx="0" cy="-111" r="3" fill="${c}"/>
+      <circle cx="-7" cy="-54" r="2.4" fill="#4285f4"/><circle cx="-2.4" cy="-54" r="2.4" fill="#ea4335"/>
+      <circle cx="2.4" cy="-54" r="2.4" fill="#fbbc05"/><circle cx="7" cy="-54" r="2.4" fill="#34a853"/>`;
+    case "gr": return `<rect x="-12" y="-91" width="24" height="7" rx="3.5" fill="#111820"/>
+      <path d="M-16,-70 l-6,10 M16,-70 l6,10" stroke="${c}" stroke-width="3" stroke-linecap="round"/>`;
+    case "op": return `<rect x="-15" y="-100" width="30" height="20" rx="5" fill="#111820"/>
+      <path d="M-9,-92 l4,4 l-4,4" stroke="#5ecef5" stroke-width="2" fill="none"/>
+      <path d="M2,-90 l7,0" stroke="#5ecef5" stroke-width="2"/>
+      <path d="M-15,-100 q15,-9 30,0" fill="${c}"/>`;
+    case "ex": return `<circle cx="0" cy="-86" r="17" fill="none" stroke="${c}" stroke-width="2" stroke-dasharray="4 4"/>
+      <text x="0" y="-80" text-anchor="middle" font-size="15" font-weight="700" fill="${c}">?</text>`;
+  }
+  return "";
+}
+function charSVG(a, i){
+  const skin = SKIN[i % SKIN.length];
+  return `
+  <ellipse cx="0" cy="2" rx="17" ry="5" fill="rgba(0,0,0,.16)"/>
+  <g class="legs">
+    <rect x="-9" y="-34" width="7" height="34" rx="3.4" fill="#3c4652"/>
+    <rect x="2"  y="-34" width="7" height="34" rx="3.4" fill="#3c4652"/>
+  </g>
+  <rect x="-15" y="-72" width="30" height="40" rx="9" fill="${a.color}"/>
+  <rect x="-21" y="-68" width="7" height="26" rx="3.5" fill="${a.color}"/>
+  <rect x="14"  y="-68" width="7" height="26" rx="3.5" fill="${a.color}"/>
+  <circle cx="0" cy="-86" r="16" fill="${skin}"/>
+  <path d="M-16,-90 a16,16 0 0 1 32,0 l-32,0 z" fill="${a.color}" opacity=".55"/>
+  <circle cx="-5" cy="-87" r="1.9" fill="#2b2b2b"/><circle cx="5" cy="-87" r="1.9" fill="#2b2b2b"/>
+  <path d="M-4,-80 q4,3.4 8,0" stroke="#2b2b2b" stroke-width="1.6" fill="none" stroke-linecap="round"/>
+  ${nodSVG(a.id, a.color)}
+  <g class="prop-laptop" style="display:none">
+    <rect x="-13" y="-46" width="26" height="3" rx="1.5" fill="#22303c"/>
+    <rect x="-11" y="-60" width="22" height="15" rx="2.5" fill="#22303c"/>
+    <rect x="-8.5" y="-57.5" width="17" height="10" rx="1.5" fill="${a.color}" opacity=".85"/>
+  </g>
+  <g class="prop-mug" style="display:none">
+    <rect x="16" y="-52" width="9" height="11" rx="2.5" fill="#fdfdfd" stroke="#a6a6a6"/>
+    <path d="M25,-49 a4,4 0 0 1 0,7" fill="none" stroke="#a6a6a6" stroke-width="1.6"/>
+  </g>
+  <g class="prop-papers" style="display:none">
+    <rect x="-16" y="-50" width="15" height="11" rx="1.5" fill="#fdfdfd" stroke="#a6a6a6"/>
+    <path d="M-13,-47 l9,0 M-13,-44 l9,0" stroke="#a6a6a6" stroke-width="1.2"/>
+  </g>
+  <g class="prop-box" style="display:none">
+    <rect x="-12" y="-56" width="24" height="18" rx="2.5" fill="#b46734"/>
+    <path d="M-12,-50 l24,0 M0,-56 l0,18" stroke="#8a5227" stroke-width="1.6"/>
+  </g>`;
+}
+
+/* ============================ Plano estático ============================ */
+function roomSVG(n){
+  const r = ROOMS[n];
+  return `<g>
+    <rect x="${r.x}" y="${r.y}" width="${r.w}" height="${r.h}" rx="14"
+          fill="var(${r.tone})" stroke="var(--wall)" stroke-width="2.5"/>
+    <rect x="${r.x+10}" y="${r.y+10}" width="${r.w-20}" height="${r.h-20}" rx="10"
+          fill="none" stroke="var(--card-border)" stroke-width="1"/>
+    <g font-family="var(--font-head)" font-weight="700">
+      <rect x="${r.x+14}" y="${r.y+14}" width="26" height="26" rx="8" fill="${["","#10a37f","#e8955e","#005fa9","#b46734"][n]}"/>
+      <text x="${r.x+27}" y="${r.y+32}" text-anchor="middle" fill="#fdfdfd" font-size="15">${n}</text>
+      <text x="${r.x+50}" y="${r.y+32}" fill="var(--text)" font-size="15" letter-spacing="1">${r.name.toUpperCase()}</text>
+    </g>
+  </g>`;
+}
+function furnitureSVG(){
+  return `
+  <!-- 1 descanso: variedad, no fila de espera -->
+  <g>
+    <ellipse cx="195" cy="230" rx="120" ry="46" fill="var(--cyan)" opacity=".18"/>
+    <rect x="120" y="150" width="150" height="60" rx="16" fill="var(--cyan)" opacity=".55"/>
+    <rect x="120" y="140" width="150" height="22" rx="11" fill="var(--cyan)" opacity=".8"/>
+    <rect x="285" y="250" width="46" height="26" rx="8" fill="var(--amber)" opacity=".7"/>
+    <rect x="440" y="95"  width="70" height="80" rx="6" fill="var(--glow)" opacity=".5"/>
+    <path d="M475,95 l0,80 M440,135 l70,0" stroke="var(--white)" stroke-width="3"/>
+    <rect x="392" y="196" width="66" height="42" rx="6" fill="#22303c"/>
+    <rect x="398" y="202" width="54" height="30" rx="3" fill="var(--blue)" opacity=".8"/>
+    <rect x="392" y="238" width="66" height="8" rx="3" fill="var(--wood)"/>
+    <rect x="330" y="120" width="26" height="60" rx="4" fill="var(--wood)"/>
+    <circle cx="343" cy="116" r="10" fill="var(--amber)"/>
+    <rect x="56" y="112" width="60" height="72" rx="6" fill="var(--brown)" opacity=".85"/>
+    ${[0,1,2].map(r=>`<rect x="${62}" y="${122+r*20}" width="48" height="4" rx="2" fill="var(--floor1)"/>`).join("")}
+    ${[0,1,2,3,4].map(i=>`<rect x="${64+i*9}" y="${126+(i%3)*20}" width="6" height="14" rx="1.5" fill="${["#005fa9","#5ecef5","#e8955e","#10a37f","#b46734"][i]}"/>`).join("")}
+    <rect x="230" y="300" width="60" height="26" rx="8" fill="var(--wood)"/>
+    <circle cx="252" cy="296" r="6" fill="#fdfdfd" stroke="#a6a6a6"/>
+    <rect x="92" y="286" width="40" height="34" rx="6" fill="var(--brown)" opacity=".8"/>
+    <path d="M100,286 q12,-16 24,0" fill="#10a37f" opacity=".7"/>
+    <rect x="500" y="270" width="34" height="40" rx="6" fill="var(--grey)" opacity=".6"/>
+    <rect x="470" y="300" width="60" height="26" rx="8" fill="var(--wood)"/>
+    <rect x="486" y="292" width="16" height="10" rx="2" fill="#22303c"/>
+    <text x="320" y="372" text-anchor="middle" font-family="var(--font-mono)" font-size="12"
+          fill="var(--muted)" letter-spacing="3">ZONA CHILL</text>
+  </g>
+  <!-- 2 orquestador: puesto de mando + mesa de briefing + despacho del dueño -->
+  <g>
+    <rect x="800" y="66" width="160" height="82" rx="10" fill="#22303c"/>
+    <rect x="808" y="74" width="144" height="66" rx="6" fill="var(--blue)" opacity=".85"/>
+    <circle cx="862" cy="102" r="5" fill="#fdfdfd"/><circle cx="898" cy="102" r="5" fill="#fdfdfd"/>
+    <path d="M866,118 q14,10 28,0" stroke="#fdfdfd" stroke-width="4" fill="none" stroke-linecap="round"/>
+    <text x="880" y="134" text-anchor="middle" font-family="var(--font-mono)" font-size="10"
+          fill="#fdfdfd" letter-spacing="2">ORQUESTADOR</text>
+    <path d="M800,205 q80,24 160,0" fill="none" stroke="var(--wood)" stroke-width="12" stroke-linecap="round"/>
+    <rect x="846" y="198" width="24" height="14" rx="2.5" fill="#22303c"/>
+    <rect x="890" y="198" width="24" height="14" rx="2.5" fill="#22303c"/>
+    <ellipse cx="1055" cy="240" rx="86" ry="44" fill="var(--wood)" opacity=".9"/>
+    <ellipse cx="1055" cy="240" rx="58" ry="28" fill="var(--floor2)"/>
+    <rect x="1042" y="228" width="26" height="16" rx="2.5" fill="#22303c"/>
+    <ellipse cx="1055" cy="188" rx="16" ry="8" fill="var(--brown)"/>
+    <ellipse cx="1055" cy="292" rx="16" ry="8" fill="var(--brown)"/>
+    <ellipse cx="964" cy="240" rx="12" ry="10" fill="var(--brown)"/>
+    <ellipse cx="1146" cy="240" rx="12" ry="10" fill="var(--brown)"/>
+    <rect x="700" y="150" width="70" height="52" rx="6" fill="#fdfdfd" stroke="var(--card-border)"/>
+    ${[0,1,2].map(c=>`<rect x="${708+c*20}" y="${158+(c%2)*6}" width="14" height="${30-(c%2)*8}" rx="2" fill="${["#005fa9","#5ecef5","#e8955e"][c]}" opacity=".8"/>`).join("")}
+    <path d="M690,50 l0,12 M1000,50 l0,12" stroke="var(--muted)" stroke-width="2"/>
+    <path d="M678,62 a12,12 0 0 0 24,0 z" fill="var(--amber)"/>
+    <path d="M988,62 a12,12 0 0 0 24,0 z" fill="var(--amber)"/>
+    <rect x="700" y="300" width="26" height="34" rx="4" fill="var(--brown)"/>
+    <path d="M706,300 q7,-16 14,0" fill="#10a37f" opacity=".8"/>
+    <g stroke="var(--glow)" stroke-width="2.5" fill="none" opacity=".85">
+      <rect x="1092" y="60" width="134" height="152" rx="10"/>
+      <path d="M1092,96 l134,0"/>
+    </g>
+    <text x="1159" y="80" text-anchor="middle" font-family="var(--font-mono)" font-size="10"
+          fill="var(--text)" letter-spacing="1">DESPACHO · DUEÑO</text>
+    <rect x="1116" y="182" width="88" height="22" rx="6" fill="var(--wood)"/>
+    <rect x="1128" y="176" width="20" height="12" rx="2" fill="#22303c"/>
+    <text x="880" y="372" text-anchor="middle" font-family="var(--font-mono)" font-size="12"
+          fill="var(--muted)" letter-spacing="3">PUESTO DE MANDO</text>
+  </g>
+  <!-- 3 trabajo: una mesa por agente -->
+  <g>
+    <rect x="250" y="492" width="120" height="60" rx="6" fill="#fdfdfd" stroke="var(--card-border)"/>
+    <path d="M262,510 l30,0 M262,522 l46,0 M262,534 l22,0" stroke="var(--cyan)" stroke-width="3"/>
+    <rect x="470" y="492" width="110" height="16" rx="4" fill="var(--wood)"/>
+    ${[0,1,2,3,4,5].map(i=>`<rect x="${478+i*16}" y="478" width="10" height="14" rx="2" fill="${["#005fa9","#5ecef5","#e8955e","#10a37f","#b46734","#ff4e83"][i]}"/>`).join("")}
+    <rect x="540" y="760" width="30" height="36" rx="5" fill="var(--brown)"/>
+    <path d="M546,760 q9,-18 18,0" fill="#10a37f" opacity=".8"/>
+    ${DESKS.map((d,i)=>{
+      const id = Object.keys(DESK_OF).find(k=>DESK_OF[k]===i);
+      const a = AGENTS.find(x=>x.id===id);
+      return `<g>
+        <ellipse cx="${d[0]}" cy="${d[1]-24}" rx="15" ry="9" fill="var(--brown)" opacity=".85"/>
+        <rect x="${d[0]-42}" y="${d[1]-16}" width="84" height="30" rx="7" fill="var(--wood)"/>
+        <rect x="${d[0]-16}" y="${d[1]-40}" width="32" height="22" rx="3" fill="#22303c"/>
+        <rect x="${d[0]-12}" y="${d[1]-36}" width="24" height="14" rx="2" fill="${a.color}" opacity=".85"/>
+        <rect x="${d[0]-40}" y="${d[1]-8}" width="20" height="9" rx="2" fill="#fdfdfd" stroke="#a6a6a6"/>
+        <rect x="${d[0]-42}" y="${d[1]+12}" width="16" height="9" rx="3" fill="${a.color}"/>
+        <text x="${d[0]-34}" y="${d[1]+19.5}" font-family="var(--font-mono)" font-size="7"
+              fill="#fdfdfd" font-weight="700">${id}</text>
+      </g>`;
+    }).join("")}
+    <text x="320" y="806" text-anchor="middle" font-family="var(--font-mono)" font-size="12"
+          fill="var(--muted)" letter-spacing="3">UNA MESA POR AGENTE</text>
+  </g>
+  <!-- 4 entregas: bandeja de salida -->
+  <g>
+    <rect x="760" y="520" width="400" height="60" rx="8" fill="var(--wood)"/>
+    ${Array.from({length:9},(_,i)=>`<rect x="${770+i*43}" y="${528+(i%2)*26}" width="34" height="22" rx="3"
+        fill="${i%3? "#d9b48c":"#c9a06f"}" stroke="#8a5227"/>`).join("")}
+    <rect x="770" y="640" width="330" height="34" rx="8" fill="var(--wood)"/>
+    <rect x="780" y="620" width="46" height="20" rx="3" fill="#fdfdfd" stroke="#a6a6a6"/>
+    <text x="803" y="634" text-anchor="middle" font-family="var(--font-mono)" font-size="9" fill="#303030">SALIDA</text>
+    <circle cx="1060" cy="632" r="8" fill="#e8955e"/><path d="M1060,624 l0,-6" stroke="#b46734" stroke-width="3"/>
+    <rect x="1010" y="690" width="40" height="30" rx="4" fill="#c9a06f" stroke="#8a5227"/>
+    <rect x="1052" y="700" width="34" height="24" rx="4" fill="#d9b48c" stroke="#8a5227"/>
+    <rect x="1096" y="706" width="28" height="20" rx="4" fill="#c9a06f" stroke="#8a5227"/>
+    <g>
+      <rect x="840" y="700" width="60" height="34" rx="6" fill="var(--grey)" opacity=".7"/>
+      <circle cx="852" cy="738" r="6" fill="#22303c"/><circle cx="888" cy="738" r="6" fill="#22303c"/>
+      <rect x="852" y="688" width="34" height="16" rx="3" fill="#c9a06f" stroke="#8a5227"/>
+    </g>
+    <rect x="712" y="700" width="30" height="36" rx="5" fill="var(--brown)"/>
+    <path d="M718,700 q9,-18 18,0" fill="#10a37f" opacity=".8"/>
+    <rect x="930" y="596" width="120" height="26" rx="6" fill="#10a37f"/>
+    <text x="990" y="613" text-anchor="middle" font-family="var(--font-ui)" font-weight="700"
+          font-size="12" fill="#fdfdfd" letter-spacing="1">ENTREGADO</text>
+    <text x="960" y="806" text-anchor="middle" font-family="var(--font-mono)" font-size="12"
+          fill="var(--muted)" letter-spacing="3">BANDEJA DE SALIDA</text>
+  </g>`;
+}
+function routeSVG(){
+  return `<g>
+    <rect x="40" y="${CORRIDOR.y}" width="1200" height="${CORRIDOR.h}" rx="10" fill="var(--corridor)"/>
+    <rect x="${JUNCTION.x}" y="40" width="${JUNCTION.w}" height="780" rx="10" fill="var(--corridor)" opacity=".85"/>
+    <path d="M320,400 L320,414 L960,414 L960,400" fill="none" stroke="var(--amber)"
+          stroke-width="3" stroke-dasharray="8 8" opacity=".9">
+      <animate attributeName="stroke-dashoffset" from="32" to="0" dur="1.2s" repeatCount="indefinite"/>
+    </path>
+    <path d="M960,400 L960,460" fill="none" stroke="var(--cyan)"
+          stroke-width="3" stroke-dasharray="8 8" opacity=".9">
+      <animate attributeName="stroke-dashoffset" from="32" to="0" dur="1.2s" repeatCount="indefinite"/>
+    </path>
+    <path d="M960,460 L960,446 L320,446 L320,460" fill="none" stroke="var(--brown)"
+          stroke-width="3" stroke-dasharray="8 8" opacity=".9">
+      <animate attributeName="stroke-dashoffset" from="32" to="0" dur="1.2s" repeatCount="indefinite"/>
+    </path>
+    <path d="M320,460 L320,400" fill="none" stroke="var(--glow)"
+          stroke-width="3" stroke-dasharray="8 8" opacity=".9">
+      <animate attributeName="stroke-dashoffset" from="32" to="0" dur="1.2s" repeatCount="indefinite"/>
+    </path>
+    ${[[320,414,1],[960,414,2],[320,446,3],[960,446,4]].map(p=>`
+      <circle cx="${p[0]}" cy="${p[1]}" r="13" fill="${["","#10a37f","#e8955e","#005fa9","#b46734"][p[2]]}"/>
+      <text x="${p[0]}" y="${p[1]+5}" text-anchor="middle" fill="#fdfdfd"
+            font-family="var(--font-mono)" font-weight="700" font-size="13">${p[2]}</text>`).join("")}
+  </g>`;
+}
+function doorsSVG(){
+  const W = 46;
+  return `<g>` + DOORS.map(d=>{
+    const hx = d.x - W/2;
+    const dir = d.into === "up" ? -1 : 1;
+    const tipX = (hx + W*Math.cos(1.13)).toFixed(1);
+    const tipY = (d.y + dir*W*Math.sin(1.13)).toFixed(1);
+    const sweep = d.into === "up" ? 1 : 0;
+    return `
+      <rect x="${hx-2}" y="${d.y-3}" width="${W+4}" height="6" fill="var(--corridor)"/>
+      <path d="M${hx},${d.y} L${tipX},${tipY} A${W},${W} 0 0 ${sweep} ${hx+W},${d.y}"
+            fill="none" stroke="var(--cyan)" stroke-width="2" opacity=".8"/>
+      <path d="M${hx},${d.y} L${tipX},${tipY}" stroke="var(--wood)" stroke-width="3.5" stroke-linecap="round"/>
+      <rect x="${hx-4}" y="${d.y-5}" width="4" height="10" rx="2" fill="var(--wall)"/>
+      <rect x="${hx+W}" y="${d.y-5}" width="4" height="10" rx="2" fill="var(--wall)"/>`;
+  }).join("") + `</g>`;
+}
+const plan = document.getElementById("plan");
+mountSVG(plan,
+  Object.keys(ROOMS).map(roomSVG).join("") + routeSVG() + doorsSVG() + furnitureSVG() +
+  `<g id="agentsLayer"></g>`);
+
+/* ============================ Simulación ============================ */
+const layer = document.getElementById("agentsLayer");
+const state = new Map();
+AGENTS.forEach((a,i)=>{
+  const g = document.createElementNS("http://www.w3.org/2000/svg","g");
+  mountSVG(g, charSVG(a,i));
+  g.style.cursor = "pointer";
+  g.addEventListener("click", () => openFicha(a.id));
+  layer.appendChild(g);
+  const s = {
+    a, g, i,
+    x: a.fixed==="command" ? COMMAND[0] : a.fixed==="owner" ? OWNER[0] : REST_SPOTS[i%REST_SPOTS.length][0],
+    y: a.fixed==="command" ? COMMAND[1] : a.fixed==="owner" ? OWNER[1] : REST_SPOTS[i%REST_SPOTS.length][1],
+    zone: a.fixed ? 2 : 1, t: 0, dur: 5, seat:null, prog: 0, done: 0,
+  };
+  state.set(a.id, s);
+});
+let briefingHolder = null;
+let speed = 1, paused = false, delivered = 0;
+const ZONE_DUR = { 1:6, 2:4, 3:9, 4:3 };
+const feed = document.getElementById("feed");
+function log(text, who, color){
+  const d = document.createElement("div");
+  const time = document.createElement("time");
+  time.textContent = new Date().toTimeString().slice(0,8);
+  d.append(time);
+  if (who){
+    const b = document.createElement("b");
+    b.textContent = who.name;
+    b.style.color = who.color;
+    d.append(b, " ");
+  }
+  const span = document.createElement("span");
+  span.textContent = text;
+  if (color) span.style.color = color;
+  d.append(span);
+  feed.prepend(d);
+  while (feed.children.length > 30) feed.lastChild.remove();
+}
+function seatFor(s){
+  const { a } = s;
+  if (a.fixed === "command") return COMMAND;
+  if (a.fixed === "owner")   return OWNER;
+  if (s.zone === 1) return [ REST_SPOTS[s.i % REST_SPOTS.length][0], REST_SPOTS[s.i % REST_SPOTS.length][1] ];
+  if (s.zone === 2) return s === briefingHolder ? MEETING : STAND[s.i % STAND.length];
+  if (s.zone === 3) return DESKS[DESK_OF[a.id]];
+  return DELIVER[s.i % DELIVER.length];
+}
+function setProps(s){
+  const show = (cls,on)=> s.g.querySelector(cls).style.display = on ? "" : "none";
+  show(".prop-laptop", s.zone===3 || s.a.fixed==="command");
+  show(".prop-mug",    s.zone===1 || s.a.fixed==="owner");
+  show(".prop-papers", s.zone===2 && !s.a.fixed);
+  show(".prop-box",    s.zone===4);
+  s.g.querySelector(".legs").style.display = (s.zone===3 || s.a.fixed) ? "none" : "";
+}
+function enterZone(s, z){
+  s.zone = z; s.t = 0; s.dur = ZONE_DUR[z];
+  if (z===2 && !s.a.fixed && !briefingHolder) briefingHolder = s;
+  setProps(s);
+  const names = {1:"descansa",2:"recibe briefing",3:"trabaja",4:"entrega"};
+  log(`${names[z]} en ${ROOMS[z].name.toLowerCase()}`, s.a);
+}
+ROT.forEach((a,i)=> enterZone(state.get(a.id), 1));
+setProps(state.get("pi")); setProps(state.get("ja"));
+log("Jornada abierta. El café está recién hecho.", null, "var(--amber)");
+log("toma el puesto de mando.", AGENTS.find(a=>a.id==="pi"));
+log("revisa desde su despacho, como dueño.", AGENTS.find(a=>a.id==="ja"));
+
+/* ============================ Paneles ============================ */
+const roster = document.getElementById("roster");
+mountHTML(roster, AGENTS.map(a=>`
+  <div class="agentRow" data-id="${a.id}">
+    <span class="ava" style="background:${a.color}">${a.id}</span>
+    <span style="flex:1;min-width:0">
+      <span class="nm">${a.name}</span>
+      ${a.fixed==="command" ? '<span class="badge warm">orquestador</span>'
+        : a.fixed==="owner" ? '<span class="badge warm">dueño</span>' : ""}
+      <div class="st" data-st>—</div>
+      <div class="bar"><i data-bar></i></div>
+    </span>
+  </div>`).join(""));
+roster.querySelectorAll(".agentRow").forEach(r =>
+  r.addEventListener("click", () => openFicha(r.dataset.id)));
+const legend = document.getElementById("legend");
+mountHTML(legend, AGENTS.map(a=>`<span class="chip"><span class="dot" style="background:${a.color}"></span>${a.name}</span>`).join(""));
+const TASKS = [
+  { t:"Redactar el informe trimestral", who:"cl", prio:"Alta" },
+  { t:"Diseñar el cartel del evento",   who:"gr", prio:"Media" },
+  { t:"Revisar los correos de soporte", who:"co", prio:"Media" },
+  { t:"Organizar el backlog de ideas",  who:"ge", prio:"Baja" },
+];
+const tasksEl = document.getElementById("tasks");
+mountHTML(tasksEl, TASKS.map((k,i)=>`
+  <div class="task">
+    <div class="t">${k.t}</div>
+    <div style="margin:6px 0 4px">
+      <span class="badge" style="background:${AGENTS.find(a=>a.id===k.who).color};color:#fff">${AGENTS.find(a=>a.id===k.who).name}</span>
+      <span class="badge ${k.prio==="Alta"?"warm":""}">${k.prio}</span>
+      <span style="float:right;font-family:var(--font-mono);font-size:11px" data-pct="${i}">0%</span>
+    </div>
+    <div class="bar"><i data-tbar="${i}"></i></div>
+  </div>`).join(""));
+    const taskProg = TASKS.map(()=>0);
+
+    /* ============================ Ficha de personaje (modal centrado) ============================ */
+    const ficha = document.getElementById("ficha");
+    const fichaName = document.getElementById("fichaName");
+    const fichaAva = document.getElementById("fichaAva");
+    const fichaBody = document.getElementById("fichaBody");
+    let fichaId = null, lastFicha = 0;
+    const NOD_TXT = {
+      co:"Sudadera verde y chapa hexagonal (guiño OpenAI)",
+      cl:"Jersey cálido y broche (guiño Anthropic)",
+      pi:"Bombín, monóculo y pajarita (identidad propia)",
+      ja:"Barba, gafas y lanyard ApliArte (humano, dueño)",
+      ge:"Antena y cuatro puntos (guiño Google)",
+      gr:"Visor y aspas (guiño xAI)",
+      op:"Cabeza-terminal y gorra (identidad propia)",
+      ex:"Contorno discontinuo y «?» (genérico)",
+    };
+    function fichaRows(a, s){
+      const st = {1:"Descansando",
+        2: a.fixed==="command" ? "Orquestando" : a.fixed==="owner" ? "Revisando" : "En briefing",
+        3:"Trabajando", 4:"Entregando"}[s.zone];
+      const task = TASKS.find(t=>t.who===a.id);
+      return [
+        ["Rol", a.fixed==="command" ? "Orquestador designado" : a.fixed==="owner" ? "Dueño del ecosistema" : "Agente de la plantilla"],
+        ["Zona", `${s.zone} · ${ROOMS[s.zone].name}`],
+        ["Estado", st],
+        ["Guiño", NOD_TXT[a.id]],
+        ["Tarea", task ? task.t : (a.fixed ? "—" : "Sin tarea activa")],
+        ["Progreso", (s.zone===3 ? Math.round(s.prog) : 0) + "%"],
+        ["Color", a.color],
+      ];
+    }
+    function renderFicha(){
+      if (!fichaId) return;
+      const a = AGENTS.find(x=>x.id===fichaId), s = state.get(fichaId);
+      fichaName.textContent = a.name;
+      mountSVG(fichaAva, charSVG(a, AGENTS.indexOf(a)));
+      fichaBody.replaceChildren(...fichaRows(a,s).map(([k,v])=>{
+        const row = document.createElement("div"); row.className = "kv";
+        const kk = document.createElement("span"); kk.textContent = k;
+        const vv = document.createElement("b"); vv.textContent = v;
+        if (k === "Color") vv.style.color = v;
+        row.append(kk, vv);
+        return row;
+      }));
+    }
+    function openFicha(id){ fichaId = id; renderFicha(); ficha.hidden = false;
+      document.getElementById("fichaClose").focus(); }
+    function closeFicha(){ fichaId = null; ficha.hidden = true; }
+    document.getElementById("fichaClose").addEventListener("click", closeFicha);
+    ficha.addEventListener("click", e => { if (e.target === ficha) closeFicha(); });
+    document.addEventListener("keydown", e => { if (e.key === "Escape" && !ficha.hidden) closeFicha(); });
+
+/* ============================ Bucle ============================ */
+const pauseBtn = document.getElementById("pauseBtn");
+pauseBtn.onclick = ()=>{ paused=!paused; pauseBtn.textContent = paused ? "▶ Reanudar" : "⏸ Pausar";
+  pauseBtn.classList.toggle("primary", !paused); };
+document.querySelectorAll("[data-speed]").forEach(b=> b.onclick = ()=>{
+  speed = parseFloat(b.dataset.speed);
+  document.querySelectorAll("[data-speed]").forEach(x=>x.classList.toggle("on", x===b));
+});
+let last = performance.now();
+function frame(now){
+  const dt = Math.min(0.05, (now-last)/1000) * (paused?0:speed); last = now;
+  const counts = {1:0,2:0,3:0,4:0};
+  for (const s of state.values()){
+    counts[s.zone]++;
+    const [tx,ty] = seatFor(s);
+    s.x += (tx-s.x)*Math.min(1, dt*3.2);
+    s.y += (ty-s.y)*Math.min(1, dt*3.2);
+    s.g.setAttribute("transform", `translate(${s.x.toFixed(1)},${s.y.toFixed(1)}) scale(${CHAR_SCALE})`);
+    if (!s.a.fixed){
+      s.t += dt;
+      if (s.zone===3){ s.prog = Math.min(100, s.prog + dt*11);
+        const ti = TASKS.findIndex(k=>k.who===s.a.id);
+        if (ti>=0) taskProg[ti] = Math.min(100, taskProg[ti] + dt*11);
+      }
+      if (s.t >= s.dur && Math.abs(tx-s.x)<6 && Math.abs(ty-s.y)<6){
+        if (s.zone===2 && briefingHolder===s){
+          briefingHolder = [...state.values()].find(v=>v.zone===2 && !v.a.fixed && v!==s) || null;
+          if (briefingHolder) setProps(briefingHolder);
+        }
+        if (s.zone===4){ delivered++; log("dejó una entrega en la bandeja.", s.a, "#10a37f"); }
+        enterZone(s, s.zone===4 ? 1 : s.zone+1);
+      }
+    }
+  }
+  document.getElementById("sWork").textContent  = counts[3];
+  document.getElementById("sBrief").textContent = counts[2];
+  document.getElementById("sDone").textContent  = delivered;
+  document.getElementById("sRest").textContent  = counts[1];
+  for (const s of state.values()){
+    const row = roster.querySelector(`[data-id="${s.a.id}"]`);
+    const st = {1:"Descansando",2: s.a.fixed==="command" ? "Orquestando" : s.a.fixed==="owner" ? "Revisando" : "En briefing",
+                3:"Trabajando",4:"Entregando"}[s.zone];
+    row.querySelector("[data-st]").textContent = `${st} · ${ROOMS[s.zone].name}`;
+    row.querySelector("[data-bar]").style.width = (s.zone===3 ? s.prog : 0) + "%";
+  }
+  taskProg.forEach((p,i)=>{
+    tasksEl.querySelector(`[data-pct="${i}"]`).textContent = Math.round(p)+"%";
+    tasksEl.querySelector(`[data-tbar="${i}"]`).style.width = p+"%";
+  });
+  if (fichaId && now - lastFicha > 500){ lastFicha = now; renderFicha(); }
+  requestAnimationFrame(frame);
+}
+requestAnimationFrame(frame);
+</script>
+</body>
+</html>

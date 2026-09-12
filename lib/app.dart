@@ -77,6 +77,9 @@ class _NavBar extends StatelessWidget {
               label: '🧮',
               onTap: () => Navigator.pushNamed(context, '/tablas')),
           _NavLink(
+              label: '🏢 Oficinas',
+              onTap: () => Navigator.pushNamed(context, '/oficinas')),
+          _NavLink(
               label: 'GitHub',
               onTap: () =>
                   launchUrl(Uri.parse('https://github.com/erbolamm'))),
