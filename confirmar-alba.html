@@ -604,9 +604,9 @@
       </form>
 
       <div id="resultBox" class="result-box" aria-live="polite">
-        <div class="result-title">Confirmación lista para enviar</div>
+        <div class="result-title" id="resultTitle">Confirmación guardada</div>
         <div id="resultPreview" class="result-preview"></div>
-        <a id="waLink" class="btn-whatsapp" href="#" target="_blank" rel="noopener">Enviar por WhatsApp</a>
+        <a id="waLink" class="btn-whatsapp" href="#" target="_blank" rel="noopener">Enviar también por WhatsApp</a>
         <div class="secondary-row">
           <button type="button" class="btn-secondary" id="copyBtn">Copiar mensaje</button>
           <button type="button" class="btn-secondary" id="editBtn">Modificar datos</button>
@@ -619,14 +619,17 @@
 
   <script>
     const WHATSAPP_PHONE = '34656289791';
+    const API_CONFIRM = 'https://n8n.apliarte.com/webhook/cumple-alba-confirmar';
     const STORAGE_KEY = 'cumple_alba_8_rsvp_v1';
 
     let attending = true;
     const btnYes = document.getElementById('btnYes');
     const btnNo = document.getElementById('btnNo');
     const form = document.getElementById('rsvpForm');
+    const submitBtn = document.getElementById('submitBtn');
     const errorMsg = document.getElementById('errorMsg');
     const resultBox = document.getElementById('resultBox');
+    const resultTitle = document.getElementById('resultTitle');
     const resultPreview = document.getElementById('resultPreview');
     const waLink = document.getElementById('waLink');
     const copyBtn = document.getElementById('copyBtn');
@@ -675,7 +678,7 @@
       }
     } catch (_) {}
 
-    form.addEventListener('submit', (e) => {
+    form.addEventListener('submit', async (e) => {
       e.preventDefault();
       errorMsg.classList.remove('visible');
       const childName = document.getElementById('childName').value.trim();
@@ -689,7 +692,30 @@
       }
 
       const payload = { attending, childName, parentName, notes };
+      submitBtn.disabled = true;
+      submitBtn.textContent = 'Guardando confirmación...';
+
+      let savedRemote = false;
+      try {
+        const res = await fetch(API_CONFIRM, {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({
+            asistencia: attending ? 'SI' : 'NO',
+            nino: childName,
+            padre: parentName,
+            mensaje: notes
+          })
+        });
+        savedRemote = res.ok;
+      } catch (_) {}
+
       try { localStorage.setItem(STORAGE_KEY, JSON.stringify(payload)); } catch (_) {}
+      resultTitle.textContent = savedRemote
+        ? 'Confirmación guardada en la lista de invitados'
+        : 'Confirmación lista para enviar por WhatsApp';
+      submitBtn.disabled = false;
+      submitBtn.textContent = 'Preparar confirmación';
       showResult(payload);
       launchConfetti(90);
     });
@@ -709,30 +735,33 @@
       }
     });
 
-    // Download .ics calendar invite for Thursday Dec 10, 2026 16:00-19:00 Europe/Madrid
+    // Smart cross-platform calendar: Apple Calendar on iOS, Google Calendar on Android/desktop (no file download)
     document.getElementById('addCalendarBtn').addEventListener('click', () => {
-      const ics = [
-        'BEGIN:VCALENDAR',
-        'VERSION:2.0',
-        'PRODID:-//ApliArte//CumpleAlba//ES',
-        'BEGIN:VEVENT',
-        'DTSTART;TZID=Europe/Madrid:20261210T160000',
-        'DTEND;TZID=Europe/Madrid:20261210T190000',
-        'SUMMARY:Cumpleaños de Alba (8 años)',
-        'LOCATION:Mumi Park',
-        'DESCRIPTION:Celebración del 8º cumpleaños de Alba en Mumi Park.',
-        'END:VEVENT',
-        'END:VCALENDAR'
-      ].join('\r\n');
-      const blob = new Blob([ics], { type: 'text/calendar;charset=utf-8' });
-      const url = URL.createObjectURL(blob);
-      const a = document.createElement('a');
-      a.href = url;
-      a.download = 'cumple-alba-8-anos.ics';
-      document.body.appendChild(a);
-      a.click();
-      a.remove();
-      setTimeout(() => URL.revokeObjectURL(url), 1000);
+      const ua = navigator.userAgent || '';
+      const isAppleMobile = /iPhone|iPad|iPod/i.test(ua) || (navigator.platform === 'MacIntel' && navigator.maxTouchPoints > 1);
+      if (isAppleMobile) {
+        const ics = [
+          'BEGIN:VCALENDAR',
+          'VERSION:2.0',
+          'PRODID:-//ApliArte//CumpleAlba//ES',
+          'BEGIN:VEVENT',
+          'DTSTART;TZID=Europe/Madrid:20261210T160000',
+          'DTEND;TZID=Europe/Madrid:20261210T190000',
+          'SUMMARY:Cumpleaños de Alba (8 años)',
+          'LOCATION:Mumi Park',
+          'DESCRIPTION:Celebración del 8º cumpleaños de Alba en Mumi Park.',
+          'END:VEVENT',
+          'END:VCALENDAR'
+        ].join('\r\n');
+        window.location.href = 'data:text/calendar;charset=utf-8,' + encodeURIComponent(ics);
+      } else {
+        const gcalUrl = 'https://calendar.google.com/calendar/render?action=TEMPLATE'
+          + '&text=' + encodeURIComponent('Cumpleaños de Alba (8 años)')
+          + '&dates=20261210T150000Z/20261210T180000Z'
+          + '&location=' + encodeURIComponent('Mumi Park')
+          + '&details=' + encodeURIComponent('Celebración del 8º cumpleaños de Alba en Mumi Park.');
+        window.open(gcalUrl, '_blank', 'noopener');
+      }
     });
 
     // Lightweight pastel confetti engine

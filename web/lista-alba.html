@@ -1,0 +1,420 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Lista de Invitados · Cumpleaños de Alba (8 Años)</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Fredoka:wght@600;700&family=Nunito:wght@600;700;800&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --purple-deep: #2b1047;
+      --magenta: #d81b60;
+      --pink-accent: #ff4fa3;
+      --green: #2e7d32;
+      --green-bg: #e8f5e9;
+      --gray-bg: #f3eff5;
+    }
+
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+
+    body {
+      font-family: 'Nunito', -apple-system, BlinkMacSystemFont, sans-serif;
+      background: radial-gradient(circle at top left, #ffe3f1, #f8d4ff 55%, #fff1f7);
+      min-height: 100vh;
+      padding: 18px 14px 36px;
+      color: var(--purple-deep);
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+    }
+
+    .container {
+      max-width: 560px;
+      width: 100%;
+    }
+
+    .header-card {
+      background: rgba(255, 255, 255, 0.96);
+      border-radius: 24px;
+      padding: 20px 18px;
+      text-align: center;
+      box-shadow: 0 10px 28px rgba(90, 24, 118, 0.14);
+      border: 2px solid rgba(244, 183, 219, 0.8);
+      margin-bottom: 14px;
+    }
+
+    .header-card h1 {
+      font-family: 'Fredoka', cursive;
+      font-size: 1.55rem;
+      color: var(--magenta);
+      margin-bottom: 4px;
+    }
+
+    .header-sub {
+      color: #6c4d77;
+      font-size: 0.92rem;
+      font-weight: 700;
+      margin-bottom: 14px;
+    }
+
+    .stats-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 10px;
+    }
+
+    .stat-box {
+      border-radius: 16px;
+      padding: 10px 6px;
+      background: #fdf6fb;
+      border: 2px solid #f2cde4;
+    }
+
+    .stat-box.yes { background: var(--green-bg); border-color: #a5d6a7; }
+    .stat-box.no { background: var(--gray-bg); border-color: #d7c9de; }
+
+    .stat-num {
+      font-family: 'Fredoka', cursive;
+      font-size: 1.7rem;
+      line-height: 1.1;
+    }
+
+    .stat-box.yes .stat-num { color: var(--green); }
+    .stat-box.no .stat-num { color: #6c4d77; }
+
+    .stat-label {
+      font-size: 0.78rem;
+      font-weight: 800;
+      color: #5b3b6b;
+      margin-top: 2px;
+    }
+
+    .actions-bar {
+      display: grid;
+      grid-template-columns: 1fr;
+      gap: 10px;
+      margin-bottom: 16px;
+    }
+
+    .btn-primary {
+      width: 100%;
+      padding: 15px 16px;
+      border: none;
+      border-radius: 999px;
+      background: linear-gradient(135deg, #ff5ca8, #d81b60);
+      color: #ffffff;
+      font-family: 'Fredoka', cursive;
+      font-size: 1.15rem;
+      cursor: pointer;
+      box-shadow: 0 6px 18px rgba(216, 27, 96, 0.32);
+      transition: transform 0.15s ease;
+    }
+
+    .btn-primary:hover { transform: translateY(-1px); }
+
+    .actions-row {
+      display: grid;
+      grid-template-columns: 1fr 1fr 1fr;
+      gap: 8px;
+    }
+
+    .btn-chip {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      padding: 11px 8px;
+      border-radius: 14px;
+      border: 2px solid #e7cbe0;
+      background: rgba(255, 255, 255, 0.94);
+      color: var(--purple-deep);
+      font-family: 'Nunito', sans-serif;
+      font-weight: 800;
+      font-size: 0.85rem;
+      text-decoration: none;
+      cursor: pointer;
+      text-align: center;
+    }
+
+    .btn-chip.wa {
+      background: #e8f8ef;
+      border-color: #81c784;
+      color: #1b5e20;
+    }
+
+    .copy-feedback {
+      display: none;
+      text-align: center;
+      padding: 10px 14px;
+      border-radius: 14px;
+      background: #e8f5e9;
+      color: #2e7d32;
+      font-weight: 800;
+      font-size: 0.92rem;
+      margin-bottom: 12px;
+      border: 1.5px solid #81c784;
+    }
+
+    .copy-feedback.visible { display: block; }
+
+    .section-card {
+      background: rgba(255, 255, 255, 0.96);
+      border-radius: 22px;
+      padding: 18px 16px;
+      box-shadow: 0 10px 26px rgba(90, 24, 118, 0.1);
+      border: 2px solid rgba(244, 183, 219, 0.65);
+      margin-bottom: 14px;
+    }
+
+    .section-title {
+      font-family: 'Fredoka', cursive;
+      font-size: 1.15rem;
+      margin-bottom: 10px;
+      color: var(--purple-deep);
+    }
+
+    .section-title.yes { color: var(--green); }
+    .section-title.no { color: #6c4d77; }
+
+    .guest-list {
+      list-style: none;
+      display: flex;
+      flex-direction: column;
+      gap: 9px;
+    }
+
+    .guest-item {
+      padding: 12px 13px;
+      border-radius: 14px;
+      background: #fffafd;
+      border: 1.5px solid #eed6e8;
+    }
+
+    .guest-item.yes { border-left: 5px solid #43a047; }
+    .guest-item.no { border-left: 5px solid #9e8aa8; opacity: 0.88; }
+
+    .guest-top {
+      display: flex;
+      justify-content: space-between;
+      align-items: baseline;
+      gap: 8px;
+    }
+
+    .guest-child {
+      font-weight: 800;
+      font-size: 1.02rem;
+      color: var(--purple-deep);
+    }
+
+    .guest-date {
+      font-size: 0.78rem;
+      color: #8b6a99;
+      font-weight: 700;
+      white-space: nowrap;
+    }
+
+    .guest-parent {
+      font-size: 0.88rem;
+      color: #5b3b6b;
+      margin-top: 2px;
+      font-weight: 700;
+    }
+
+    .guest-note {
+      font-size: 0.86rem;
+      color: #6c4d77;
+      margin-top: 5px;
+      padding-top: 5px;
+      border-top: 1px dashed #e6cfe0;
+      font-style: italic;
+    }
+
+    .empty-msg {
+      text-align: center;
+      color: #8b6a99;
+      font-weight: 700;
+      font-size: 0.92rem;
+      padding: 14px 6px;
+    }
+
+    .footer {
+      text-align: center;
+      color: #8a5e99;
+      font-size: 0.82rem;
+      font-weight: 700;
+      margin-top: 6px;
+    }
+  </style>
+</head>
+<body>
+  <main class="container">
+    <section class="header-card">
+      <h1>Lista de Invitados · Alba (8 años)</h1>
+      <p class="header-sub">Jueves 10 de Diciembre a las 16:00 · Mumi Park</p>
+      <div class="stats-grid">
+        <div class="stat-box yes">
+          <div class="stat-num" id="countYes">0</div>
+          <div class="stat-label">Sí vienen</div>
+        </div>
+        <div class="stat-box no">
+          <div class="stat-num" id="countNo">0</div>
+          <div class="stat-label">No pueden</div>
+        </div>
+        <div class="stat-box">
+          <div class="stat-num" id="countTotal">0</div>
+          <div class="stat-label">Respuestas</div>
+        </div>
+      </div>
+    </section>
+
+    <div class="actions-bar">
+      <button type="button" class="btn-primary" id="copyListBtn">Copiar lista de invitados</button>
+      <div class="actions-row">
+        <a id="waShareBtn" class="btn-chip wa" href="#" target="_blank" rel="noopener">Enviar por WhatsApp</a>
+        <button type="button" class="btn-chip" id="refreshBtn">Actualizar</button>
+        <a class="btn-chip" href="https://docs.google.com/spreadsheets/d/17qnO_PEYU6NweTFHNhrv8IDOgjWI33ORq4k4SB18pyE/edit" target="_blank" rel="noopener">Hoja Google</a>
+      </div>
+    </div>
+
+    <div id="copyFeedback" class="copy-feedback" role="status">Lista copiada al portapapeles. Ya puedes pegarla en WhatsApp.</div>
+
+    <section class="section-card">
+      <h2 class="section-title yes">Confirmados que sí vienen</h2>
+      <ul class="guest-list" id="listYes">
+        <li class="empty-msg">Cargando confirmaciones...</li>
+      </ul>
+    </section>
+
+    <section class="section-card">
+      <h2 class="section-title no">No podrán asistir</h2>
+      <ul class="guest-list" id="listNo">
+        <li class="empty-msg">Ninguno por ahora.</li>
+      </ul>
+    </section>
+
+    <footer class="footer">Sincronizado automáticamente con la invitación y la Hoja de Google</footer>
+  </main>
+
+  <script>
+    const API_LIST = 'https://n8n.apliarte.com/webhook/cumple-alba-lista';
+    let currentItems = [];
+
+    const countYes = document.getElementById('countYes');
+    const countNo = document.getElementById('countNo');
+    const countTotal = document.getElementById('countTotal');
+    const listYes = document.getElementById('listYes');
+    const listNo = document.getElementById('listNo');
+    const copyListBtn = document.getElementById('copyListBtn');
+    const waShareBtn = document.getElementById('waShareBtn');
+    const refreshBtn = document.getElementById('refreshBtn');
+    const copyFeedback = document.getElementById('copyFeedback');
+
+    function escapeHtml(str) {
+      return String(str || '')
+        .replace(/&/g, '&amp;')
+        .replace(/</g, '&lt;')
+        .replace(/>/g, '&gt;')
+        .replace(/"/g, '&quot;');
+    }
+
+    function buildShareText(items) {
+      const yes = items.filter((i) => i.Asistencia !== 'NO');
+      const no = items.filter((i) => i.Asistencia === 'NO');
+      const lines = [
+        'LISTA INVITADOS - CUMPLEAÑOS ALBA (8 AÑOS)',
+        'Jueves 10 de Diciembre a las 16:00 · Mumi Park',
+        '',
+        'CONFIRMADOS (' + yes.length + '):'
+      ];
+      if (yes.length === 0) {
+        lines.push('- Todavía no hay confirmados');
+      } else {
+        yes.forEach((item, idx) => {
+          let row = (idx + 1) + '. ' + item.Nino + ' (Papá/Mamá: ' + item.PadreMadre + ')';
+          if (item.Mensaje) row += ' - "' + item.Mensaje + '"';
+          lines.push(row);
+        });
+      }
+      if (no.length > 0) {
+        lines.push('', 'NO PUEDEN IR (' + no.length + '):');
+        no.forEach((item, idx) => {
+          lines.push((idx + 1) + '. ' + item.Nino + ' (' + item.PadreMadre + ')');
+        });
+      }
+      return lines.join('\n');
+    }
+
+    function render(items) {
+      currentItems = items;
+      const yes = items.filter((i) => i.Asistencia !== 'NO');
+      const no = items.filter((i) => i.Asistencia === 'NO');
+
+      countYes.textContent = yes.length;
+      countNo.textContent = no.length;
+      countTotal.textContent = items.length;
+
+      listYes.innerHTML = yes.length
+        ? yes.map((i) => (
+            '<li class="guest-item yes">' +
+              '<div class="guest-top">' +
+                '<span class="guest-child">' + escapeHtml(i.Nino) + '</span>' +
+                '<span class="guest-date">' + escapeHtml(i.FechaHora) + '</span>' +
+              '</div>' +
+              '<div class="guest-parent">Papá/Mamá: ' + escapeHtml(i.PadreMadre) + '</div>' +
+              (i.Mensaje ? '<div class="guest-note">"' + escapeHtml(i.Mensaje) + '"</div>' : '') +
+            '</li>'
+          )).join('')
+        : '<li class="empty-msg">Todavía no hay confirmaciones.</li>';
+
+      listNo.innerHTML = no.length
+        ? no.map((i) => (
+            '<li class="guest-item no">' +
+              '<div class="guest-top">' +
+                '<span class="guest-child">' + escapeHtml(i.Nino) + '</span>' +
+                '<span class="guest-date">' + escapeHtml(i.FechaHora) + '</span>' +
+              '</div>' +
+              '<div class="guest-parent">Papá/Mamá: ' + escapeHtml(i.PadreMadre) + '</div>' +
+              (i.Mensaje ? '<div class="guest-note">"' + escapeHtml(i.Mensaje) + '"</div>' : '') +
+            '</li>'
+          )).join('')
+        : '<li class="empty-msg">Ninguno por ahora.</li>';
+
+      const shareText = buildShareText(items);
+      waShareBtn.href = 'https://wa.me/?text=' + encodeURIComponent(shareText);
+    }
+
+    async function loadList() {
+      refreshBtn.textContent = 'Cargando...';
+      try {
+        const res = await fetch(API_LIST + '?t=' + Date.now());
+        if (!res.ok) throw new Error('HTTP ' + res.status);
+        const data = await res.json();
+        render(Array.isArray(data.items) ? data.items : []);
+      } catch (_) {
+        listYes.innerHTML = '<li class="empty-msg">No se pudo cargar la lista ahora. Pulsa Actualizar.</li>';
+      } finally {
+        refreshBtn.textContent = 'Actualizar';
+      }
+    }
+
+    copyListBtn.addEventListener('click', async () => {
+      const text = buildShareText(currentItems);
+      try {
+        await navigator.clipboard.writeText(text);
+        copyFeedback.classList.add('visible');
+        copyListBtn.textContent = 'Lista copiada';
+        setTimeout(() => {
+          copyFeedback.classList.remove('visible');
+          copyListBtn.textContent = 'Copiar lista de invitados';
+        }, 2500);
+      } catch (_) {
+        window.prompt('Copia la lista de invitados:', text);
+      }
+    });
+
+    refreshBtn.addEventListener('click', loadList);
+    loadList();
+  </script>
+</body>
+</html>
