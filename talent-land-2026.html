@@ -1,0 +1,692 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Oficina ApliArte · Talent Land Málaga 2026</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Fredoka:wght@600;700&family=Nunito:wght@600;700;800&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --bg-1: #0b1224;
+      --bg-2: #112240;
+      --bg-3: #0f2d3c;
+      --ink: #0f172a;
+      --muted: #475569;
+      --card: #ffffff;
+      --card-soft: #f8fafc;
+      --border: #cbd5e1;
+      --cyan: #06b6d4;
+      --teal: #0f766e;
+      --teal-soft: #ccfbf1;
+      --indigo: #1d4ed8;
+      --gold: #f59e0b;
+      --gold-soft: #fef3c7;
+      --green: #16a34a;
+    }
+
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+
+    body {
+      font-family: 'Nunito', -apple-system, BlinkMacSystemFont, sans-serif;
+      background: radial-gradient(circle at top left, var(--bg-3), var(--bg-2) 48%, var(--bg-1));
+      min-height: 100vh;
+      padding: 18px 14px 40px;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      color: var(--ink);
+      overflow-x: hidden;
+    }
+
+    #confettiCanvas {
+      position: fixed;
+      inset: 0;
+      width: 100%;
+      height: 100%;
+      pointer-events: none;
+      z-index: 50;
+    }
+
+    .container {
+      max-width: 490px;
+      width: 100%;
+      position: relative;
+      z-index: 2;
+    }
+
+    .hero-stage {
+      perspective: 1000px;
+      margin-bottom: 18px;
+    }
+
+    .hero-card {
+      position: relative;
+      border-radius: 26px;
+      padding: 24px 20px 22px;
+      background: linear-gradient(135deg, #0f172a 0%, #164e63 55%, #0f766e 100%);
+      color: #f8fafc;
+      overflow: hidden;
+      box-shadow: 0 20px 44px rgba(2, 6, 23, 0.45), 0 0 0 3px rgba(255, 255, 255, 0.16);
+      animation: cardFloat 4.8s ease-in-out infinite;
+      cursor: pointer;
+      user-select: none;
+      -webkit-tap-highlight-color: transparent;
+    }
+
+    @keyframes cardFloat {
+      0%, 100% { transform: translateY(0) rotate(0deg); }
+      50% { transform: translateY(-5px) rotate(0.25deg); }
+    }
+
+    .hero-card::after {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background: linear-gradient(115deg, transparent 32%, rgba(255, 255, 255, 0.18) 50%, transparent 68%);
+      transform: translateX(-120%);
+      animation: shimmer 5.5s ease-in-out infinite;
+      pointer-events: none;
+    }
+
+    @keyframes shimmer {
+      0%, 60% { transform: translateX(-120%); }
+      100% { transform: translateX(120%); }
+    }
+
+    .badge-live {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      background: rgba(245, 158, 11, 0.2);
+      border: 1.5px solid rgba(251, 191, 36, 0.75);
+      color: #fde68a;
+      font-family: 'Fredoka', sans-serif;
+      font-size: 13px;
+      letter-spacing: 0.05em;
+      text-transform: uppercase;
+      padding: 6px 13px;
+      border-radius: 999px;
+      margin-bottom: 14px;
+    }
+
+    .dot-pulse {
+      width: 9px;
+      height: 9px;
+      border-radius: 50%;
+      background: #fbbf24;
+      box-shadow: 0 0 0 0 rgba(251, 191, 36, 0.7);
+      animation: pulse 1.8s infinite;
+    }
+
+    @keyframes pulse {
+      0% { box-shadow: 0 0 0 0 rgba(251, 191, 36, 0.75); }
+      70% { box-shadow: 0 0 0 9px rgba(251, 191, 36, 0); }
+      100% { box-shadow: 0 0 0 0 rgba(251, 191, 36, 0); }
+    }
+
+    .hero-card h1 {
+      font-family: 'Fredoka', sans-serif;
+      font-size: 27px;
+      line-height: 1.18;
+      margin-bottom: 8px;
+      letter-spacing: -0.01em;
+    }
+
+    .hero-sub {
+      font-size: 15.5px;
+      line-height: 1.48;
+      color: #e2e8f0;
+      margin-bottom: 14px;
+    }
+
+    .hero-meta {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
+    }
+
+    .meta-pill {
+      background: rgba(255, 255, 255, 0.14);
+      border: 1px solid rgba(255, 255, 255, 0.22);
+      color: #ffffff;
+      font-size: 13px;
+      font-weight: 700;
+      padding: 5px 11px;
+      border-radius: 999px;
+    }
+
+    .panel {
+      background: var(--card);
+      border-radius: 24px;
+      padding: 22px 18px 24px;
+      box-shadow: 0 18px 40px rgba(2, 6, 23, 0.35);
+      border: 2px solid rgba(255, 255, 255, 0.85);
+    }
+
+    .section-title {
+      font-family: 'Fredoka', sans-serif;
+      font-size: 20px;
+      color: var(--ink);
+      margin-bottom: 4px;
+    }
+
+    .section-hint {
+      font-size: 14.5px;
+      color: var(--muted);
+      margin-bottom: 18px;
+    }
+
+    .field {
+      margin-bottom: 18px;
+    }
+
+    label.field-label {
+      display: block;
+      font-weight: 800;
+      font-size: 15px;
+      color: var(--ink);
+      margin-bottom: 8px;
+    }
+
+    .req {
+      color: var(--teal);
+      font-weight: 800;
+    }
+
+    .stars-row {
+      display: grid;
+      grid-template-columns: repeat(5, 1fr);
+      gap: 8px;
+    }
+
+    .star-btn {
+      border: 2px solid var(--border);
+      background: var(--card-soft);
+      border-radius: 14px;
+      padding: 12px 6px;
+      font-family: 'Fredoka', sans-serif;
+      font-size: 18px;
+      font-weight: 700;
+      color: var(--muted);
+      cursor: pointer;
+      transition: transform 0.12s ease, border-color 0.15s ease, background 0.15s ease, color 0.15s ease;
+    }
+
+    .star-btn:active { transform: scale(0.95); }
+
+    .star-btn.active {
+      background: var(--gold-soft);
+      border-color: var(--gold);
+      color: #b45309;
+      box-shadow: 0 4px 12px rgba(245, 158, 11, 0.25);
+    }
+
+    .options-col {
+      display: flex;
+      flex-direction: column;
+      gap: 9px;
+    }
+
+    .opt-btn {
+      width: 100%;
+      text-align: left;
+      border: 2px solid var(--border);
+      background: var(--card-soft);
+      border-radius: 14px;
+      padding: 13px 14px;
+      font-family: inherit;
+      font-size: 15.5px;
+      font-weight: 700;
+      color: var(--ink);
+      cursor: pointer;
+      transition: transform 0.12s ease, border-color 0.15s ease, background 0.15s ease;
+    }
+
+    .opt-btn:active { transform: scale(0.98); }
+
+    .opt-btn.active {
+      background: var(--teal-soft);
+      border-color: var(--teal);
+      color: #115e59;
+    }
+
+    input[type="text"],
+    textarea {
+      width: 100%;
+      border: 2px solid var(--border);
+      border-radius: 14px;
+      padding: 12px 14px;
+      font-family: inherit;
+      font-size: 16px;
+      color: var(--ink);
+      background: var(--card-soft);
+      transition: border-color 0.15s ease, background 0.15s ease;
+    }
+
+    input[type="text"]:focus,
+    textarea:focus {
+      outline: none;
+      border-color: var(--teal);
+      background: #ffffff;
+    }
+
+    textarea {
+      min-height: 92px;
+      resize: vertical;
+    }
+
+    .btn-primary {
+      width: 100%;
+      border: none;
+      border-radius: 16px;
+      padding: 15px 18px;
+      font-family: 'Fredoka', sans-serif;
+      font-size: 18px;
+      font-weight: 700;
+      color: #ffffff;
+      background: linear-gradient(135deg, #0f766e, #0284c7);
+      box-shadow: 0 10px 22px rgba(15, 118, 110, 0.32);
+      cursor: pointer;
+      transition: transform 0.12s ease, filter 0.15s ease;
+    }
+
+    .btn-primary:active { transform: scale(0.98); }
+
+    .error-msg {
+      color: #b91c1c;
+      background: #fee2e2;
+      border: 1.5px solid #fca5a5;
+      border-radius: 12px;
+      padding: 10px 12px;
+      font-size: 14.5px;
+      font-weight: 700;
+      margin-bottom: 14px;
+      display: none;
+    }
+
+    .done-box {
+      display: none;
+      text-align: center;
+    }
+
+    .done-box.show { display: block; }
+
+    .done-title {
+      font-family: 'Fredoka', sans-serif;
+      font-size: 24px;
+      color: var(--teal);
+      margin-bottom: 8px;
+    }
+
+    .done-summary {
+      text-align: left;
+      background: var(--card-soft);
+      border: 1.5px solid var(--border);
+      border-radius: 16px;
+      padding: 14px;
+      font-size: 14.5px;
+      line-height: 1.5;
+      margin: 14px 0 18px;
+      white-space: pre-line;
+      color: var(--ink);
+    }
+
+    .action-stack {
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+    }
+
+    .link-btn {
+      display: block;
+      width: 100%;
+      text-decoration: none;
+      text-align: center;
+      border-radius: 15px;
+      padding: 14px 16px;
+      font-family: 'Fredoka', sans-serif;
+      font-size: 17px;
+      font-weight: 700;
+      transition: transform 0.12s ease;
+    }
+
+    .link-btn:active { transform: scale(0.98); }
+
+    .link-wa {
+      background: linear-gradient(135deg, #16a34a, #15803d);
+      color: #ffffff;
+      box-shadow: 0 8px 18px rgba(22, 163, 74, 0.28);
+    }
+
+    .link-mail {
+      background: linear-gradient(135deg, #1d4ed8, #0284c7);
+      color: #ffffff;
+    }
+
+    .link-ghost {
+      background: var(--card-soft);
+      color: var(--ink);
+      border: 2px solid var(--border);
+      font-family: 'Nunito', sans-serif;
+      font-size: 15px;
+      font-weight: 800;
+      cursor: pointer;
+    }
+
+    .showcase {
+      margin-top: 18px;
+      padding-top: 16px;
+      border-top: 1.5px dashed var(--border);
+      text-align: left;
+    }
+
+    .showcase-title {
+      font-family: 'Fredoka', sans-serif;
+      font-size: 16px;
+      color: var(--ink);
+      margin-bottom: 6px;
+    }
+
+    .showcase-text {
+      font-size: 14px;
+      color: var(--muted);
+      margin-bottom: 12px;
+      line-height: 1.45;
+    }
+
+    .mini-links {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 8px;
+    }
+
+    .mini-link {
+      display: block;
+      text-align: center;
+      text-decoration: none;
+      padding: 10px 10px;
+      border-radius: 12px;
+      font-size: 14px;
+      font-weight: 800;
+      background: #0f172a;
+      color: #ffffff;
+    }
+
+    .mini-link.alt {
+      background: var(--teal-soft);
+      color: #115e59;
+      border: 1.5px solid var(--teal);
+    }
+
+    .footer-note {
+      margin-top: 16px;
+      font-size: 13px;
+      color: #cbd5e1;
+      text-align: center;
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+      .hero-card, .hero-card::after, .dot-pulse { animation: none !important; }
+    }
+  </style>
+</head>
+<body>
+  <canvas id="confettiCanvas"></canvas>
+
+  <main class="container">
+    <section class="hero-stage">
+      <div class="hero-card" id="heroCard" title="Toca para celebrar">
+        <div class="badge-live"><span class="dot-pulse"></span> Talent Land Málaga 2026</div>
+        <h1>Oficina ApliArte en directo</h1>
+        <p class="hero-sub">Gracias por pasarte por la demostración de Javier Mateo. Cuéntame en treinta segundos qué te ha parecido y cualquier duda que tengas.</p>
+        <div class="hero-meta">
+          <span class="meta-pill">Javier Mateo · Málaga</span>
+          <span class="meta-pill">apliarte.com</span>
+        </div>
+      </div>
+    </section>
+
+    <section class="panel">
+      <form id="feedbackForm" novalidate>
+        <h2 class="section-title">Tu opinión del taller</h2>
+        <p class="section-hint">Sin registro ni contraseñas. Solo los puntos clave.</p>
+
+        <div id="errorBox" class="error-msg" role="alert"></div>
+
+        <div class="field">
+          <label class="field-label">¿Qué te ha parecido el taller? <span class="req">*</span></label>
+          <div class="stars-row" id="starsRow" role="radiogroup" aria-label="Valoración del taller del 1 al 5">
+            <button type="button" class="star-btn" data-val="1">1</button>
+            <button type="button" class="star-btn" data-val="2">2</button>
+            <button type="button" class="star-btn" data-val="3">3</button>
+            <button type="button" class="star-btn" data-val="4">4</button>
+            <button type="button" class="star-btn" data-val="5">5</button>
+          </div>
+        </div>
+
+        <div class="field">
+          <label class="field-label">¿Qué te ha parecido la Oficina ApliArte? <span class="req">*</span></label>
+          <div class="options-col" id="oficinaRow" role="radiogroup" aria-label="Opinión sobre Oficina ApliArte">
+            <button type="button" class="opt-btn" data-val="Me ha encantado y quiero saber más">Me ha encantado y quiero saber más</button>
+            <button type="button" class="opt-btn" data-val="Muy interesante">Muy interesante</button>
+            <button type="button" class="opt-btn" data-val="Solo pasaba a curiosear">Solo pasaba a curiosear</button>
+          </div>
+        </div>
+
+        <div class="field">
+          <label class="field-label" for="dudasInput">¿Tienes alguna duda, idea o pregunta para Javier?</label>
+          <textarea id="dudasInput" maxlength="1200" placeholder="Cuéntame cualquier duda sobre agentes, arquitectura privada o proyectos..."></textarea>
+        </div>
+
+        <div class="field">
+          <label class="field-label" for="nombreInput">Tu nombre o apodo (opcional)</label>
+          <input type="text" id="nombreInput" maxlength="100" autocomplete="name" placeholder="Ej. Laura, Carlos...">
+        </div>
+
+        <div class="field">
+          <label class="field-label" for="contactoInput">Correo o red social si quieres seguir en contacto (opcional)</label>
+          <input type="text" id="contactoInput" maxlength="150" placeholder="Ej. correo, LinkedIn o usuario">
+        </div>
+
+        <button type="submit" class="btn-primary">Preparar y enviar mi opinión</button>
+      </form>
+
+      <div id="doneBox" class="done-box">
+        <h2 class="done-title">¡Gracias por tu tiempo!</h2>
+        <p class="section-hint">Pulsa un botón para hacérselo llegar directamente a Javier en un segundo:</p>
+        <div id="doneSummary" class="done-summary"></div>
+
+        <div class="action-stack">
+          <a id="waLink" class="link-btn link-wa" href="#" target="_blank" rel="noopener">Enviar ahora por WhatsApp</a>
+          <a id="mailLink" class="link-btn link-mail" href="#">Enviar por correo a javier@apliarte.com</a>
+          <button type="button" id="copyBtn" class="link-btn link-ghost">Copiar resumen</button>
+          <button type="button" id="editBtn" class="link-btn link-ghost">Modificar mis datos</button>
+        </div>
+
+        <div class="showcase">
+          <div class="showcase-title">Comprueba una aplicación real hecha con esta oficina</div>
+          <p class="showcase-text">Inem Sellar ya está publicada en la tienda de Apple, mejorada y probada por los agentes de la Oficina ApliArte mientras Javier dirigía desde el teléfono.</p>
+          <div class="mini-links">
+            <a class="mini-link" href="https://apps.apple.com/es/app/id902527321" target="_blank" rel="noopener">Ver Inem Sellar</a>
+            <a class="mini-link alt" href="https://www.apliarte.com" target="_blank" rel="noopener">Visitar apliarte.com</a>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <p class="footer-note">Oficina ApliArte · Desarrollador independiente en Málaga · Sin rastreadores ni secretos en tu navegador</p>
+  </main>
+
+  <script>
+    const STORAGE_KEY = 'talent_land_2026_apliarte_v1';
+    const WA_PHONE = '34678432895';
+    const MAIL_TO = 'javier@apliarte.com';
+
+    let selectedRating = 0;
+    let selectedOficina = '';
+
+    const form = document.getElementById('feedbackForm');
+    const doneBox = document.getElementById('doneBox');
+    const doneSummary = document.getElementById('doneSummary');
+    const errorBox = document.getElementById('errorBox');
+    const waLink = document.getElementById('waLink');
+    const mailLink = document.getElementById('mailLink');
+    const copyBtn = document.getElementById('copyBtn');
+    const editBtn = document.getElementById('editBtn');
+
+    const nombreInput = document.getElementById('nombreInput');
+    const contactoInput = document.getElementById('contactoInput');
+    const dudasInput = document.getElementById('dudasInput');
+
+    const starBtns = Array.from(document.querySelectorAll('#starsRow .star-btn'));
+    const optBtns = Array.from(document.querySelectorAll('#oficinaRow .opt-btn'));
+
+    function setRating(val) {
+      selectedRating = val;
+      starBtns.forEach(b => b.classList.toggle('active', Number(b.dataset.val) <= val));
+    }
+
+    function setOficina(val) {
+      selectedOficina = val;
+      optBtns.forEach(b => b.classList.toggle('active', b.dataset.val === val));
+    }
+
+    starBtns.forEach(btn => btn.addEventListener('click', () => setRating(Number(btn.dataset.val))));
+    optBtns.forEach(btn => btn.addEventListener('click', () => setOficina(btn.dataset.val)));
+
+    function buildMessage(data) {
+      const lines = [
+        'Talent Land Málaga 2026 — Opinión del taller Oficina ApliArte',
+        'Valoración del taller: ' + data.rating + ' / 5',
+        'Oficina ApliArte: ' + data.oficina
+      ];
+      if (data.nombre) lines.push('Nombre: ' + data.nombre);
+      if (data.contacto) lines.push('Contacto: ' + data.contacto);
+      if (data.dudas) lines.push('Duda o comentario: ' + data.dudas);
+      return lines.join('\n');
+    }
+
+    function showDone(data) {
+      const msg = buildMessage(data);
+      doneSummary.textContent = msg;
+      waLink.href = 'https://wa.me/' + WA_PHONE + '?text=' + encodeURIComponent(msg);
+      mailLink.href = 'mailto:' + MAIL_TO + '?subject=' + encodeURIComponent('Talent Land 2026 — Opinión taller Oficina ApliArte') + '&body=' + encodeURIComponent(msg);
+      form.style.display = 'none';
+      doneBox.classList.add('show');
+    }
+
+    form.addEventListener('submit', (e) => {
+      e.preventDefault();
+      errorBox.style.display = 'none';
+      if (!selectedRating) {
+        errorBox.textContent = 'Elige una puntuación del 1 al 5 para el taller.';
+        errorBox.style.display = 'block';
+        return;
+      }
+      if (!selectedOficina) {
+        errorBox.textContent = 'Indica qué te ha parecido la Oficina ApliArte.';
+        errorBox.style.display = 'block';
+        return;
+      }
+      const data = {
+        rating: selectedRating,
+        oficina: selectedOficina,
+        nombre: nombreInput.value.trim(),
+        contacto: contactoInput.value.trim(),
+        dudas: dudasInput.value.trim()
+      };
+      try { localStorage.setItem(STORAGE_KEY, JSON.stringify(data)); } catch (_) {}
+      showDone(data);
+      burstConfetti();
+    });
+
+    editBtn.addEventListener('click', () => {
+      doneBox.classList.remove('show');
+      form.style.display = 'block';
+    });
+
+    copyBtn.addEventListener('click', async () => {
+      try {
+        await navigator.clipboard.writeText(doneSummary.textContent);
+        copyBtn.textContent = 'Resumen copiado';
+        setTimeout(() => { copyBtn.textContent = 'Copiar resumen'; }, 2200);
+      } catch (_) {}
+    });
+
+    // Restore saved response on reload
+    try {
+      const saved = JSON.parse(localStorage.getItem(STORAGE_KEY) || 'null');
+      if (saved && saved.rating && saved.oficina) {
+        setRating(saved.rating);
+        setOficina(saved.oficina);
+        nombreInput.value = saved.nombre || '';
+        contactoInput.value = saved.contacto || '';
+        dudasInput.value = saved.dudas || '';
+        showDone(saved);
+      }
+    } catch (_) {}
+
+    // Interactive confetti respecting prefers-reduced-motion
+    const canvas = document.getElementById('confettiCanvas');
+    const ctx = canvas.getContext('2d');
+    const reducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+    let particles = [];
+    let rafId = null;
+
+    function resizeCanvas() {
+      canvas.width = window.innerWidth;
+      canvas.height = window.innerHeight;
+    }
+    window.addEventListener('resize', resizeCanvas);
+    resizeCanvas();
+
+    function burstConfetti() {
+      if (reducedMotion) return;
+      const colors = ['#06b6d4', '#14b8a6', '#f59e0b', '#38bdf8', '#fde68a', '#ffffff'];
+      for (let i = 0; i < 65; i++) {
+        particles.push({
+          x: window.innerWidth * (0.2 + Math.random() * 0.6),
+          y: window.innerHeight * 0.25,
+          vx: (Math.random() - 0.5) * 9,
+          vy: (Math.random() - 0.8) * 10 - 2,
+          size: 5 + Math.random() * 6,
+          color: colors[i % colors.length],
+          rot: Math.random() * 360,
+          vrot: (Math.random() - 0.5) * 12,
+          life: 1
+        });
+      }
+      if (!rafId) animateConfetti();
+    }
+
+    function animateConfetti() {
+      ctx.clearRect(0, 0, canvas.width, canvas.height);
+      particles = particles.filter(p => p.life > 0.02);
+      for (const p of particles) {
+        p.x += p.vx;
+        p.y += p.vy;
+        p.vy += 0.26;
+        p.rot += p.vrot;
+        p.life -= 0.014;
+        ctx.save();
+        ctx.globalAlpha = Math.max(0, p.life);
+        ctx.translate(p.x, p.y);
+        ctx.rotate(p.rot * Math.PI / 180);
+        ctx.fillStyle = p.color;
+        ctx.fillRect(-p.size / 2, -p.size / 2, p.size, p.size * 0.6);
+        ctx.restore();
+      }
+      if (particles.length) {
+        rafId = requestAnimationFrame(animateConfetti);
+      } else {
+        rafId = null;
+      }
+    }
+
+    document.getElementById('heroCard').addEventListener('click', burstConfetti);
+    window.addEventListener('load', () => setTimeout(burstConfetti, 350));
+  </script>
+</body>
+</html>
