@@ -1,0 +1,695 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Bastida Hipnosis · Transformación Consciente</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Cinzel+Decorative:wght@700&family=Cinzel:wght@600;700&family=Outfit:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --bg: #fdfbf7;
+      --surface: #ffffff;
+      --surface-warm: #faf5ef;
+      --ink: #1c1917;
+      --muted: #57534e;
+      --violet: #6d28d9;
+      --violet-deep: #3b0764;
+      --violet-soft: #f3e8ff;
+      --amber: #d97706;
+      --fire: #ea580c;
+      --gold: #f59e0b;
+      --gold-soft: #fef3c7;
+      --border: #e7e5e4;
+    }
+
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+
+    html { scroll-behavior: smooth; }
+
+    body {
+      font-family: 'Outfit', -apple-system, BlinkMacSystemFont, sans-serif;
+      background: var(--bg);
+      color: var(--ink);
+      line-height: 1.6;
+      overflow-x: hidden;
+    }
+
+    /* Ambient luminous backdrop */
+    .ambient {
+      position: fixed;
+      inset: 0;
+      pointer-events: none;
+      z-index: 0;
+      background:
+        radial-gradient(circle at 18% 15%, rgba(245, 158, 11, 0.14), transparent 42%),
+        radial-gradient(circle at 82% 20%, rgba(109, 40, 217, 0.13), transparent 45%),
+        radial-gradient(circle at 50% 85%, rgba(234, 88, 12, 0.08), transparent 48%);
+    }
+
+    nav {
+      position: sticky;
+      top: 0;
+      z-index: 20;
+      backdrop-filter: blur(14px);
+      background: rgba(253, 251, 247, 0.86);
+      border-bottom: 1px solid rgba(231, 229, 228, 0.9);
+      padding: 12px 24px;
+    }
+
+    .nav-inner {
+      max-width: 1120px;
+      margin: 0 auto;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 16px;
+    }
+
+    .brand-mini {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      text-decoration: none;
+      color: var(--ink);
+    }
+
+    .brand-mini span {
+      font-family: 'Cinzel', serif;
+      font-weight: 700;
+      letter-spacing: 0.08em;
+      font-size: 16px;
+    }
+
+    .nav-links {
+      display: flex;
+      align-items: center;
+      gap: 24px;
+    }
+
+    .nav-links a {
+      text-decoration: none;
+      color: var(--muted);
+      font-weight: 500;
+      font-size: 15px;
+      transition: color 0.2s;
+    }
+
+    .nav-links a:hover { color: var(--violet); }
+
+    .nav-cta {
+      background: linear-gradient(135deg, var(--violet-deep), var(--violet));
+      color: #ffffff !important;
+      padding: 9px 18px;
+      border-radius: 999px;
+      font-weight: 600 !important;
+      box-shadow: 0 6px 18px rgba(109, 40, 217, 0.25);
+    }
+
+    main { position: relative; z-index: 2; }
+
+    /* HERO */
+    .hero {
+      max-width: 1040px;
+      margin: 0 auto;
+      padding: 54px 24px 64px;
+      text-align: center;
+    }
+
+    .logo-stage {
+      max-width: 440px;
+      margin: 0 auto 24px;
+      animation: gentleFloat 5.5s ease-in-out infinite;
+    }
+
+    @keyframes gentleFloat {
+      0%, 100% { transform: translateY(0); }
+      50% { transform: translateY(-6px); }
+    }
+
+    .hero-eyebrow {
+      display: inline-block;
+      padding: 6px 16px;
+      border-radius: 999px;
+      background: linear-gradient(90deg, var(--gold-soft), var(--violet-soft));
+      color: var(--violet-deep);
+      font-size: 13px;
+      font-weight: 700;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      margin-bottom: 18px;
+    }
+
+    .hero h1 {
+      font-family: 'Cinzel', serif;
+      font-size: clamp(30px, 4.6vw, 48px);
+      line-height: 1.18;
+      color: var(--ink);
+      margin-bottom: 16px;
+      font-weight: 700;
+    }
+
+    .hero h1 em {
+      font-style: normal;
+      background: linear-gradient(90deg, var(--fire), var(--violet));
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+    }
+
+    .hero p {
+      max-width: 660px;
+      margin: 0 auto 30px;
+      font-size: 18px;
+      color: var(--muted);
+    }
+
+    .hero-actions {
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: center;
+      gap: 14px;
+    }
+
+    .btn-primary {
+      display: inline-block;
+      text-decoration: none;
+      border: none;
+      cursor: pointer;
+      padding: 14px 28px;
+      border-radius: 999px;
+      font-family: inherit;
+      font-size: 16px;
+      font-weight: 600;
+      color: #ffffff;
+      background: linear-gradient(135deg, var(--fire), var(--violet));
+      box-shadow: 0 12px 28px rgba(109, 40, 217, 0.28);
+      transition: transform 0.15s ease, filter 0.15s ease;
+    }
+
+    .btn-primary:hover { transform: translateY(-2px); filter: brightness(1.04); }
+
+    .btn-secondary {
+      display: inline-block;
+      text-decoration: none;
+      padding: 14px 26px;
+      border-radius: 999px;
+      font-size: 16px;
+      font-weight: 600;
+      color: var(--violet-deep);
+      background: var(--surface);
+      border: 1.5px solid #d8b4fe;
+      transition: background 0.15s ease;
+    }
+
+    .btn-secondary:hover { background: var(--violet-soft); }
+
+    /* SECTION COMMON */
+    section.block {
+      max-width: 1120px;
+      margin: 0 auto;
+      padding: 52px 24px;
+    }
+
+    .section-head {
+      text-align: center;
+      max-width: 680px;
+      margin: 0 auto 36px;
+    }
+
+    .section-head h2 {
+      font-family: 'Cinzel', serif;
+      font-size: clamp(24px, 3.2vw, 34px);
+      margin-bottom: 10px;
+    }
+
+    .section-head p {
+      color: var(--muted);
+      font-size: 16.5px;
+    }
+
+    /* CARDS GRID */
+    .grid-3 {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(270px, 1fr));
+      gap: 22px;
+    }
+
+    .card {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: 22px;
+      padding: 28px 24px;
+      box-shadow: 0 10px 30px rgba(28, 25, 23, 0.05);
+      transition: transform 0.2s ease, box-shadow 0.2s ease;
+    }
+
+    .card:hover {
+      transform: translateY(-4px);
+      box-shadow: 0 18px 36px rgba(109, 40, 217, 0.10);
+    }
+
+    .card-badge {
+      width: 44px;
+      height: 44px;
+      border-radius: 14px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-family: 'Cinzel', serif;
+      font-weight: 700;
+      font-size: 18px;
+      margin-bottom: 16px;
+      background: linear-gradient(135deg, var(--gold-soft), var(--violet-soft));
+      color: var(--violet-deep);
+    }
+
+    .card h3 {
+      font-size: 20px;
+      margin-bottom: 10px;
+      color: var(--ink);
+    }
+
+    .card p {
+      color: var(--muted);
+      font-size: 15.5px;
+    }
+
+    /* INTERACTIVE BREATHING EXPERIENCE */
+    .breath-box {
+      background: linear-gradient(135deg, #1e1033 0%, #3b0764 55%, #7c2d12 100%);
+      color: #fdfbf7;
+      border-radius: 28px;
+      padding: 44px 26px;
+      text-align: center;
+      box-shadow: 0 24px 52px rgba(59, 7, 100, 0.28);
+      position: relative;
+      overflow: hidden;
+    }
+
+    .breath-box h2 {
+      font-family: 'Cinzel', serif;
+      font-size: clamp(24px, 3.2vw, 32px);
+      margin-bottom: 10px;
+    }
+
+    .breath-box p {
+      color: #e9d5ff;
+      max-width: 560px;
+      margin: 0 auto 28px;
+    }
+
+    .orb-wrap {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 20px;
+    }
+
+    .orb {
+      width: 156px;
+      height: 156px;
+      border-radius: 50%;
+      background: radial-gradient(circle at 35% 35%, #fde68a, #f59e0b 45%, #7c3aed 100%);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-family: 'Cinzel', serif;
+      font-size: 19px;
+      font-weight: 700;
+      color: #1c1917;
+      box-shadow: 0 0 42px rgba(245, 158, 11, 0.45);
+      transition: transform 3.8s ease-in-out, box-shadow 3.8s ease-in-out;
+    }
+
+    .orb.inhale {
+      transform: scale(1.28);
+      box-shadow: 0 0 70px rgba(251, 191, 36, 0.72);
+    }
+
+    .orb.exhale {
+      transform: scale(0.92);
+      box-shadow: 0 0 28px rgba(167, 139, 250, 0.45);
+    }
+
+    .btn-light {
+      border: 1.5px solid rgba(255, 255, 255, 0.45);
+      background: rgba(255, 255, 255, 0.14);
+      color: #ffffff;
+      padding: 11px 24px;
+      border-radius: 999px;
+      font-family: inherit;
+      font-size: 15.5px;
+      font-weight: 600;
+      cursor: pointer;
+      backdrop-filter: blur(8px);
+    }
+
+    .btn-light:hover { background: rgba(255, 255, 255, 0.24); }
+
+    /* BOOKING SECTION */
+    .booking-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+      gap: 28px;
+      align-items: start;
+    }
+
+    .booking-info {
+      background: var(--surface-warm);
+      border: 1px solid var(--border);
+      border-radius: 24px;
+      padding: 30px 26px;
+    }
+
+    .booking-info h3 {
+      font-family: 'Cinzel', serif;
+      font-size: 24px;
+      margin-bottom: 12px;
+    }
+
+    .booking-list {
+      list-style: none;
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+      margin-top: 18px;
+    }
+
+    .booking-list li {
+      padding-left: 16px;
+      border-left: 3px solid var(--amber);
+      color: var(--ink);
+      font-size: 15.5px;
+    }
+
+    .booking-form {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: 24px;
+      padding: 30px 26px;
+      box-shadow: 0 12px 32px rgba(28, 25, 23, 0.06);
+    }
+
+    .field { margin-bottom: 14px; }
+
+    .field label {
+      display: block;
+      font-weight: 600;
+      font-size: 14.5px;
+      margin-bottom: 6px;
+    }
+
+    .field input,
+    .field select,
+    .field textarea {
+      width: 100%;
+      padding: 11px 14px;
+      border-radius: 12px;
+      border: 1.5px solid var(--border);
+      font-family: inherit;
+      font-size: 15.5px;
+      background: #fcfbfa;
+    }
+
+    .field input:focus,
+    .field select:focus,
+    .field textarea:focus {
+      outline: none;
+      border-color: var(--violet);
+      background: #ffffff;
+    }
+
+    .form-ok {
+      display: none;
+      margin-top: 14px;
+      padding: 14px;
+      border-radius: 14px;
+      background: var(--violet-soft);
+      color: var(--violet-deep);
+      font-weight: 600;
+      text-align: center;
+    }
+
+    footer {
+      text-align: center;
+      padding: 32px 20px 44px;
+      color: var(--muted);
+      font-size: 14px;
+      border-top: 1px solid var(--border);
+      margin-top: 30px;
+    }
+
+    @media (max-width: 720px) {
+      .nav-links { display: none; }
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+      .logo-stage { animation: none !important; }
+      .orb { transition: none !important; }
+    }
+  </style>
+</head>
+<body>
+  <div class="ambient"></div>
+
+  <nav>
+    <div class="nav-inner">
+      <a class="brand-mini" href="#inicio">
+        <svg width="42" height="22" viewBox="0 0 120 60" aria-hidden="true">
+          <defs>
+            <linearGradient id="navInf" x1="0%" y1="50%" x2="100%" y2="50%">
+              <stop offset="0%" stop-color="#ea580c"/>
+              <stop offset="48%" stop-color="#f59e0b"/>
+              <stop offset="100%" stop-color="#6d28d9"/>
+            </linearGradient>
+          </defs>
+          <path d="M32,12 C16,12 8,21 8,30 C8,39 16,48 32,48 C48,48 56,36 60,30 C64,24 72,12 88,12 C104,12 112,21 112,30 C112,39 104,48 88,48 C72,48 64,36 60,30 C56,24 48,12 32,12 Z" fill="none" stroke="url(#navInf)" stroke-width="6.5" stroke-linecap="round"/>
+        </svg>
+        <span>BASTIDA HIPNOSIS</span>
+      </a>
+      <div class="nav-links">
+        <a href="#metodo">Método</a>
+        <a href="#experiencia">Respira</a>
+        <a href="#reserva" class="nav-cta">Pedir sesión</a>
+      </div>
+    </div>
+  </nav>
+
+  <main id="inicio">
+    <section class="hero">
+      <!-- Faithful Vector Recreation of Bastida Hipnosis Infinity Logo -->
+      <div class="logo-stage">
+        <svg viewBox="0 0 560 285" width="100%" role="img" aria-label="Logotipo Bastida Hipnosis">
+          <defs>
+            <linearGradient id="infFireViolet" x1="0%" y1="50%" x2="100%" y2="50%">
+              <stop offset="0%" stop-color="#ea580c"/>
+              <stop offset="32%" stop-color="#f59e0b"/>
+              <stop offset="52%" stop-color="#d97706"/>
+              <stop offset="72%" stop-color="#9333ea"/>
+              <stop offset="100%" stop-color="#5b21b6"/>
+            </linearGradient>
+            <linearGradient id="infGlow" x1="0%" y1="0%" x2="100%" y2="100%">
+              <stop offset="0%" stop-color="#fb923c" stop-opacity="0.75"/>
+              <stop offset="50%" stop-color="#fbbf24" stop-opacity="0.5"/>
+              <stop offset="100%" stop-color="#a855f7" stop-opacity="0.8"/>
+            </linearGradient>
+            <filter id="softAura" x="-15%" y="-15%" width="130%" height="130%">
+              <feGaussianBlur stdDeviation="5.5" result="blur"/>
+              <feMerge>
+                <feMergeNode in="blur"/>
+                <feMergeNode in="SourceGraphic"/>
+              </feMerge>
+            </filter>
+            <filter id="textGlow" x="-10%" y="-20%" width="120%" height="140%">
+              <feDropShadow dx="0" dy="0" stdDeviation="3.2" flood-color="#f59e0b" flood-opacity="0.85"/>
+            </filter>
+          </defs>
+
+          <!-- Outer fiery-violet painted aura -->
+          <path d="M168,42 C102,42 64,78 64,122 C64,166 102,202 168,202 C226,202 260,154 280,122 C300,90 334,42 392,42 C458,42 496,78 496,122 C496,166 458,202 392,202 C334,202 300,154 280,122 C260,90 226,42 168,42 Z"
+                fill="none" stroke="url(#infGlow)" stroke-width="26" stroke-linecap="round" filter="url(#softAura)"/>
+
+          <!-- Main crisp infinity stroke -->
+          <path d="M168,42 C102,42 64,78 64,122 C64,166 102,202 168,202 C226,202 260,154 280,122 C300,90 334,42 392,42 C458,42 496,78 496,122 C496,166 458,202 392,202 C334,202 300,154 280,122 C260,90 226,42 168,42 Z"
+                fill="none" stroke="url(#infFireViolet)" stroke-width="14" stroke-linecap="round"/>
+
+          <!-- Fine dark inner brush accent -->
+          <path d="M168,42 C102,42 64,78 64,122 C64,166 102,202 168,202 C226,202 260,154 280,122 C300,90 334,42 392,42 C458,42 496,78 496,122 C496,166 458,202 392,202 C334,202 300,154 280,122 C260,90 226,42 168,42 Z"
+                fill="none" stroke="#1c1917" stroke-width="3.2" stroke-opacity="0.72" stroke-linecap="round"/>
+
+          <!-- BASTIDA classical serif wordmark with golden halo -->
+          <text x="280" y="144" text-anchor="middle" font-family="'Cinzel Decorative', 'Cinzel', Georgia, serif" font-size="76" font-weight="700" fill="#1c1917" stroke="#fef3c7" stroke-width="3" paint-order="stroke" filter="url(#textGlow)" letter-spacing="2">BASTIDA</text>
+
+          <!-- HIPNOSIS clean geometric subtitle -->
+          <text x="280" y="254" text-anchor="middle" font-family="'Outfit', sans-serif" font-size="38" font-weight="500" fill="#1c1917" letter-spacing="11">HIPNOSIS</text>
+        </svg>
+      </div>
+
+      <div class="hero-eyebrow">Hipnosis clínica y transformación profunda</div>
+      <h1>Desbloquea tu mente consciente y recupera <em>tu equilibrio interior</em></h1>
+      <p>Sesiones personalizadas de hipnosis terapéutica para transformar hábitos, calmar la ansiedad y reconectar con tu potencial real, en un entorno seguro, cercano y respetuoso.</p>
+
+      <div class="hero-actions">
+        <a href="#reserva" class="btn-primary">Reservar primera valoración</a>
+        <a href="#experiencia" class="btn-secondary">Probar pausa guiada de 30 segundos</a>
+      </div>
+    </section>
+
+    <section class="block" id="metodo">
+      <div class="section-head">
+        <h2>El Método Bastida</h2>
+        <p>Un acompañamiento práctico, humano y sin mitos: tú mantienes siempre el control mientras trabajamos directamente sobre la raíz inconsciente.</p>
+      </div>
+      <div class="grid-3">
+        <article class="card">
+          <div class="card-badge">01</div>
+          <h3>Calma y gestión emocional</h3>
+          <p>Reduce el ruido mental, la ansiedad cotidiana y el estrés sostenido enseñando a tu sistema nervioso a volver a un estado de serenidad real.</p>
+        </article>
+        <article class="card">
+          <div class="card-badge">02</div>
+          <h3>Cambio de hábitos duradero</h3>
+          <p>Descanso profundo, foco personal, seguridad al hablar en público y liberación de automatismos que ya no encajan con quien quieres ser.</p>
+        </article>
+        <article class="card">
+          <div class="card-badge">03</div>
+          <h3>Desbloqueo y claridad</h3>
+          <p>Identifica creencias limitantes desde la raíz y crea nuevas respuestas conscientes con sesiones presenciales o en línea a tu ritmo.</p>
+        </article>
+      </div>
+    </section>
+
+    <section class="block" id="experiencia">
+      <div class="breath-box">
+        <h2>Pausa guiada en directo</h2>
+        <p>Pulsa el botón para probar una respiración consciente sincronizada de cuatro segundos al inhalar y seis al soltar.</p>
+        <div class="orb-wrap">
+          <div class="orb" id="breathOrb">Respira</div>
+          <button type="button" class="btn-light" id="breathBtn">Iniciar pausa guiada</button>
+        </div>
+      </div>
+    </section>
+
+    <section class="block" id="reserva">
+      <div class="booking-grid">
+        <div class="booking-info">
+          <h3>Primera sesión de valoración</h3>
+          <p>Hablamos tranquilamente de tu objetivo, resolvemos cualquier duda sobre la hipnosis y trazamos un plan claro y a tu medida.</p>
+          <ul class="booking-list">
+            <li>Modalidad presencial y sesiones en línea por videollamada.</li>
+            <li>Confidencialidad absoluta y trato cercano uno a uno.</li>
+            <li>Acompañamiento real desde la primera conversación.</li>
+          </ul>
+        </div>
+
+        <form class="booking-form" id="bookingForm">
+          <div class="field">
+            <label for="bName">Tu nombre</label>
+            <input type="text" id="bName" required placeholder="¿Cómo te llamas?">
+          </div>
+          <div class="field">
+            <label for="bContact">Teléfono o correo electrónico</label>
+            <input type="text" id="bContact" required placeholder="Para responderte personalmente">
+          </div>
+          <div class="field">
+            <label for="bTopic">¿Qué te gustaría trabajar?</label>
+            <select id="bTopic">
+              <option>Ansiedad, estrés y calma mental</option>
+              <option>Descanso y calidad del sueño</option>
+              <option>Cambio de hábitos y foco</option>
+              <option>Confianza personal y desbloqueo</option>
+              <option>Otro motivo</option>
+            </select>
+          </div>
+          <div class="field">
+            <label for="bNotes">Cuéntame brevemente (opcional)</label>
+            <textarea id="bNotes" rows="3" placeholder="Cualquier detalle que quieras compartir..."></textarea>
+          </div>
+          <button type="submit" class="btn-primary" style="width:100%;">Solicitar información</button>
+          <div id="formOk" class="form-ok">
+            <p style="margin-bottom:10px;">Solicitud preparada. Pulsa el botón para enviarla directamente al correo de Bastida Hipnosis:</p>
+            <div style="display:flex;flex-wrap:wrap;gap:10px;justify-content:center;">
+              <a id="sendMailBtn" href="#" class="btn-primary" style="padding:10px 20px;font-size:15px;">Enviar correo ahora</a>
+              <button type="button" id="copyReqBtn" class="btn-secondary" style="padding:10px 18px;font-size:14.5px;cursor:pointer;">Copiar texto</button>
+            </div>
+          </div>
+        </form>
+      </div>
+    </section>
+  </main>
+
+  <footer>
+    Bastida Hipnosis · Web regalada y creada en directo en Talent Land Málaga 2026 por Javier Mateo (ApliArte)
+  </footer>
+
+  <script>
+    const orb = document.getElementById('breathOrb');
+    const btn = document.getElementById('breathBtn');
+    let timer = null;
+    let phase = 0;
+
+    function stepBreath() {
+      if (phase === 0) {
+        orb.textContent = 'Inhala...';
+        orb.classList.add('inhale');
+        orb.classList.remove('exhale');
+        phase = 1;
+        timer = setTimeout(stepBreath, 4000);
+      } else {
+        orb.textContent = 'Suelta...';
+        orb.classList.remove('inhale');
+        orb.classList.add('exhale');
+        phase = 0;
+        timer = setTimeout(stepBreath, 5500);
+      }
+    }
+
+    btn.addEventListener('click', () => {
+      if (timer) {
+        clearTimeout(timer);
+        timer = null;
+        orb.textContent = 'Respira';
+        orb.classList.remove('inhale', 'exhale');
+        btn.textContent = 'Iniciar pausa guiada';
+      } else {
+        phase = 0;
+        btn.textContent = 'Detener pausa';
+        stepBreath();
+      }
+    });
+
+    let lastRequestText = '';
+    document.getElementById('bookingForm').addEventListener('submit', (e) => {
+      e.preventDefault();
+      const name = document.getElementById('bName').value.trim();
+      const contact = document.getElementById('bContact').value.trim();
+      const topic = document.getElementById('bTopic').value;
+      const notes = document.getElementById('bNotes').value.trim();
+      const lines = [
+        'Hola, equipo de Bastida Hipnosis:',
+        '',
+        'Me gustaría solicitar información para una primera sesión de valoración.',
+        'Nombre: ' + name,
+        'Contacto: ' + contact,
+        'Tema principal: ' + topic
+      ];
+      if (notes) lines.push('Comentarios: ' + notes);
+      lastRequestText = lines.join('\n');
+      const subject = 'Nueva solicitud web — Bastida Hipnosis (' + name + ')';
+      document.getElementById('sendMailBtn').href =
+        'mailto:rbastidal@hotmail.com?subject=' + encodeURIComponent(subject) + '&body=' + encodeURIComponent(lastRequestText);
+      document.getElementById('formOk').style.display = 'block';
+    });
+
+    document.getElementById('copyReqBtn').addEventListener('click', async () => {
+      try {
+        await navigator.clipboard.writeText(lastRequestText);
+        const b = document.getElementById('copyReqBtn');
+        b.textContent = 'Texto copiado';
+        setTimeout(() => { b.textContent = 'Copiar texto'; }, 2200);
+      } catch (_) {}
+    });
+  </script>
+</body>
+</html>
