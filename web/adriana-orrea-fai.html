@@ -1,0 +1,613 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Adriana Orrea · FAI · Estrés y Migración</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,600;1,600&family=Plus+Jakarta+Sans:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --mint-1: #eefaf7;
+      --mint-2: #d8f2ec;
+      --mint-3: #c2eae3;
+      --lavender: #eee9f9;
+      --ink: #1f2933;
+      --muted: #52606d;
+      --teal: #0f766e;
+      --teal-dark: #115e59;
+      --surface: rgba(255, 255, 255, 0.88);
+      --border: rgba(15, 118, 110, 0.16);
+    }
+
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    html { scroll-behavior: smooth; }
+
+    body {
+      font-family: 'Plus Jakarta Sans', -apple-system, BlinkMacSystemFont, sans-serif;
+      color: var(--ink);
+      background:
+        radial-gradient(circle at 12% 14%, var(--mint-3), transparent 44%),
+        radial-gradient(circle at 86% 22%, var(--lavender), transparent 42%),
+        radial-gradient(circle at 55% 88%, var(--mint-2), transparent 50%),
+        var(--mint-1);
+      min-height: 100vh;
+      line-height: 1.65;
+      overflow-x: hidden;
+    }
+
+    nav {
+      position: sticky;
+      top: 0;
+      z-index: 20;
+      backdrop-filter: blur(14px);
+      background: rgba(238, 250, 247, 0.84);
+      border-bottom: 1px solid var(--border);
+      padding: 12px 24px;
+    }
+
+    .nav-inner {
+      max-width: 1100px;
+      margin: 0 auto;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 16px;
+    }
+
+    .brand {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      text-decoration: none;
+      color: var(--ink);
+    }
+
+    .brand-text {
+      font-weight: 600;
+      letter-spacing: 0.04em;
+      font-size: 16px;
+    }
+
+    .nav-links {
+      display: flex;
+      align-items: center;
+      gap: 22px;
+    }
+
+    .nav-links a {
+      text-decoration: none;
+      color: var(--muted);
+      font-size: 14.5px;
+      font-weight: 500;
+      transition: color 0.2s;
+    }
+
+    .nav-links a:hover { color: var(--teal); }
+
+    .nav-cta {
+      background: var(--teal);
+      color: #ffffff !important;
+      padding: 9px 18px;
+      border-radius: 999px;
+      font-weight: 600 !important;
+      box-shadow: 0 6px 18px rgba(15, 118, 110, 0.22);
+    }
+
+    main {
+      max-width: 1100px;
+      margin: 0 auto;
+      padding: 0 24px;
+    }
+
+    /* HERO */
+    .hero {
+      display: grid;
+      grid-template-columns: 1.2fr 0.8fr;
+      gap: 36px;
+      align-items: center;
+      padding: 60px 0 56px;
+    }
+
+    .eyebrow {
+      display: inline-block;
+      padding: 6px 14px;
+      border-radius: 999px;
+      background: rgba(255, 255, 255, 0.85);
+      border: 1px solid var(--border);
+      color: var(--teal-dark);
+      font-size: 13px;
+      font-weight: 700;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      margin-bottom: 16px;
+    }
+
+    .hero h1 {
+      font-size: clamp(34px, 4.8vw, 52px);
+      font-weight: 400;
+      line-height: 1.12;
+      letter-spacing: -0.02em;
+      margin-bottom: 10px;
+    }
+
+    .hero h1 strong {
+      font-weight: 700;
+    }
+
+    .hero-sub {
+      font-family: 'Cormorant Garamond', Georgia, serif;
+      font-style: italic;
+      font-size: clamp(22px, 2.6vw, 29px);
+      color: var(--teal-dark);
+      margin-bottom: 18px;
+    }
+
+    .hero-desc {
+      font-size: 17.5px;
+      color: var(--muted);
+      margin-bottom: 28px;
+      max-width: 560px;
+    }
+
+    .hero-actions {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 12px;
+      margin-bottom: 22px;
+    }
+
+    .btn-primary {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      text-decoration: none;
+      border: none;
+      cursor: pointer;
+      padding: 14px 26px;
+      border-radius: 999px;
+      font-family: inherit;
+      font-size: 15.5px;
+      font-weight: 600;
+      color: #ffffff;
+      background: linear-gradient(135deg, var(--teal), #0d9488);
+      box-shadow: 0 10px 24px rgba(15, 118, 110, 0.24);
+      transition: transform 0.15s ease;
+    }
+
+    .btn-primary:hover { transform: translateY(-2px); }
+
+    .btn-secondary {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      text-decoration: none;
+      padding: 14px 24px;
+      border-radius: 999px;
+      font-size: 15.5px;
+      font-weight: 600;
+      color: var(--ink);
+      background: rgba(255, 255, 255, 0.85);
+      border: 1.5px solid var(--border);
+      transition: background 0.15s ease;
+    }
+
+    .btn-secondary:hover { background: #ffffff; }
+
+    .contact-strip {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 18px;
+      font-size: 14.5px;
+      color: var(--muted);
+      font-weight: 500;
+    }
+
+    .contact-strip a {
+      color: var(--ink);
+      text-decoration: none;
+      border-bottom: 1px dashed var(--teal);
+    }
+
+    /* BRAND EMBLEM CARD */
+    .emblem-card {
+      background: var(--surface);
+      border: 1.5px solid rgba(255, 255, 255, 0.95);
+      border-radius: 30px;
+      padding: 36px 28px;
+      text-align: center;
+      box-shadow: 0 22px 48px rgba(15, 118, 110, 0.10);
+      backdrop-filter: blur(12px);
+      animation: floatSoft 5.4s ease-in-out infinite;
+    }
+
+    @keyframes floatSoft {
+      0%, 100% { transform: translateY(0); }
+      50% { transform: translateY(-6px); }
+    }
+
+    .emblem-caption {
+      margin-top: 14px;
+      font-size: 14.5px;
+      color: var(--muted);
+    }
+
+    /* SECTIONS */
+    section.block {
+      padding: 46px 0;
+    }
+
+    .section-head {
+      text-align: center;
+      max-width: 680px;
+      margin: 0 auto 32px;
+    }
+
+    .section-head h2 {
+      font-size: clamp(25px, 3.2vw, 34px);
+      font-weight: 600;
+      margin-bottom: 8px;
+    }
+
+    .section-head p {
+      color: var(--muted);
+      font-size: 16px;
+    }
+
+    .grid-3 {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+      gap: 20px;
+    }
+
+    .card {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: 22px;
+      padding: 26px 22px;
+      box-shadow: 0 10px 26px rgba(15, 118, 110, 0.06);
+      transition: transform 0.2s ease;
+    }
+
+    .card:hover { transform: translateY(-4px); }
+
+    .card-num {
+      display: inline-block;
+      font-size: 13px;
+      font-weight: 700;
+      color: var(--teal);
+      background: var(--mint-2);
+      padding: 5px 11px;
+      border-radius: 999px;
+      margin-bottom: 14px;
+    }
+
+    .card h3 {
+      font-size: 19.5px;
+      margin-bottom: 8px;
+    }
+
+    .card p {
+      color: var(--muted);
+      font-size: 15px;
+    }
+
+    /* GROUNDING BAR */
+    .calm-panel {
+      background: linear-gradient(135deg, #134e4a, #0f766e);
+      color: #f0fdfa;
+      border-radius: 26px;
+      padding: 36px 26px;
+      text-align: center;
+      box-shadow: 0 20px 44px rgba(15, 118, 110, 0.22);
+    }
+
+    .calm-panel h2 {
+      font-size: clamp(23px, 3vw, 30px);
+      margin-bottom: 8px;
+    }
+
+    .calm-panel p {
+      color: #ccfbf1;
+      max-width: 580px;
+      margin: 0 auto 22px;
+    }
+
+    .steps-row {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+      gap: 14px;
+      text-align: left;
+    }
+
+    .step-pill {
+      background: rgba(255, 255, 255, 0.12);
+      border: 1px solid rgba(255, 255, 255, 0.22);
+      border-radius: 16px;
+      padding: 16px;
+    }
+
+    .step-pill strong {
+      display: block;
+      font-size: 15.5px;
+      margin-bottom: 4px;
+      color: #ffffff;
+    }
+
+    .step-pill span {
+      font-size: 14px;
+      color: #ccfbf1;
+    }
+
+    /* CONTACT FORM */
+    .contact-grid {
+      display: grid;
+      grid-template-columns: 1fr 1.1fr;
+      gap: 28px;
+      align-items: start;
+    }
+
+    .info-card,
+    .form-card {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: 24px;
+      padding: 28px 24px;
+      box-shadow: 0 12px 28px rgba(15, 118, 110, 0.06);
+    }
+
+    .info-card h3 {
+      font-size: 23px;
+      margin-bottom: 10px;
+    }
+
+    .info-list {
+      list-style: none;
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+      margin-top: 18px;
+    }
+
+    .info-list li {
+      padding-left: 14px;
+      border-left: 3px solid var(--teal);
+      font-size: 15px;
+      color: var(--ink);
+    }
+
+    .field { margin-bottom: 14px; }
+
+    .field label {
+      display: block;
+      font-size: 14px;
+      font-weight: 600;
+      margin-bottom: 6px;
+    }
+
+    .field input,
+    .field select,
+    .field textarea {
+      width: 100%;
+      padding: 11px 14px;
+      border-radius: 12px;
+      border: 1.5px solid var(--border);
+      background: #ffffff;
+      font-family: inherit;
+      font-size: 15px;
+      color: var(--ink);
+    }
+
+    .field input:focus,
+    .field select:focus,
+    .field textarea:focus {
+      outline: none;
+      border-color: var(--teal);
+    }
+
+    .wa-ready {
+      display: none;
+      margin-top: 14px;
+      padding: 14px;
+      border-radius: 14px;
+      background: var(--mint-2);
+      text-align: center;
+    }
+
+    footer {
+      text-align: center;
+      padding: 32px 20px 44px;
+      color: var(--muted);
+      font-size: 13.5px;
+      border-top: 1px solid var(--border);
+      margin-top: 32px;
+    }
+
+    @media (max-width: 820px) {
+      .hero, .contact-grid { grid-template-columns: 1fr; }
+      .nav-links { display: none; }
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+      .emblem-card { animation: none !important; }
+    }
+  </style>
+</head>
+<body>
+  <nav>
+    <div class="nav-inner">
+      <a class="brand" href="#inicio">
+        <svg width="34" height="34" viewBox="0 0 100 100" aria-hidden="true">
+          <circle cx="50" cy="50" r="44" fill="none" stroke="#1f2933" stroke-width="3.2"/>
+          <path d="M50 76 V42 M50 56 C38 56 32 48 34 38 C42 39 48 45 50 56 Z M50 56 C62 56 68 48 66 38 C58 39 52 45 50 56 Z M50 44 C45 34 46 25 50 20 C54 25 55 34 50 44 Z" fill="#1f2933" stroke="#1f2933" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/>
+        </svg>
+        <span class="brand-text">Adriana Orrea · FAI</span>
+      </a>
+      <div class="nav-links">
+        <a href="#pilares">Enfoque</a>
+        <a href="#pausa">Neuroeducación</a>
+        <a href="#contacto" class="nav-cta">Pedir cita</a>
+      </div>
+    </div>
+  </nav>
+
+  <main id="inicio">
+    <section class="hero">
+      <div>
+        <div class="eyebrow">Estrés y Migración · Farm Adriana Integrativa</div>
+        <h1><strong>Adriana Orrea</strong></h1>
+        <p class="hero-sub">Integrando ciencia, conciencia y experiencia personal</p>
+        <p class="hero-desc">Salud mental sin medicación, con neuroeducación y reprogramación. Acompañamiento cercano y basado en evidencia para regular el estrés, transitar procesos migratorios y recuperar tu bienestar emocional.</p>
+
+        <div class="hero-actions">
+          <a href="https://wa.me/34662374418?text=Hola%20Adriana%2C%20te%20escribo%20para%20pedir%20informaci%C3%B3n%20sobre%20tus%20sesiones%20de%20estr%C3%A9s%20y%20migraci%C3%B3n." target="_blank" rel="noopener" class="btn-primary">Hablar por WhatsApp</a>
+          <a href="https://www.instagram.com/farmadriana_integrativa/" target="_blank" rel="noopener" class="btn-secondary">Ver Instagram @farmadriana_integrativa</a>
+        </div>
+
+        <div class="contact-strip">
+          <span>Teléfono: <a href="tel:+34662374418">+34 662 374 418</a></span>
+          <span>Instagram: <a href="https://www.instagram.com/farmadriana_integrativa/" target="_blank" rel="noopener">@farmadriana_integrativa</a></span>
+        </div>
+      </div>
+
+      <div class="emblem-card">
+        <!-- Faithful Vector Emblem of FAI · Farm Adriana Integrativa -->
+        <svg viewBox="0 0 260 295" width="230" role="img" aria-label="Logotipo FAI Farm Adriana Integrativa">
+          <defs>
+            <path id="topArc" d="M 46,118 A 84,84 0 0,1 214,118" fill="none"/>
+          </defs>
+          <text font-family="'Plus Jakarta Sans', sans-serif" font-size="13.5" font-weight="700" fill="#1f2933" letter-spacing="1.6">
+            <textPath href="#topArc" startOffset="50%" text-anchor="middle">FARM ADRIANA INTEGRATIVA</textPath>
+          </text>
+
+          <circle cx="130" cy="112" r="62" fill="none" stroke="#1f2933" stroke-width="3.2"/>
+          <!-- Botanical lotus sprout with gentle spiral -->
+          <path d="M130 154 V96" stroke="#1f2933" stroke-width="3" stroke-linecap="round"/>
+          <path d="M130 132 C110 132 96 122 94 106 C109 107 122 116 130 132 Z" fill="#1f2933"/>
+          <path d="M130 132 C150 132 164 122 166 106 C151 107 138 116 130 132 Z" fill="#1f2933"/>
+          <path d="M130 116 C118 106 116 92 124 82 C131 90 134 103 130 116 Z" fill="#1f2933"/>
+          <path d="M130 116 C142 106 144 92 136 82 C129 90 126 103 130 116 Z" fill="#1f2933"/>
+          <path d="M130 82 C130 67 148 64 150 76 C151 83 143 87 138 82" fill="none" stroke="#1f2933" stroke-width="2.6" stroke-linecap="round"/>
+          <path d="M122 154 H138" stroke="#1f2933" stroke-width="2.8" stroke-linecap="round"/>
+
+          <!-- Sleek thin geometric FAI monogram -->
+          <g stroke="#1f2933" stroke-width="4.2" fill="none" stroke-linecap="round" stroke-linejoin="round">
+            <!-- F -->
+            <path d="M46 276 V196 H104 M46 236 H94"/>
+            <!-- A -->
+            <path d="M114 276 L150 196 L186 276 M126 248 H174"/>
+            <!-- I -->
+            <path d="M210 196 V276"/>
+          </g>
+        </svg>
+        <p class="emblem-caption">Farm Adriana Integrativa · Ciencia, conciencia y experiencia personal</p>
+      </div>
+    </section>
+
+    <section class="block" id="pilares">
+      <div class="section-head">
+        <h2>Cómo te acompaño</h2>
+        <p>Un enfoque integrativo que une conocimiento científico, neuroeducación práctica y acompañamiento humano real.</p>
+      </div>
+      <div class="grid-3">
+        <article class="card">
+          <span class="card-num">01 · Estrés</span>
+          <h3>Regulación del sistema nervioso</h3>
+          <p>Comprende qué ocurre en tu cuerpo ante el estrés sostenido y aprende herramientas concretas para volver a la calma sin depender de medicación.</p>
+        </article>
+        <article class="card">
+          <span class="card-num">02 · Migración</span>
+          <h3>Acompañamiento en procesos migratorios</h3>
+          <p>Transita el desarraigo, la adaptación cultural y la reconstrucción de identidad con apoyo emocional diseñado desde la ciencia y la experiencia personal.</p>
+        </article>
+        <article class="card">
+          <span class="card-num">03 · Neuroeducación</span>
+          <h3>Reprogramación consciente</h3>
+          <p>Identifica patrones automáticos de pensamiento y respuesta emocional para crear nuevos circuitos de bienestar duradero en tu día a día.</p>
+        </article>
+      </div>
+    </section>
+
+    <section class="block" id="pausa">
+      <div class="calm-panel">
+        <h2>Tres pasos de neuroeducación para hoy</h2>
+        <p>Pequeñas prácticas diarias ayudan a tu cerebro a salir del estado de alerta constante.</p>
+        <div class="steps-row">
+          <div class="step-pill">
+            <strong>1. Exhalación más larga</strong>
+            <span>Inhala cuatro segundos y suelta en seis para activar el freno natural del estrés.</span>
+          </div>
+          <div class="step-pill">
+            <strong>2. Nombra sin juzgar</strong>
+            <span>Poner palabras precisas a lo que sientes reduce la intensidad de la amígdala.</span>
+          </div>
+          <div class="step-pill">
+            <strong>3. Anclaje corporal</strong>
+            <span>Suelta la mandíbula y baja los hombros: tu postura informa a tu mente de que estás a salvo.</span>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="block" id="contacto">
+      <div class="contact-grid">
+        <div class="info-card">
+          <h3>Reserva tu primera conversación</h3>
+          <p>Escríbeme directamente y vemos juntas qué acompañamiento encaja mejor con tu momento actual.</p>
+          <ul class="info-list">
+            <li>Atención personalizada en estrés, migración y salud mental integrativa.</li>
+            <li>Contacto directo por WhatsApp: +34 662 374 418.</li>
+            <li>Contenido diario y comunidad en Instagram: @farmadriana_integrativa.</li>
+          </ul>
+        </div>
+
+        <form class="form-card" id="contactForm">
+          <div class="field">
+            <label for="cName">Tu nombre</label>
+            <input type="text" id="cName" required placeholder="¿Cómo te llamas?">
+          </div>
+          <div class="field">
+            <label for="cArea">¿En qué puedo ayudarte?</label>
+            <select id="cArea">
+              <option>Gestión del estrés y ansiedad</option>
+              <option>Proceso de migración y adaptación</option>
+              <option>Neuroeducación y reprogramación</option>
+              <option>Primera consulta informativa</option>
+            </select>
+          </div>
+          <div class="field">
+            <label for="cMsg">Cuéntame brevemente (opcional)</label>
+            <textarea id="cMsg" rows="3" placeholder="Escribe aquí lo que quieras compartir..."></textarea>
+          </div>
+          <button type="submit" class="btn-primary" style="width:100%;">Preparar mensaje para WhatsApp</button>
+          <div id="waReady" class="wa-ready">
+            <p style="font-size:14.5px;margin-bottom:10px;font-weight:600;">Mensaje listo para enviar a Adriana Orrea:</p>
+            <a id="waDirect" href="#" target="_blank" rel="noopener" class="btn-primary" style="padding:10px 20px;font-size:15px;">Abrir WhatsApp ahora</a>
+          </div>
+        </form>
+      </div>
+    </section>
+  </main>
+
+  <footer>
+    Adriana Orrea · FAI (Farm Adriana Integrativa) · Web regalada y creada en directo en Talent Land Málaga 2026 por Javier Mateo (ApliArte)
+  </footer>
+
+  <script>
+    document.getElementById('contactForm').addEventListener('submit', (e) => {
+      e.preventDefault();
+      const name = document.getElementById('cName').value.trim();
+      const area = document.getElementById('cArea').value;
+      const msg = document.getElementById('cMsg').value.trim();
+      const lines = [
+        'Hola Adriana, soy ' + name + '.',
+        'Te escribo desde tu web por: ' + area + '.'
+      ];
+      if (msg) lines.push('Detalle: ' + msg);
+      document.getElementById('waDirect').href = 'https://wa.me/34662374418?text=' + encodeURIComponent(lines.join('\n'));
+      document.getElementById('waReady').style.display = 'block';
+    });
+  </script>
+</body>
+</html>
